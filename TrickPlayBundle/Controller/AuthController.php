@@ -69,7 +69,7 @@ class AuthController extends AuthControllerBase
             return $this->redirect($this->generateUrl('home'));
         }
 
-        return $this->render('TalisSwiftForumBundle:Auth:editprofile.html.twig',
+        return $this->render('TalisTrickPlayBundle:Auth:editprofile.html.twig',
             array('form' => $form->createView())
         );
     }
