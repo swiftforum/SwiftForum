@@ -1,0 +1,18 @@
+{% extends "TalisSwiftForumBundle::base.html.twig" %}
+{% block subtitle %}Roster{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <p>Put stats here later or something</p>
+    </div>
+    {% for category in categories %}
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ category.categoryName }}</h3>
+            </div>
+            <div class="panel-body">
+                Panel content
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

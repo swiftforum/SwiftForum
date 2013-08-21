@@ -1,0 +1,35 @@
+/*
+* This file is part of the Swift Forum package.
+*
+* (c) SwiftForum <https://github.com/swiftforum>
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+*/
+
+#wrap > .container {
+    padding: 60px 15px 0;
+    background-color: rgba(255,255,255, 0.8);
+    border:#dddddd solid 1px;
+}
+
+.page-header {
+    margin-top: 10px;
+}
+
+.home-active, .home-active:hover, .home-active:focus {
+    background-color: #D5D5D5 !important;
+    color: #555555;
+}
+
+/*.btn-login {*/
+    /*background-color: #f3ca78;*/
+    /*color: #000000;*/
+/*}*/
+
+/*.btn-register {*/
+    /*margin-left: 5px;*/
+    /*background-color: #0077b3;*/
+    /*color: #FFFFFF;*/
+/*}*/
+

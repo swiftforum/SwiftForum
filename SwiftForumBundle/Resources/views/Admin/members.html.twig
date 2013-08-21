@@ -1,0 +1,36 @@
+{% extends "TalisSwiftForumBundle::base.html.twig" %}
+
+{% block subtitle %}Edit Members{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <h1>{{ tsforum.name }} Registered Accounts</h1>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Username</th>
+            <th>Rank</th>
+            <th>Edit</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ user.user.username|e }}</td>
+                    <td>{{ user.user.role.name|e }}</td>
+                    <td>{% if user.edit %}
+                            <a href="{{ path('admin_edit_members', {'username': user.user.getusername|e('url')}) }}">Edit Rank</a>
+                        {% else %}
+                            No permission to edit
+                        {% endif %}</td>
+                </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+
+{% endblock %}

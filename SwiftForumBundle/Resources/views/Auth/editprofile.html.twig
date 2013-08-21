@@ -1,0 +1,15 @@
+{% extends "TalisSwiftForumBundle::base.html.twig" %}
+
+{% block subtitle %}Edit Profile{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <h1>Edit your {{ tsforum.name }} account</h1>
+    </div>
+    {% if error is defined %}
+        <div>{{ error.message }}</div>
+    {% endif %}
+    <p>Functionality to change your password and email address is forthcoming.</p>
+    <h2>Add / Edit your Characters</h2>
+    <h3>Primary Character</h3>
+    {{ form(form) }}
+{% endblock %}

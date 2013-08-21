@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    {% block head %}
+    <meta charset="utf-8">
+    <title>{% block title %}{% block subtitle %}{% endblock %} - {{ tsforum.name }}{% endblock %}</title>
+    <meta name="description" content="{% block description %}SwiftForum{% endblock %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+
+    {# If you want to use the Bootstrap theme: #}
+    {# <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css"> #}
+
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
+    {% block stylesheets %}
+        {% stylesheets '@TalisSwiftForumBundle/Resources/public/css/swiftForumMain.css' %}
+            <link rel="stylesheet" href="{{ truepath~asset_url }}">
+        {% endstylesheets %}
+    {% endblock %}
+
+    {% block inlinecss %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('/favicon.ico') }}" />
+    {% endblock %}
+</head>
+
+<body>
+{% block body %}
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+
+        <!-- Fixed navbar -->
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+
+                <a class="navbar-brand {% if app.request.uri == url('home') %}home-active{% endif %}" href="{{ path('home') }}"><i class="icon-home"></i> {{ tsforum.name }}</a>
+
+                <div class="navbar-collapse collapse">
+
+                    <ul class="nav navbar-nav">
+                        {% block navbar %}
+                        {% block navbarCustom %}{% endblock %}
+                        <li><a href="#contact"><i class="icon-comments"></i> Forums</a></li>
+
+                        {% if  is_granted('ROLE_OFFICER') %}
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cogs"></i> Admin <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ path('admin_members') }}"><i class="icon-double-angle-up"></i> Manage Members</a></li>
+                                    {% block navbarAdminCustom %}{% endblock %}
+                                </ul>
+                            </li>
+                        {% endif %}
+
+                        {% endblock %}
+                    </ul>
+
+                    {% if app.user.username is defined %}
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="{{ path('auth_logout') }}">Log out</a></li>
+                            </ul>
+                            <p class="navbar-text navbar-right">{{ app.user.role.name }} <a href="{{ path('auth_edit') }}" class="navbar-link">{{ app.user.username|e }}</a></p>
+                    {% else %}
+
+                        <form class="navbar-form form-inline navbar-right" action="{{ path('auth_check') }}" method="post">
+                            <input type="text" placeholder="Username" id="username" name="_username" value="{{ last_username|default('') }}" />
+                            <input type="password" placeholder="Password" id="password" name="_password" />
+                            <button type="submit" class="btn btn-primary">Log in</button>
+                            <a href="{{ path('auth_register') }}" class="btn btn-success">Register</a>
+                        </form>
+                    {% endif %}
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+
+        <!-- Begin page content -->
+        <div class="container">
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div class="flash-error alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong><i class="icon-warning-sign"></i> Error: </strong>
+                    {{ flashMessage|trans|e }}
+                </div>
+            {% endfor %}
+
+            {% for flashMessage in app.session.flashbag.get('warning') %}
+                <div class="flash-warning alert alert-error">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong><i class="icon-remove-sign"></i> Warning: </strong>
+                    {{ flashMessage|trans|e }}
+                </div>
+            {% endfor %}
+
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="flash-success alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong><i class="icon-ok-circle"></i> Success: </strong>
+                    {{ flashMessage|trans|e }}
+                </div>
+            {% endfor %}
+
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+                <div class="flash-warning alert alert-info">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong><i class="icon-question-sign"></i> Info: </strong>
+                    {{ flashMessage|trans|e }}
+                </div>
+            {% endfor %}
+            {% block content %}
+            {% endblock %}
+        </div>
+
+    </div>
+{% endblock %}
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+{% block javascripts %}{% endblock %}
+</body>
+</html>

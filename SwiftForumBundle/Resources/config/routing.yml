@@ -1,0 +1,15 @@
+admin:
+    resource: "@TalisSwiftForumBundle/Controller/AdminController.php"
+    type:     annotation
+
+auth:
+    resource: "@TalisSwiftForumBundle/Controller/AuthController.php"
+    type:     annotation
+
+basic:
+    resource: "@TalisSwiftForumBundle/Controller/BasicController.php"
+    type:     annotation
+
+forum:
+    resource: "@TalisSwiftForumBundle/Controller/ForumController.php"
+    type:      annotation

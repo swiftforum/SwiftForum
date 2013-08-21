@@ -1,0 +1,9 @@
+talis_swift_forum:
+    options:
+        twig:
+            globals:
+                truepath: /bundles/talisswiftforum
+                useCDN: true # Set to false to use local assets
+        assetic:
+            read_from:  %kernel.root_dir%/../src/Talis/SwiftForumBundle/Resources/public/
+            write_to:   %kernel.root_dir%/../web/bundles/talisswiftforum/

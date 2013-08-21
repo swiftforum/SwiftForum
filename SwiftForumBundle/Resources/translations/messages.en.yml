@@ -1,0 +1,5 @@
+'Bad credentials': 'Invalid Username or Password.'
+'User credentials have expired.': 'This account has expired.'
+'User account is locked.': 'This account has been banned.'
+'User account is disabled.': 'This account has not been activated yet.'
+'User account has expired.': 'This account has expired.'

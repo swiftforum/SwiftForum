@@ -1,0 +1,28 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Welcome to {{ tsforum.name }}</title>
+</head>
+
+<body>
+
+<table width="100%" cellpadding="0" cellspacing="0" bgcolor="e4e4e4"><tr><td>
+
+<table id="top-message" cellpadding="10" cellspacing="0" width="600" align="center"><p><strong>Hi {{ name|e('html') }}, welcome to <a href="{{ url('home') }}">{{ tsforum.name }}</a>!</strong></p></table>
+
+<table id="main" cellpadding="0" cellspacing="10" bgcolor="ffffff" width="600" align="center">
+<p>To start using the forums and participate, you need to verify your email address!<br>
+<a href="{{ url('auth_verify', {'username': name|e('url'), 'code': confirm_code}) }}">Click here</a> to activate your account.<br>
+Alternatively, you can paste this long URL into your browser, if thats your thing.<br>
+<a href="{{ url('auth_verify', {'username': name|e('url'), 'code': confirm_code}) }}">{{ url('auth_verify', {'username': name|e('url'), 'code': confirm_code}) }}</a><br><br>
+Now go forth, behave and have a ton of fun or something.</p>
+</table>
+
+<table id="bottom-message" cellpadding="10" cellspacing="0" width="600" align="center">Email sent by <a href="{{ url('home') }}">{{ tsforum.name }}</a> to confirm your registration.</table>
+
+</td></tr></table>
+
+</body>
+</html>
+

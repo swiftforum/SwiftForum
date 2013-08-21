@@ -1,0 +1,29 @@
+{% extends "TalisSwiftForumBundle::base.html.twig" %}
+
+{% block subtitle %}Edit Member {{ user.username|e }}{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <h1>{{ tsforum.name }} Account {{ user.username|e }}</h1>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>UID</th>
+            <th>Username</th>
+            <th>Rank</th>
+            <th>Edit</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username|e }}</td>
+                <td>{{ user.role.name|e }}</td>
+                <td>{{ form(form) }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+{% endblock %}
