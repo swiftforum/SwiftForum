@@ -55,7 +55,7 @@ Displays the homepage. ( Route prefix: "/", route example: "/" )
 
 ### Caching with Symfony:
 
-** Caching Doctrine result sets **:
+**Caching Doctrine result sets**:
 Example:
 
 Create Entity/Icons:
