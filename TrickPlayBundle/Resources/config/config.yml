@@ -1,0 +1,9 @@
+talis_trick_play:
+    options:
+        twig:
+            globals:
+                truepath: /bundles/talistrickplay
+                useCDN: true # Set to false to use local assets
+        assetic:
+            read_from:  %kernel.root_dir%/../src/Talis/TrickPlayBundle/Resources/public/
+            write_to:   %kernel.root_dir%/../web/bundles/talistrickplay/

@@ -1,0 +1,42 @@
+{% extends "TalisTrickPlayBundle::base.html.twig" %}
+
+{% block subtitle %}Roster{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <h1>TrickPlay member roster</h1>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Username</th>
+            <th>Rank</th>
+            <th>Primary Char</th>
+            <th>Primary Job</th>
+            <th>Secondary Job</th>
+            <th>Primary Craft</th>
+            <th>Secondary Craft</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for userArray in users %}
+            {% for user in userArray %}
+                <tr>
+                    <td>{{ loop.parent.loop.index0 + loop.index }}</td>
+                    <td>{{ user.user.username|trans|e }}</td>
+                    <td>{{ user.user.role.name|e }}</td>
+                    <td>{{ user.character.charname|default('')|e }}</td>
+                    <td>{{ user.character.charjobprimary|default('')|e }}</td>
+                    <td>{{ user.character.charjobsecondary|default('')|e }}</td>
+                    <td>{{ user.character.charprofprimary|default('')|e }}</td>
+                    <td>{{ user.character.charprofsecondary|default('')|e }}</td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+
+{% endblock %}

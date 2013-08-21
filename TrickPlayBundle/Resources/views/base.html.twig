@@ -1,0 +1,14 @@
+{% extends "TalisSwiftForumBundle::layout.html.twig" %}
+
+{% block title %}{% block subtitle %}{% endblock %} - TrickPlay{% endblock %}
+
+{% block description %}TrickPlay Guild{% endblock %}
+
+{% block stylesheets %}
+    {% stylesheets '@TalisSwiftForumBundle/Resources/public/css/swiftForumMain.css'
+                   '@TalisTrickPlayBundle/Resources/public/css/main.css' %}
+    <link rel="stylesheet" href="{{ truepath~asset_url }}">
+    {% endstylesheets %}
+{% endblock %}
+
+{% block navbarCustom %}<li {% if app.request.uri == url('basic_roster') %}class="active"{% endif %}><a href="{{ path('basic_roster') }}"><i class="icon-group"></i>  Roster</a></li>{% endblock %}

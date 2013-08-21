@@ -1,0 +1,23 @@
+home:
+    resource: "@TalisTrickPlayBundle/Controller/HomeController.php"
+    type:     annotation
+
+admin:
+    resource: "@TalisSwiftForumBundle/Controller/AdminController.php"
+    type:     annotation
+
+auth:
+    resource: "@TalisTrickPlayBundle/Controller/AuthController.php"
+    type:     annotation
+
+basic:
+    resource: "@TalisSwiftForumBundle/Controller/BasicController.php"
+    type:     annotation
+
+forum:
+    resource: "@TalisSwiftForumBundle/Controller/ForumController.php"
+    type:      annotation
+
+trickplay:
+    resource: "@TalisTrickPlayBundle/Controller/TrickPlayController.php"
+    type:     annotation
