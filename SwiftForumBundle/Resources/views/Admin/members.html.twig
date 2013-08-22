@@ -1,5 +1,31 @@
 {% extends "TalisSwiftForumBundle::base.html.twig" %}
 
+{% block form_row %}
+    {% spaceless %}
+        {{ form_widget(form) }}
+        {{ form_errors(form) }}
+    {% endspaceless %}
+    {% endblock form_row %}
+
+{% block button_row %}
+    {% spaceless %}
+        <span class="input-group-btn">{{ form_widget(form) }}</span>
+    {% endspaceless %}
+{% endblock button_row %}
+
+{% block form_widget_compound %}
+    {% spaceless %}
+        <div class="input-group input-group-sm">
+            {% if form.parent is empty %}
+                {{ form_errors(form) }}
+            {% endif %}
+            {{ block('form_rows') }}
+            {{ form_rest(form) }}
+        </div>
+    {% endspaceless %}
+{% endblock form_widget_compound %}
+
+
 {% block subtitle %}Edit Members{% endblock %}
 {% block content %}
     <div class="page-header">
@@ -22,7 +48,8 @@
                     <td>{{ user.user.username|e }}</td>
                     <td>{{ user.user.role.name|e }}</td>
                     <td>{% if user.edit %}
-                            <a href="{{ path('admin_edit_members', {'username': user.user.getusername|e('url')}) }}">Edit Rank</a>
+                            {% form_theme user.form _self %}
+                            {{ form(user.form) }}
                         {% else %}
                             No permission to edit
                         {% endif %}</td>

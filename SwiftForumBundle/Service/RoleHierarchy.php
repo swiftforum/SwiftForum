@@ -69,4 +69,13 @@ class RoleHierarchy extends SymfonyRoleHierarchy
     {
         return $this->map;
     }
+
+    public function getPermittedMap($role)
+    {
+        $permitted = $this->map[$role];
+        $permitted[] = 'ROLE_WARNED';
+        $permitted[] = 'ROLE_BANNED';
+        return $permitted;
+    }
+
 } 

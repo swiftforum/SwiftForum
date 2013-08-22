@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
  * Role Entity Superclass
  *
  * @ORM\Table(name="roles")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Talis\SwiftForumBundle\Model\RoleRepository")
  * @author Felix Kastner <felix@chapterfain.com>
  */
 class Role implements RoleInterface, \Serializable

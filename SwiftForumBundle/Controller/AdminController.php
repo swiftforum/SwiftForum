@@ -11,6 +11,7 @@
 namespace Talis\SwiftForumBundle\Controller;
 
 use Talis\SwiftForumBundle\Controller\BaseController;
+use Talis\SwiftForumBundle\Form\Type\RoleType;
 use Talis\SwiftForumBundle\Model\Role;
 use Talis\SwiftForumBundle\Model\User;
 use JMS\SecurityExtraBundle\Annotation\Secure;
@@ -63,6 +64,10 @@ class AdminController extends BaseController
      *
      * @Secure(roles="ROLE_OFFICER")
      * @Route("/members", name="admin_members")
+     * @todo: The Role edit system still needs a overhaul. Current problems include:
+     * @todo: Duplicate IDs
+     * @todo: Required breaks W3C Validation
+     * @todo: Problems may be solved through a "collection" type form
      */
     public function adminMemberAction()
     {
@@ -82,7 +87,11 @@ class AdminController extends BaseController
         /** @var User $user */
         foreach($users as $user) {
             if(in_array($user->getRole()->getRole(), $permitted)) {
-                $formUsers[] = array('user' => $user, 'edit' => true);
+                $form = $this->createForm('talis_admin_role', $user, array(
+                        'action' => $this->generateUrl('admin_edit_members', array('username' => rawurlencode($user->getUsername()))),
+                        'method' => 'POST',
+                        'attr' => array('class' => 'form-inline')));
+                $formUsers[] = array('user' => $user, 'edit' => true, 'form' => $form->createView());
             } else {
                 $formUsers[] = array('user' => $user, 'edit' => false);
             }
@@ -103,62 +112,38 @@ class AdminController extends BaseController
         $session = new Session();
 
         $username = rawurldecode($username);
-        $role_map = $this->get('security.role_hierarchy')->getMap();
 
         /** @var User $user */
         $user = $em->getRepository( $this->getNameSpace() . ':User')
             ->findOneBy(array('username' => $username));
 
-        $roles = $em->getRepository( $this->getNameSpace() . ':Role')->findAll();
-        $roles = array_reverse($roles, true);
-
-        // $permitted is a array of all roles below the user's current one.
-        $permitted = $role_map[$this->getUser()->getRole()->getRole()];
-        $permitted[] = 'ROLE_WARNED';
-        $permitted[] = 'ROLE_BANNED';
-
-        $permittedFixed = array();
-
-        // We need to iterate over the roles to grab the proper role names.
-        // While it would be marginally faster to iterate over $permitted, like this we can sort the result set.
-
-        /** @var Role $role */
-        foreach($roles as $role) {
-            if(in_array($role->getRole(), $permitted)) {
-                $permittedFixed[$role->getId()] = $role->getName();
-            }
+        if(!$user) {
+            throw $this->createNotFoundException(
+                'User does not exist.'
+            );
         }
 
-        /** @todo: Create a proper form Model/Type */
-        if(in_array($user->getRole()->getRole(), $permitted)) {
-            $form = $this->createFormBuilder($roles,array(
-                    'action' => $this->generateUrl('admin_edit_members', array('username' => rawurlencode($username))),
-                    'method' => 'POST'))
-                ->add('role', 'choice', array(
-                        'choices' => $permittedFixed,
-                        'expanded' => false,
-                        'multiple' => false,
-                        'required' => true,
-                        'label' => false,
-                        'data' => $user->getRole()->getId()))
-                ->add('Save', 'submit', array())
-                ->getForm();
-        } else {
+        // Check if the current logged in user is allowed to edit the permission of the target
+        $permitted = $this->get('security.role_hierarchy')->getPermittedMap($this->getUser()->getRole()->getRole());
+
+        if(!in_array($user->getRole()->getRole(), $permitted)) {
             return $this->redirect($this->generateUrl('admin_members'));
         }
+
+        $form = $this->createForm('talis_admin_role', $user, array(
+                'action' => $this->generateUrl('admin_edit_members', array('username' => rawurlencode($username))),
+                'method' => 'POST'));
+
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $role = $em->getRepository( $this->getNameSpace() . ':Role')->find($form->getData()['role']);
-            if($role && in_array($role->getRole(), $permitted)) {
-                $user->setRole($role);
-                $em->flush();
-                $session->getFlashBag()->add(
-                    'success',
-                    'Role of ' . $user->getUsername() . ' has been changed to ' . $role->getName() );
-                return $this->redirect($this->generateUrl('admin_members'));
-            }
+            $em->persist($user);
+            $em->flush();
+            $session->getFlashBag()->add(
+                'success',
+                'Role of ' . $user->getUsername() . ' has been changed to ' . $user->getRole()->getName() );
+            return $this->redirect($this->generateUrl('admin_members'));
         }
 
         return $this->render('TalisSwiftForumBundle:Admin:editmembers.html.twig', array('user' => $user, 'form' => $form->createView()));

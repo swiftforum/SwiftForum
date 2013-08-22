@@ -8,7 +8,7 @@ use Talis\TrickPlayBundle\Entity\Character;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Talis\SwiftForumBundle\Model\RoleRepository")
  * @ORM\Table(name="roles")
  */
 class Role extends BaseRole
