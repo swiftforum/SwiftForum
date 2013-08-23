@@ -38,11 +38,11 @@ class TrickPlayController extends Controller
 
         // Can only select ranks that are below
         $availableRanks = array(
-            "ROLE_ADMIN" => in_array("ROLE_ADMIN", $role_map[$currentUserRole]),
-            "ROLE_OFFICER" => in_array("ROLE_OFFICER", $role_map[$currentUserRole]),
-            "ROLE_MEMBER" => in_array("ROLE_MEMBER", $role_map[$currentUserRole]),
-            "ROLE_GUEST" => in_array("ROLE_GUEST", $role_map[$currentUserRole]),
-            "ROLE_BANNED" => in_array("ROLE_BANNED", $role_map[$currentUserRole])
+            "ROLE_ADMIN" => in_array("ROLE_ADMIN", $role_map[$currentUserRole]) ? $em->getRepository('TalisTrickPlayBundle:Role')->getByIdentifier("ROLE_ADMIN")->getName() : null,
+            "ROLE_OFFICER" => in_array("ROLE_OFFICER", $role_map[$currentUserRole]) ? $em->getRepository('TalisTrickPlayBundle:Role')->getByIdentifier("ROLE_OFFICER")->getName() : null,
+            "ROLE_MEMBER" => in_array("ROLE_MEMBER", $role_map[$currentUserRole]) ? $em->getRepository('TalisTrickPlayBundle:Role')->getByIdentifier("ROLE_MEMBER")->getName() : null,
+            "ROLE_GUEST" => in_array("ROLE_GUEST", $role_map[$currentUserRole]) ? $em->getRepository('TalisTrickPlayBundle:Role')->getByIdentifier("ROLE_GUEST")->getName() : null,
+            "ROLE_BANNED" => in_array("ROLE_BANNED", $role_map[$currentUserRole]) ? $em->getRepository('TalisTrickPlayBundle:Role')->getByIdentifier("ROLE_BANNED")->getName() : null
         );
 
         /** @var User $user */

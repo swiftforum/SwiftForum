@@ -1,6 +1,15 @@
 var RosterEditor = (function() {
   function init(allowEdit, availableRanks) {
 
+    // Set selection names
+    for (var field in availableRanks) {
+      if (!availableRanks[field]) continue;
+
+      var li = $("#editor li[data-role=" + field + "]");
+      li.find(".editor-name").text(availableRanks[field]);
+      li.data("name", availableRanks[field]);
+    }
+
     // Hide rank changer if not allowed to edit roster
     if (!allowEdit) {
       $("#editor-rankchanger-divider").remove();
@@ -43,10 +52,10 @@ var RosterEditor = (function() {
       $("#editor .editor-sufficient").each(function() {
         var listRole = $(this).data("role");
         if (listRole == role) {
-          $(this).find("span").addClass("icon-circle").removeClass("icon-circle-blank");
+          $(this).find(".editor-icon").addClass("icon-circle").removeClass("icon-circle-blank");
           $(this).addClass("roster-editor-active");
         } else {
-          $(this).find("span").removeClass("icon-circle").addClass("icon-circle-blank");
+          $(this).find(".editor-icon").removeClass("icon-circle").addClass("icon-circle-blank");
           $(this).removeClass("roster-editor-active");
         }
       })
@@ -61,8 +70,15 @@ var RosterEditor = (function() {
     })
 
     // Perform update on select
-    $(".editor-sufficient a").each(function() {
-      // TODO
+    $(".editor-sufficient a").click(function() {
+      var id = $("#editor").data("id");
+      var username = $("#editor").data("username");
+      var roleName = $(this).parent().data("name");
+      var role = $(this).parent().data("role");
+
+      if (!confirm("Change " + username + "'s role to " + roleName + "?")) return;
+      $("[data-id=" + id + "]").data("role", role);
+      // TODO: Really send data over
     })
   }
 

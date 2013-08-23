@@ -48,11 +48,11 @@
 
     <script>
         RosterEditor.init({{rosterEditable|default('false')}}, {
-            ROLE_ADMIN: {{availableRanks.ROLE_ADMIN|default('false')}},
-            ROLE_OFFICER: {{availableRanks.ROLE_OFFICER|default('false')}},
-            ROLE_MEMBER: {{availableRanks.ROLE_MEMBER|default('false')}},
-            ROLE_GUEST: {{availableRanks.ROLE_GUEST|default('false')}},
-            ROLE_BANNED: {{availableRanks.ROLE_BANNED|default('false')}}
+            ROLE_ADMIN: "{{availableRanks.ROLE_ADMIN}}",
+            ROLE_OFFICER: "{{availableRanks.ROLE_OFFICER}}",
+            ROLE_MEMBER: "{{availableRanks.ROLE_MEMBER}}",
+            ROLE_GUEST: "{{availableRanks.ROLE_GUEST}}",
+            ROLE_BANNED: "{{availableRanks.ROLE_BANNED}}"
         });
     </script>
 {% endblock %}
