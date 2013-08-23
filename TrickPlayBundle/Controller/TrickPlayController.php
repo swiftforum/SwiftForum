@@ -67,23 +67,28 @@ class TrickPlayController extends Controller
      */
     public function rosterAction()
     {
-        $currentUserRole = $this->get('security.context')->getToken()->getUser()->getRole()->getRole();
-        $role_map = $this->get('security.role_hierarchy')->getMap();
         $em = $this->getDoctrine()->getManager();
+        $currentUser = $this->get('security.context')->getToken()->getUser();
+
+        var_dump(gettype($currentUser));
+        $currentUserRole = ($currentUser && gettype($currentUser) != "string" && $currentUser->getRole()) ? $currentUser->getRole()->getRole() : "ROLE_GUEST";
+
+        $role_map = $this->get('security.role_hierarchy')->getMap();
+        $rolesUnder = isset($role_map[$currentUserRole]) ? $role_map[$currentUserRole] : array();
 
         $users = $em->getRepository('TalisTrickPlayBundle:User')->findAll();
         $userMembers = array();
 
         // Can only edit roster if higher than Member
-        $rosterEditable = in_array("ROLE_MEMBER", $role_map[$currentUserRole]);
+        $rosterEditable = in_array("ROLE_MEMBER", $rolesUnder);
 
         // Can only select ranks that are below
         $availableRanks = array(
-            "ROLE_ADMIN" => in_array("ROLE_ADMIN", $role_map[$currentUserRole]) ? $em->getRepository('TalisTrickPlayBundle:Role')->getByIdentifier("ROLE_ADMIN")->getName() : null,
-            "ROLE_OFFICER" => in_array("ROLE_OFFICER", $role_map[$currentUserRole]) ? $em->getRepository('TalisTrickPlayBundle:Role')->getByIdentifier("ROLE_OFFICER")->getName() : null,
-            "ROLE_MEMBER" => in_array("ROLE_MEMBER", $role_map[$currentUserRole]) ? $em->getRepository('TalisTrickPlayBundle:Role')->getByIdentifier("ROLE_MEMBER")->getName() : null,
-            "ROLE_GUEST" => in_array("ROLE_GUEST", $role_map[$currentUserRole]) ? $em->getRepository('TalisTrickPlayBundle:Role')->getByIdentifier("ROLE_GUEST")->getName() : null,
-            "ROLE_BANNED" => in_array("ROLE_BANNED", $role_map[$currentUserRole]) ? $em->getRepository('TalisTrickPlayBundle:Role')->getByIdentifier("ROLE_BANNED")->getName() : null
+            "ROLE_ADMIN" => in_array("ROLE_ADMIN", $rolesUnder) ? $em->getRepository('TalisTrickPlayBundle:Role')->getByIdentifier("ROLE_ADMIN")->getName() : null,
+            "ROLE_OFFICER" => in_array("ROLE_OFFICER", $rolesUnder) ? $em->getRepository('TalisTrickPlayBundle:Role')->getByIdentifier("ROLE_OFFICER")->getName() : null,
+            "ROLE_MEMBER" => in_array("ROLE_MEMBER", $rolesUnder) ? $em->getRepository('TalisTrickPlayBundle:Role')->getByIdentifier("ROLE_MEMBER")->getName() : null,
+            "ROLE_GUEST" => in_array("ROLE_GUEST", $rolesUnder) ? $em->getRepository('TalisTrickPlayBundle:Role')->getByIdentifier("ROLE_GUEST")->getName() : null,
+            "ROLE_BANNED" => in_array("ROLE_BANNED", $rolesUnder) ? $em->getRepository('TalisTrickPlayBundle:Role')->getByIdentifier("ROLE_BANNED")->getName() : null
         );
 
         /** @var User $user */
@@ -100,7 +105,7 @@ class TrickPlayController extends Controller
                     ->findOneBy(array('user' => $user, 'isPrimary' => true));
 
                 // Can only edit users whose role is under the current user's
-                $editable = in_array($userRole, $role_map[$currentUserRole]);
+                $editable = in_array($userRole, $rolesUnder);
 
                 if($character) {
                     $userMembers[count($role_map[$userRole])][] = array('user' => $user, "editable" => $editable, 'character' => $character);
