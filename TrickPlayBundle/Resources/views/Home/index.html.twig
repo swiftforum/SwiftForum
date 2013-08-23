@@ -12,10 +12,11 @@
     {% endjavascripts %}
 
     <script>
-        $("textarea").bind("onkeyup", function() {
-          console.log(content);
+      $(function() {
+        $("textarea").keyup(function() {
           var content = $(this).val();
           $("#frontpage-content").html(markdown.toHTML(content));
         });
+      })
     </script>
 {% endblock %}
