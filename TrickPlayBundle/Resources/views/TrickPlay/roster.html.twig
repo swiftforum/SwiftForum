@@ -22,10 +22,10 @@
         <tbody>
         {% for userArray in users %}
             {% for user in userArray %}
-                <tr>
+                <tr class="roster-user" data-role="{{ user.user.role.role }}" data-username="{{ user.user.username }}" data-editable="{{ user.editable }}" data-id="{{ user.user.id }}">
                     <td>{{ loop.parent.loop.index0 + loop.index }}</td>
                     <td>{{ user.user.username|trans|e }}</td>
-                    <td>{{ user.user.role.name|e }}</td>
+                    <td class="roster-role">{{ user.user.role.name|e }}</td>
                     <td>{{ user.character.charname|default('')|e }}</td>
                     <td>{{ user.character.charjobprimary|default('')|e }}</td>
                     <td>{{ user.character.charjobsecondary|default('')|e }}</td>
@@ -38,5 +38,21 @@
         </tbody>
     </table>
 
+    {% include "TalisTrickPlayBundle:TrickPlay:_editor.html.twig" %}
+{% endblock %}
 
+{% block javascripts %}
+    {% javascripts '@TalisTrickPlayBundle/Resources/public/js/roster.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script>
+        RosterEditor.init({{rosterEditable|default('false')}}, {
+            ROLE_ADMIN: "{{availableRanks.ROLE_ADMIN}}",
+            ROLE_OFFICER: "{{availableRanks.ROLE_OFFICER}}",
+            ROLE_MEMBER: "{{availableRanks.ROLE_MEMBER}}",
+            ROLE_GUEST: "{{availableRanks.ROLE_GUEST}}",
+            ROLE_BANNED: "{{availableRanks.ROLE_BANNED}}"
+        });
+    </script>
 {% endblock %}
