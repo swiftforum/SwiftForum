@@ -11,7 +11,9 @@
 namespace Talis\SwiftForumBundle\Controller;
 
 use Talis\SwiftForumBundle\Controller\BaseController;
+use Talis\SwiftForumBundle\Form\Model\CreateForumCategory;
 use Talis\SwiftForumBundle\Form\Type\RoleType;
+use Talis\SwiftForumBundle\Model\ForumCategory;
 use Talis\SwiftForumBundle\Model\Role;
 use Talis\SwiftForumBundle\Model\User;
 use JMS\SecurityExtraBundle\Annotation\Secure;
@@ -25,6 +27,12 @@ use Symfony\Component\HttpFoundation\Session\Session;
  * @todo: Allow quick role changing through adminMemberAction
  * @todo: Allow more administrative actions to be taken through adminEditMemberAction
  * @todo: Implement proper caching and cache invalidation
+ * @todo: Figure out why the forum category form errors are not field-specific anymore
+ * @todo: Show a modal window when clicking on Icon to assist in choosing a icon
+ * @todo: Add functionality to choose category color
+ * @todo: Handle POST submission in another controller to prevent F5 refresh "do you want to resubmit data" questions
+ * @todo: Add delete category, move category up, move category down functionality
+ * @todo: Sort Categories based on offset
  * @Route("/admin")
  * @author Felix Kastner <felix@chapterfain.com>
  */
@@ -36,26 +44,38 @@ class AdminController extends BaseController
      * @Secure(roles="ROLE_ADMIN")
      * @Route("/forum/categories", name="admin_forum_categories")
      */
-    public function adminForumCategoriesAction()
+    public function adminForumCategoriesAction(Request $request)
     {
-        $categories = $this->getDoctrine()
-            ->getRepository( $this->getNameSpace() . ':ForumCategory')
+        $em = $this->getDoctrine()->getManager();
+        $session = new Session();
+
+        $form = $this->createForm('talis_admin_create_forum_category', new CreateForumCategory(), array(
+                'attr' => array('class' => 'form-inline')
+            ));
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            /** @var ForumCategory $category */
+            $category = $form->getData()->getForumCategory();
+            $iconid = $form->getData()->getIconId();
+
+            $icon = $em->getRepository( $this->getNameSpace() . ':Icons')
+                ->find($iconid);
+
+            $category->setIcon($icon);
+
+            $em->persist($category);
+            $em->flush();
+            $session->getFlashBag()->add(
+                'success',
+                'Category "' . $category->getName() . '" has been created.');
+        }
+
+        $categories = $em->getRepository( $this->getNameSpace() . ':ForumCategory')
             ->findAll();
 
-//        $form = $this->createFormBuilder($categories,array(
-//                'action' => $this->generateUrl('admin_edit_members', array('username' => rawurlencode($username))),
-//                'method' => 'POST'))
-//            ->add('role', 'choice', array(
-//                    'choices' => $permittedFixed,
-//                    'expanded' => false,
-//                    'multiple' => false,
-//                    'required' => true,
-//                    'label' => false,
-//                    'data' => $user->getRole()->getId()))
-//            ->add('Save', 'submit', array())
-//            ->getForm();
-
-        return $this->render('TalisSwiftForumBundle:Admin/Forum:categories.html.twig', array('categories' => $categories));
+        return $this->render('TalisSwiftForumBundle:Admin/Forum:categories.html.twig', array('form' => $form->createView(), 'categories' => $categories));
     }
 
 

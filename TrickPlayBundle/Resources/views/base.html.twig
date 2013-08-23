@@ -11,4 +11,5 @@
     {% endstylesheets %}
 {% endblock %}
 
-{% block navbarCustom %}<li {% if app.request.uri == url('basic_roster') %}class="active"{% endif %}><a href="{{ path('basic_roster') }}"><i class="icon-group"></i>  Roster</a></li>{% endblock %}
+{% block navbarCustom %}<li {% if app.request.uri == url('basic_roster') %}class="active"{% endif %}><a href="{{ path('basic_roster') }}"><i class="icon-group"></i>  Roster</a></li>
+<li {% if app.request.uri == url('ffxiv_guides') %}class="active"{% endif %}><a href="{{ path('ffxiv_guides') }}"><i class="icon-hand-right"></i>  FFXIV Guides</a></li>{% endblock %}
