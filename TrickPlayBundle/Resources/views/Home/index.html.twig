@@ -2,5 +2,20 @@
 
 {% block title %}Welcome to TrickPlay{% endblock %}
 {% block content %}
-    {{ frontPage.markdown|markdown|raw }}
+    {% include 'TalisTrickPlayBundle:Home:_frontpage.html.twig' %}
+    {% include 'TalisTrickPlayBundle:Home:_editor.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+    {% javascripts '@TalisTrickPlayBundle/Resources/public/js/*' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script>
+        $("textarea").bind("onkeyup", function() {
+          console.log(content);
+          var content = $(this).val();
+          $("#frontpage-content").html(markdown.toHTML(content));
+        });
+    </script>
 {% endblock %}
