@@ -12,13 +12,16 @@ namespace Talis\SwiftForumBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Talis\SwiftForumBundle\Model\Icons;
+//use Talis\SwiftForumBundle\Model\Icons;
+use Talis\TrickPlayBundle\Entity\Icons;
+
 
 /**
  * Fixture for loading FontAwesome icons into the database.
  *
  * @package Talis\SwiftForumBundle\DataFixtures\ORM
  * @author Felix Kastner <felix@chapterfain.com>
+ * @todo: Fix superclass issue
  */
 class LoadIcons implements FixtureInterface
 {

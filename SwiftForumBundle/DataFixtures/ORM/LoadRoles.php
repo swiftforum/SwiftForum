@@ -12,13 +12,15 @@ namespace Talis\SwiftForumBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Talis\SwiftForumBundle\Model\Role;
+//use Talis\SwiftForumBundle\Model\Role;
+use Talis\TrickPlayBundle\Entity\Role;
 
 /**
  * Fixture for loading Roles into the database.
  *
  * @package Talis\SwiftForumBundle\DataFixtures\ORM
  * @author Felix Kastner <felix@chapterfain.com>
+ * @todo: Fix superclass issue
  */
 class LoadRoles implements FixtureInterface
 {
