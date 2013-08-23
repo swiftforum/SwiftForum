@@ -14,6 +14,13 @@ use Talis\SwiftForumBundle\Model\User;
 class TrickPlayController extends Controller
 {
 
+    /**
+     * @Route("/guides", name="ffxiv_guides")
+     */
+    public function guideAction()
+    {
+        return $this->render('TalisTrickPlayBundle:TrickPlay:guides.html.twig');
+    }
 
     /**
      * @Route("/roster", name="basic_roster")

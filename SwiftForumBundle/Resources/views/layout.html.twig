@@ -58,6 +58,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cogs"></i> Admin <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="{{ path('admin_members') }}"><i class="icon-double-angle-up"></i> Manage Members</a></li>
+                                    <li><a href="{{ path('admin_forum_categories') }}"><i class="icon-tags"></i> Manage Categories</a></li>
                                     {% block navbarAdminCustom %}{% endblock %}
                                 </ul>
                             </li>
@@ -73,9 +74,13 @@
                             <p class="navbar-text navbar-right">{{ app.user.role.name }} <a href="{{ path('auth_edit') }}" class="navbar-link">{{ app.user.username|e }}</a></p>
                     {% else %}
 
-                        <form class="navbar-form form-inline navbar-right" action="{{ path('auth_check') }}" method="post">
-                            <input type="text" placeholder="Username" id="username" name="_username" value="{{ last_username|default('') }}" />
-                            <input type="password" placeholder="Password" id="password" name="_password" />
+                        <form class="navbar-form navbar-right" action="{{ path('auth_check') }}" method="post">
+                            <div class="form-group">
+                                <input type="text" placeholder="Username" id="username" name="_username" class="form-control" value="{{ last_username|default('') }}" />
+                            </div>
+                            <div class="form-group">
+                                <input type="password" placeholder="Password" id="password" name="_password" class="form-control" />
+                            </div>
                             <button type="submit" class="btn btn-primary">Log in</button>
                             <a href="{{ path('auth_register') }}" class="btn btn-success">Register</a>
                         </form>
