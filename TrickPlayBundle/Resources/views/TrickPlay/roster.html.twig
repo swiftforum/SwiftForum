@@ -38,35 +38,11 @@
         </tbody>
     </table>
 
-    <ul class="dropdown-menu" id="user-dropdown" style="position: fixed">
-        <li class="dropdown">
-            <a href="#" data-toggle="dropdown">Change rank <span class="right-caret"></span></a>
-            <ul class="dropdown-menu" style="left: 100%; top: 0">
-                <li><a href="#">Member</a></li>
-                <li><a href="#">Officer</a></li>
-                <li><a href="#">Master</a></li>
-                <li><a href="#">Admin</a></li>
-                <li><a href="#">Superadmin</a></li>
-                <li><a href="#">Banned</a></li>
-                <li><a href="#">Warned</a></li>
-            </ul>
-        </li>
-        <li class="divider"></li>
-        <li class="dropdown"><a href="#">Ban</a></li>
-    </ul>
+    {% include "TalisTrickPlayBundle:TrickPlay:_editor.html.twig" %}
 {% endblock %}
 
 {% block javascripts %}
-<script>
-$(function() {
-    $(".roster-user").click(function(e) {
-        $("#user-dropdown").css("top", e.pageY).css("left", e.pageX).show();
-        return false;
-    });
-
-    $(document).click(function() {
-        $("#user-dropdown").hide();
-    })
-})
-</script>
+{% javascripts '@TalisTrickPlayBundle/Resources/public/js/roster.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
 {% endblock %}
