@@ -7,12 +7,13 @@
 
     <parameters>
         <parameter key="talis_swift_forum.authentication_handler.class">Talis\SwiftForumBundle\Handler\AuthenticationHandler</parameter>
+        <parameter key="talis_swift_forum.role_hierarchy.class">Talis\SwiftForumBundle\Service\RoleHierarchy</parameter>
     </parameters>
 
     <services>
         <service id="talis_swift_forum.authentication_handler" class="%talis_swift_forum.authentication_handler.class%">
         </service>
-        <service id="security.role_hierarchy" class="Talis\SwiftForumBundle\Service\RoleHierarchy" public="false">
+        <service id="security.role_hierarchy" class="%talis_swift_forum.role_hierarchy.class%" public="false">
             <argument>%security.role_hierarchy.roles%</argument>
         </service>
     </services>

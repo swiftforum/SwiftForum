@@ -22,7 +22,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class UserType extends AbstractType
 {
-    private $entityPath = '';
+    private $entityPath;
 
     public function __construct($entityPath) {
         $this->entityPath = $entityPath;

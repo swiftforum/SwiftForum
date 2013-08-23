@@ -20,7 +20,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class RegistrationType extends AbstractType
 {
-    private $entityPath = '';
+    private $entityPath;
 
     public function __construct($entityPath) {
         $this->entityPath = $entityPath;
@@ -35,7 +35,7 @@ class RegistrationType extends AbstractType
                 'type' => 'password',
                 'invalid_message' => 'The passwords must match',
             ));
-        $builder->add('Register', 'submit');
+        $builder->add('Register', 'submit', array('attr' => array('class' => 'btn btn-primary')));
     }
 
     public function getName()

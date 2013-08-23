@@ -90,6 +90,26 @@
         {% if label is empty %}
             {% set label = name|humanize %}
         {% endif %}
-        <button type="{{ type|default('button') }}" class="btn btn-default" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain) }}</button>
+        <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain) }}</button>
     {% endspaceless %}
 {% endblock button_widget %}
+
+{% block widget_attributes %}
+    {% spaceless %}
+        id="{{ id }}" name="{{ full_name }}"{% if read_only %} readonly="readonly"{% endif %}{% if disabled %} disabled="disabled"{% endif %}{% if required %} required="required"{% endif %}{% if max_length %} maxlength="{{ max_length }}"{% endif %}{% if pattern %} pattern="{{ pattern }}"{% endif %}
+        {% for attrname, attrvalue in attr %}{% if attrname in ['placeholder', 'title'] %}{{ attrname }}="{{ attrvalue|trans({}, translation_domain) }}" {% else %}{{ attrname }}="{{ attrvalue }}" {% endif %}{% endfor %}
+    {% endspaceless %}
+{% endblock widget_attributes %}
+
+{% block widget_container_attributes %}
+    {% spaceless %}
+        {% for attrname, attrvalue in attr %}{{ attrname }}="{{ attrvalue }}" {% endfor %}
+    {% endspaceless %}
+{% endblock widget_container_attributes %}
+
+{% block button_attributes %}
+    {% spaceless %}
+        id="{{ id }}" name="{{ full_name }}"{% if disabled %} disabled="disabled"{% endif %}
+        {% for attrname, attrvalue in attr %}{{ attrname }}="{{ attrvalue }}" {% endfor %}
+    {% endspaceless %}
+{% endblock button_attributes %}
