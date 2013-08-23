@@ -32,7 +32,32 @@ class TrickPlayController extends Controller
     {
         $request = Request::createFromGlobals();
         $role = $request->request->get("role", null);
-        // TODO: Actually update user's role
+        $em = $this->getDoctrine()->getManager();
+
+        $targetUser = $em->getRepository('TalisTrickPlayBundle:User')->findOneBy(array('id' => $id));
+        if (!$targetUser) return new JsonResponse(array("error" => "User not found"), 404);
+
+        $targetUserRole = $targetUser->getRole()->getRole();
+
+        $currentUserRole = $this->get('security.context')->getToken()->getUser()->getRole()->getRole();
+        $roleMap = $this->get('security.role_hierarchy')->getMap();
+
+        // Can only update if current user is higher than Member
+        $rosterEditable = in_array("ROLE_MEMBER", $roleMap[$currentUserRole]);
+        if (!$rosterEditable) return new JsonResponse(array("error" => "Not allowed to edit"), 403);
+
+        // Can only update if current user is higher than target user
+        $userEditable = in_array($targetUserRole, $roleMap[$currentUserRole]);
+        if (!$userEditable) return new JsonResponse(array("error" => "Not allowed to edit"), 403);
+
+        // Update user's role
+        $role = $em->getRepository('TalisTrickPlayBundle:Role')->getByIdentifier($role);
+        if (!$role) return new JsonResponse(array("error" => "Invalid role identifier"), 400);
+
+        // TODO: Actually edit role
+        $targetUser->setRole($role);
+        $em->persist($targetUser);
+        $em->flush();
 
         return new JsonResponse(array("success" => true));
     }
