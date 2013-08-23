@@ -68,12 +68,10 @@ class TrickPlayController extends Controller
     public function rosterAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $currentUser = $this->get('security.context')->getToken()->getUser();
-
-        var_dump(gettype($currentUser));
-        $currentUserRole = ($currentUser && gettype($currentUser) != "string" && $currentUser->getRole()) ? $currentUser->getRole()->getRole() : "ROLE_GUEST";
-
         $role_map = $this->get('security.role_hierarchy')->getMap();
+
+        $currentUser = $this->get('security.context')->getToken()->getUser();
+        $currentUserRole = ($currentUser && gettype($currentUser) == "object" && $currentUser->getRole()) ? $currentUser->getRole()->getRole() : "ROLE_GUEST";
         $rolesUnder = isset($role_map[$currentUserRole]) ? $role_map[$currentUserRole] : array();
 
         $users = $em->getRepository('TalisTrickPlayBundle:User')->findAll();
