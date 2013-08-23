@@ -3,6 +3,9 @@
 namespace Talis\TrickPlayBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Talis\SwiftForumBundle\Model\User;
 
@@ -19,6 +22,19 @@ class TrickPlayController extends Controller
     public function guideAction()
     {
         return $this->render('TalisTrickPlayBundle:TrickPlay:guides.html.twig');
+    }
+
+    /**
+     * @Route("/users/{id}/role", name="change_role")
+     * @Method({"POST"})
+     */
+    public function changeRoleAction($id)
+    {
+        $request = Request::createFromGlobals();
+        $role = $request->request->get("role", null);
+        // TODO: Actually update user's role
+
+        return new JsonResponse(array("success" => true));
     }
 
     /**

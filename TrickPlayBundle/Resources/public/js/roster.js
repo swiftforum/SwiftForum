@@ -77,8 +77,13 @@ var RosterEditor = (function() {
       var role = $(this).parent().data("role");
 
       if (!confirm("Change " + username + "'s role to " + roleName + "?")) return;
-      $("[data-id=" + id + "]").data("role", role);
-      // TODO: Really send data over
+
+      // Send change to server
+      $.post("/users/" + id + "/role", {role: role}).done(function() {
+        $("[data-id=" + id + "]").data("role", role).find(".roster-role").text(roleName);
+      }).fail(function() {
+        alert("Server error. Try again?");
+      });
     })
   }
 
