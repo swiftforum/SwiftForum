@@ -1,15 +1,22 @@
-<ul class="dropdown-menu" id="user-dropdown" style="position: fixed">
-    <li class="disabled"><a href="#"><span class="icon-user"></span> Visit Profile (coming soon)</a></li>
-    <li class="divider"></li>
-    <li class="dropdown">
+<ul class="dropdown-menu" id="editor" style="position: fixed">
+
+    <!-- Profile link -->
+    <li class="disabled"><a href="#"><span class="icon-user"></span> <span id="editor-username"></span> (coming soon)</a></li>
+
+    <li class="divider" id="editor-rankchanger-divider"></li>
+
+    <!-- Rank changer -->
+    <li class="dropdown" id="editor-rankchanger">
         <a href="#" data-toggle="dropdown">Change rank <span class="icon-caret-right pull-right"></span></a>
         <ul class="dropdown-menu" style="left: 100%; top: 0">
-            <li><a href="#"><span class="icon-circle-blank"></span> Admin</a></li>
-            <li><a href="#"><span class="icon-circle"></span> <strong>Officer</strong></a></li>
-            <li><a href="#"><span class="icon-circle-blank"></span> Member</a></li>
-            <li><a href="#"><span class="icon-circle-blank"></span> Guest</a></li>
-            <li class="divider"></li>
-            <li><a href="#"><span class="icon-circle-blank"></span> Banned</a></li>
+            <li class="editor-insufficient disabled"><a href="#"><span class="icon-warning-sign"></span> Insufficient privileges</a></li>
+
+            <li class="editor-sufficient" data-role="ROLE_ADMIN"><a href="#"><span class="icon-circle-blank"></span> Admin</a></li>
+            <li class="editor-sufficient" data-role="ROLE_OFFICER"><a href="#"><span class="icon-circle"></span> Officer</a></li>
+            <li class="editor-sufficient" data-role="ROLE_MEMBER"><a href="#"><span class="icon-circle-blank"></span> Member</a></li>
+            <li class="editor-sufficient" data-role="ROLE_GUEST"><a href="#"><span class="icon-circle-blank"></span> Guest</a></li>
+            <li class="editor-sufficient divider"></li>
+            <li class="editor-sufficient" data-role="ROLE_BANNED"><a href="#"><span class="icon-circle-blank"></span> Banned</a></li>
         </ul>
     </li>
 </ul>
