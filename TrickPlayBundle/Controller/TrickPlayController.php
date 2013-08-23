@@ -53,4 +53,4 @@ class TrickPlayController extends Controller
 
         return $this->render('TalisTrickPlayBundle:TrickPlay:roster.html.twig', array('users' => $userMembers, 'role_map' => $role_map ));
     }
-} 
+}
