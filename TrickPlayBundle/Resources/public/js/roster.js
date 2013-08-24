@@ -60,12 +60,16 @@ var RosterEditor = (function() {
         }
       })
 
-      editor.css("top", e.pageY).css("left", e.pageX).show();
+      // Position dropdown and give some vertical room in the parent
+      editor.css("top", e.pageY - editor.parent().position().top).css("left", e.pageX - editor.parent().position().left).show();
+      $("#editor").parent().css("margin-bottom", "200px");
+
       return false;
     });
 
     // Hide dropdown on outside click
     $(document).click(function() {
+      $("#editor").parent().css("margin-bottom", "inherit");
       $("#editor").hide();
     })
 
