@@ -60,7 +60,17 @@
     {% for category in categories %}
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title">{% if category.getIcon() is not null %}<i class="{{ category.getIcon().getName() }}"></i> {% endif %}{{ category.getName() }}</h3>
+                <h3 class="panel-title">
+                    {% if category.getIcon() is not null %}<i class="{{ category.getIcon().getName() }}"></i> {% endif %}{{ category.getName() }}
+                    <span class="pull-right">
+                        ( Pos {{ (category.id + category.orderOffset) }} )
+                        <a href="#edit"><i class="icon-edit icon-large"></i></a>
+                        <a href="#up"><i class="icon-collapse-top icon-large"></i></a>
+                        <a href="#down"><i class="icon-collapse icon-large"></i></a>
+                        <a href="#trash"><i class="icon-trash icon-large"></i></a>
+                    </span>
+                </h3>
+
             </div>
             <div class="panel-body">
                 No Sub-Boards

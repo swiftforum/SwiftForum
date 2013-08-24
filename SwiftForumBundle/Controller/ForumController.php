@@ -34,17 +34,7 @@ class ForumController extends BaseController
         $db = $this->getDoctrine()->getManager();
 
         $categories = $db->getRepository($this->getNameSpace() . ':ForumCategory')
-            ->findBy(array(), array('id+IFNULL(orderOffset, 0)' => 'DESC'));
-
-//        $sql = 'SELECT id, categoryName, id+IFNULL(order_offset, 0) as cat_order
-//            FROM forum_cats
-//            ORDER BY cat_order ASC';
-//
-//        $connection = $this->getDoctrine()->getConnection();
-//        $statement = $connection->query($sql);
-//        $categories = $statement->fetchAll();
-//        $categories[] = array('id' => 0, 'categoryName' => 'System',  )
-
+            ->getCategories();
 
         return $this->render('TalisSwiftForumBundle:Forum:index.html.twig', array('categories' => $categories));
     }
