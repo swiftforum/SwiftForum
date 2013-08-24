@@ -1,0 +1,11 @@
+.roster-user {
+  cursor: pointer;
+}
+
+.table-striped tr.roster-user:hover td {
+  background-color: aliceblue;
+}
+
+li.roster-editor-active a {
+  font-weight: bold;
+}
