@@ -13,12 +13,17 @@ namespace Talis\SwiftForumBundle\Model;
 use Talis\SwiftForumBundle\Model\Icons;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Forum Category Entity Superclass
  *
  * @ORM\Table(name="forumCats")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Talis\SwiftForumBundle\Model\ForumCategoryRepository")
+ * @UniqueEntity(
+ *      fields = "name",
+ *      message= "A category with this name already exists."
+ * )
  * @author Felix Kastner <felix@chapterfain.com>
  */
 class ForumCategory implements \Serializable
@@ -38,21 +43,31 @@ class ForumCategory implements \Serializable
      *      min = "2",
      *      max = "40",
      *      minMessage = "Category names must be at least {{ limit }} characters",
-     *      maxMessage = "Category name cannot be longer than {{ limit }} characters"
+     *      maxMessage = "Category names cannot be longer than {{ limit }} characters"
+     * )
+     * @Assert\NotEqualTo(
+     *      value = "System",
+     *      message = "Category may not be named System"
      * )
      */
     protected $name;
 
     /**
-     * @ORM\Column(name="orderOffset", type="integer", nullable=false)
+     * @ORM\Column(name="orderOffset", type="integer", nullable=true)
+     * @Assert\Type(type="integer", message="{{ value }} is not a valid {{ type }}.")
      */
-    protected $orderOffset = 0;
+    protected $orderOffset;
 
     /**
      * @ORM\ManyToOne(targetEntity="Icons")
-     * @ORM\JoinColumn(name="iconId", referencedColumnName="id")
+     * @ORM\JoinColumn(name="icon", referencedColumnName="id")
      */
-    protected $iconId = 0;
+    protected $icon;
+
+    public function __construct()
+    {
+    }
+
 
     /**
      * @see \Serializable::serialize()
@@ -132,25 +147,25 @@ class ForumCategory implements \Serializable
     }
 
     /**
-     * Set iconId
+     * Set icon
      *
-     * @param Icons $iconId
+     * @param Icons $icon
      * @return ForumCategory
      */
-    public function setIconId(Icons $iconId = null)
+    public function setIcon(Icons $icon = null)
     {
-        $this->iconId = $iconId;
+        $this->icon = $icon;
     
         return $this;
     }
 
     /**
-     * Get iconId
+     * Get icon
      *
      * @return Icons
      */
-    public function getIconId()
+    public function getIcon()
     {
-        return $this->iconId;
+        return $this->icon;
     }
 }

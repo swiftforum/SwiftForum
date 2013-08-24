@@ -6,31 +6,13 @@
 
 {% block stylesheets %}
     {% stylesheets '@TalisSwiftForumBundle/Resources/public/css/swiftForumMain.css'
-                   '@TalisTrickPlayBundle/Resources/public/css/main.css' %}
+                   '@TalisTrickPlayBundle/Resources/public/css/main.css'
+                   '@TalisTrickPlayBundle/Resources/public/css/roster.css' %}
     <link rel="stylesheet" href="{{ truepath~asset_url }}">
     {% endstylesheets %}
 {% endblock %}
 
 {% block navbarCustom %}
-<li {% if app.request.uri == url('basic_roster') %}class="active"{% endif %}><a href="{{ path('basic_roster') }}"><i class="icon-group"></i>  Roster</a></li>
-<li class="dropdown">
-  <a href="#" data-toggle="dropdown"><span class="icon-frown"></span> Complain</a>
-  <ul class="dropdown-menu">
-    <li style="padding: 15px" id="complaint">
-      <textarea placeholder="Is there a problem?" class="form-control" rows="3" style="resize: none; width: 300px"></textarea>
-      <br/>
-      <button class="btn btn-block btn-primary">Send Problem</button>
-    </li>
-  </ul>
-</li>
-{% endblock %}
-
-{% block javascripts %}
-<script>
-  $(function() {
-    $("#complaint").click(function() {
-      return false;
-    })
-  });
-</script>
+<li {% if app.request.uri == url('basic_roster') %}class="active"{% endif %}><a href="{{ path('basic_roster') }}"><i class="icon-group"></i> Roster</a></li>
+<li {% if app.request.uri == url('ffxiv_guides') %}class="active"{% endif %}><a href="{{ path('ffxiv_guides') }}"><i class="icon-hand-right"></i> FFXIV Guides</a></li>
 {% endblock %}

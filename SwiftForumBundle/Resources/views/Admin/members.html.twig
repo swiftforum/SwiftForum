@@ -21,10 +21,19 @@
             {% endif %}
             {{ block('form_rows') }}
             {{ form_rest(form) }}
-        </div>
     {% endspaceless %}
 {% endblock form_widget_compound %}
 
+{% block form_rows %}
+    {% spaceless %}
+        {% for child in form %}
+            {% if loop.last %}
+                </div>
+            {% endif %}
+            {{ form_row(child) }}
+        {% endfor %}
+    {% endspaceless %}
+{% endblock form_rows %}
 
 {% block subtitle %}Edit Members{% endblock %}
 {% block content %}

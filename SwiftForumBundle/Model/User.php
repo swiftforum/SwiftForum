@@ -96,6 +96,16 @@ class User implements AdvancedUserInterface, \Serializable
      */
     protected $createdDate;
 
+    /**
+     * @ORM\Column(name="status", type="string", length=255, nullable=true)
+     */
+    protected $status;
+
+    /**
+     * @ORM\Column(name="statusDate", type="datetime", nullable=true)
+     */
+    protected $statusDate;
+
     public function __construct()
     {
         $this->isActive = false;
@@ -333,4 +343,34 @@ class User implements AdvancedUserInterface, \Serializable
         return $this;
     }
 
+    public function setStatus($status = null)
+    {
+        $this->status = $status;
+
+        // If the status was set to null, set update time to null as well, otherwise set it to now
+        if(!is_null($status)) {
+            $this->setStatusDate(new \DateTime("now"));
+        } else {
+            $this->setStatusDate();
+        }
+
+        return $this;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function setStatusDate(\DateTime $statusDate = null)
+    {
+        $this->statusDate = $statusDate;
+
+        return $this;
+    }
+
+    public function getStatusDate()
+    {
+        return $this->statusDate;
+    }
 }

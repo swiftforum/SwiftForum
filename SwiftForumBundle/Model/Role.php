@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
  * Role Entity Superclass
  *
  * @ORM\Table(name="roles")
- * @ORM\Entity(repositoryClass="Talis\SwiftForumBundle\Model\RoleRepository")
+ * @ORM\Entity(repositoryClass="Talis\TrickPlayBundle\Model\RoleRepository")
  * @author Felix Kastner <felix@chapterfain.com>
  */
 class Role implements RoleInterface, \Serializable
@@ -74,7 +74,7 @@ class Role implements RoleInterface, \Serializable
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -90,14 +90,14 @@ class Role implements RoleInterface, \Serializable
     public function setName($name)
     {
         $this->name = $name;
-    
+
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -113,7 +113,7 @@ class Role implements RoleInterface, \Serializable
     public function setRole($role)
     {
         $this->role = $role;
-    
+
         return $this;
     }
 }

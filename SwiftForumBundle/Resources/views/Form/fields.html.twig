@@ -1,5 +1,25 @@
 {% extends 'form_div_layout.html.twig' %}
 
+{% block form_label %}
+    {% spaceless %}
+        {% if label is not sameas(false) %}
+            {%  if label_attr.class is not defined %}
+                {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' sr-only')|trim}) %}
+            {% endif %}
+            {% if not compound %}
+                {% set label_attr = label_attr|merge({'for': id}) %}
+            {% endif %}
+            {% if required %}
+                {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+            {% endif %}
+            {% if label is empty %}
+                {% set label = name|humanize %}
+            {% endif %}
+            <label {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}</label>
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_label %}
+
 {% block form_row %}
     {% spaceless %}
         {% if errors|length > 0 %}
@@ -8,7 +28,7 @@
             <div class="form-group">
         {% endif %}
 
-            {#{{ form_label(form) }}#}
+            {{ form_label(form) }}
             {{ form_widget(form) }}
             {{ form_errors(form) }}
         </div>
