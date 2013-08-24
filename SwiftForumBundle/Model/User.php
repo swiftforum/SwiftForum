@@ -194,7 +194,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -210,7 +210,7 @@ class User implements AdvancedUserInterface, \Serializable
     public function setUsername($username)
     {
         $this->username = $username;
-    
+
         return $this;
     }
 
@@ -223,7 +223,7 @@ class User implements AdvancedUserInterface, \Serializable
     public function setSalt($salt)
     {
         $this->salt = $salt;
-    
+
         return $this;
     }
 
@@ -236,7 +236,7 @@ class User implements AdvancedUserInterface, \Serializable
     public function setPassword($password)
     {
         $this->password = $password;
-    
+
         return $this;
     }
 
@@ -249,14 +249,14 @@ class User implements AdvancedUserInterface, \Serializable
     public function setEmail($email)
     {
         $this->email = $email;
-    
+
         return $this;
     }
 
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -272,14 +272,14 @@ class User implements AdvancedUserInterface, \Serializable
     public function setIsActive($isActive)
     {
         $this->isActive = $isActive;
-    
+
         return $this;
     }
 
     /**
      * Get isActive
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsActive()
     {
@@ -295,8 +295,19 @@ class User implements AdvancedUserInterface, \Serializable
     public function setRole(\Talis\SwiftForumBundle\Model\Role $role = null)
     {
         $this->role = $role;
-    
+
         return $this;
+    }
+
+    /**
+     * Get URL to profile page
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        // TODO: Return actual URL to profile page
+        return "/roster#" . $this->id;
     }
 
     /**
