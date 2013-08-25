@@ -82,17 +82,20 @@
                             </li>
                         </ul>
                     {% else %}
-
-                        <form class="navbar-form navbar-right" action="{{ path('auth_check') }}" method="post">
-                            <div class="form-group">
-                                <input type="text" placeholder="Username" id="username" name="_username" class="form-control" value="{{ last_username|default('') }}" />
-                            </div>
-                            <div class="form-group">
-                                <input type="password" placeholder="Password" id="password" name="_password" class="form-control" />
-                            </div>
-                            <button type="submit" class="btn btn-primary">Log in</button>
-                            <a href="{{ path('auth_register') }}" class="btn btn-success">Register</a>
-                        </form>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="{{ path('auth_register') }}">Register</a></li>
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown">Log in</a>
+                                <div class="dropdown-menu" style="padding: 15px; width: 250px">
+                                    <form action="{{ path('auth_check') }}" method="post">
+                                        <input type="text" placeholder="Username" id="username" name="_username" class="form-control" value="{{ last_username|default('') }}" style="margin-bottom:10px"/>
+                                        <input type="password" placeholder="Password" id="password" name="_password" class="form-control"/>
+                                        <br/>
+                                        <button type="submit" class="btn btn-primary btn-block">Log in</button>
+                                    </form>
+                                </div>
+                            </li>
+                        </ul>
                     {% endif %}
                 </div><!--/.nav-collapse -->
             </div>
