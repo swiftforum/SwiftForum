@@ -67,5 +67,4 @@ class User extends BaseUser implements AdvancedUserInterface, \Serializable
     {
         return $this->characters;
     }
-
 }

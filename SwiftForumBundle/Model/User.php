@@ -96,6 +96,16 @@ class User implements AdvancedUserInterface, \Serializable
      */
     protected $createdDate;
 
+    /**
+     * @ORM\Column(name="status", type="string", length=255, nullable=true)
+     */
+    protected $status;
+
+    /**
+     * @ORM\Column(name="statusDate", type="datetime", nullable=true)
+     */
+    protected $statusDate;
+
     public function __construct()
     {
         $this->isActive = false;
@@ -194,7 +204,7 @@ class User implements AdvancedUserInterface, \Serializable
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -210,7 +220,7 @@ class User implements AdvancedUserInterface, \Serializable
     public function setUsername($username)
     {
         $this->username = $username;
-    
+
         return $this;
     }
 
@@ -223,7 +233,7 @@ class User implements AdvancedUserInterface, \Serializable
     public function setSalt($salt)
     {
         $this->salt = $salt;
-    
+
         return $this;
     }
 
@@ -236,7 +246,7 @@ class User implements AdvancedUserInterface, \Serializable
     public function setPassword($password)
     {
         $this->password = $password;
-    
+
         return $this;
     }
 
@@ -249,14 +259,14 @@ class User implements AdvancedUserInterface, \Serializable
     public function setEmail($email)
     {
         $this->email = $email;
-    
+
         return $this;
     }
 
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -272,14 +282,14 @@ class User implements AdvancedUserInterface, \Serializable
     public function setIsActive($isActive)
     {
         $this->isActive = $isActive;
-    
+
         return $this;
     }
 
     /**
      * Get isActive
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsActive()
     {
@@ -295,8 +305,19 @@ class User implements AdvancedUserInterface, \Serializable
     public function setRole(\Talis\SwiftForumBundle\Model\Role $role = null)
     {
         $this->role = $role;
-    
+
         return $this;
+    }
+
+    /**
+     * Get URL to profile page
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        // TODO: Return actual URL to profile page
+        return "/roster#" . $this->id;
     }
 
     /**
@@ -333,4 +354,34 @@ class User implements AdvancedUserInterface, \Serializable
         return $this;
     }
 
+    public function setStatus($status = null)
+    {
+        $this->status = $status;
+
+        // If the status was set to null, set update time to null as well, otherwise set it to now
+        if(!is_null($status)) {
+            $this->setStatusDate(new \DateTime("now"));
+        } else {
+            $this->setStatusDate();
+        }
+
+        return $this;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function setStatusDate(\DateTime $statusDate = null)
+    {
+        $this->statusDate = $statusDate;
+
+        return $this;
+    }
+
+    public function getStatusDate()
+    {
+        return $this->statusDate;
+    }
 }

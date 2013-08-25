@@ -6,10 +6,12 @@
 
 {% block stylesheets %}
     {% stylesheets '@TalisSwiftForumBundle/Resources/public/css/swiftForumMain.css'
-                   '@TalisTrickPlayBundle/Resources/public/css/main.css' %}
+                   '@TalisTrickPlayBundle/Resources/public/css/main.css'
+                   '@TalisTrickPlayBundle/Resources/public/css/roster.css' %}
     <link rel="stylesheet" href="{{ truepath~asset_url }}">
     {% endstylesheets %}
 {% endblock %}
+
 
 {% block navbarCustom %}<li {% if app.request.uri == url('basic_roster') %}class="active"{% endif %}><a href="{{ path('basic_roster') }}"><i class="icon-group"></i>  Roster</a></li>
 <li {% if app.request.uri == url('ffxiv_guides') %}class="active"{% endif %}><a href="{{ path('ffxiv_guides') }}"><i class="icon-hand-right"></i>  FFXIV Guides</a></li>{% endblock %}

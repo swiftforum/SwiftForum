@@ -30,7 +30,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
  * @todo: Figure out why the forum category form errors are not field-specific anymore
  * @todo: Show a modal window when clicking on Icon to assist in choosing a icon
  * @todo: Add functionality to choose category color
- * @todo: Handle POST submission in another controller to prevent F5 refresh "do you want to resubmit data" questions
  * @todo: Add delete category, move category up, move category down functionality
  * @todo: Sort Categories based on offset
  * @Route("/admin")
@@ -70,14 +69,14 @@ class AdminController extends BaseController
             $session->getFlashBag()->add(
                 'success',
                 'Category "' . $category->getName() . '" has been created.');
+            return $this->redirect($this->generateUrl('admin_forum_categories'));
         }
 
-        $categories = $em->getRepository( $this->getNameSpace() . ':ForumCategory')
-            ->findAll();
+        $categories = $em->getRepository($this->getNameSpace() . ':ForumCategory')
+            ->getCategories();
 
         return $this->render('TalisSwiftForumBundle:Admin/Forum:categories.html.twig', array('form' => $form->createView(), 'categories' => $categories));
     }
-
 
     /**
      * Allows a officer to view a list of members.

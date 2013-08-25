@@ -19,7 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * Forum Category Entity Superclass
  *
  * @ORM\Table(name="forumCats")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Talis\SwiftForumBundle\Model\ForumCategoryRepository")
  * @UniqueEntity(
  *      fields = "name",
  *      message= "A category with this name already exists."
