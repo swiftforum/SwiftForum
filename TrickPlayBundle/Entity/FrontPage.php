@@ -101,19 +101,3 @@ class FrontPage
         return $this->lastEdit;
     }
 }
-
-class FrontPageRepository extends EntityRepository
-{
-    /**
-     * Get frontpage item
-     * Returns a newly-instantiated (but not persisted) item if it does not already exist
-     *
-     * @return FrontPage
-     */
-    public function get()
-    {
-        $query = "SELECT f FROM TalisTrickPlayBundle:FrontPage f";
-        $firstItem = $this->getEntityManager()->createQuery($query)->setMaxResults(1)->getResult()[0];
-        return $firstItem ? $firstItem : new FrontPage();
-    }
-}

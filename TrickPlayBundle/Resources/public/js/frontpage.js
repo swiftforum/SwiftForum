@@ -33,10 +33,12 @@ var Editor = (function() {
       $("#frontpage-edit").removeClass("disabled");
       $("#editor").hide();
 
-      $.post("/frontpage", {markdown: markdown}).done(function() {
-        // TODO: Update timestamp
-        console.log("SUCCESS");
-
+      $.post("/frontpage", {markdown: markdown}).done(function(result) {
+        // Update timestamp display
+        $("#frontpage-timestamp-user").attr("href", result.lastEditor.url);
+        $("#frontpage-timestamp-user").text(result.lastEditor.username);
+        $("#frontpage-timestamp-time").text(result.lastEdit.date);
+        $("#frontpage-timestamp").show();
       }).fail(function() {
         alert("Server error. Try again?");
       });

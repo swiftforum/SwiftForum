@@ -52,6 +52,6 @@ class HomeController extends HomeControllerBase
         $em->persist($frontPage);
         $em->flush();
 
-        return new JsonResponse(array("lastEdit" => $frontPage->getLastEdit(), "lastEditor" => array("username" => $frontPage->getLastEditor()->getUsername())));
+        return new JsonResponse(array("lastEdit" => $frontPage->getLastEdit(), "lastEditor" => array("username" => $frontPage->getLastEditor()->getUsername(), "url" => $frontPage->getLastEditor()->getUrl())));
     }
 }
