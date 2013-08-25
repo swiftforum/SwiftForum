@@ -201,6 +201,14 @@ class User implements AdvancedUserInterface, \Serializable
         return $this->isActive;
     }
 
+    // Returns a link to the user's avatar
+    // Will default to gravatar if not set
+    // $size: Preferred image size (defaults to 20)
+    public function getAvatar($size = 20)
+    {
+        return "http://www.gravatar.com/avatar/" . urlencode(md5($this->email)) . "?s=" . urlencode($size);
+    }
+
     /**
      * Get id
      *
