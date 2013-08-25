@@ -26,6 +26,16 @@ class User extends BaseUser implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     * Get user profile URL
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        return "/roster";
+    }
+
+    /**
      * Add characters
      *
      * @param Character $characters
