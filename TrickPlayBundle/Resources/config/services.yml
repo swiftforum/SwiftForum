@@ -1,0 +1,5 @@
+services:
+  geta6.markdown:
+    class: Twig_Extension_Markdown
+    tags:
+      - { name: twig.extension }

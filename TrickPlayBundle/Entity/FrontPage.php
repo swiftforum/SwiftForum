@@ -33,7 +33,7 @@ class FrontPage
      * @var integer
      *
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\Column(name="lastEditor", type="integer")
+     * @ORM\JoinColumn(name="lastEditor", referencedColumnName="id")
      */
     private $lastEditor;
 
@@ -43,16 +43,6 @@ class FrontPage
      * @ORM\Column(name="lastEdit", type="datetime")
      */
     private $lastEdit;
-
-    /**
-     * Get frontpage item
-     * Returns a newly-instantiated (but not persisted) item if it does not already exist
-     *
-     * @return FrontPage
-     */
-    public static function get()
-    {
-    }
 
     /**
      * Get id
@@ -74,8 +64,8 @@ class FrontPage
     public function setMarkdown($markdown, $editor)
     {
         $this->markdown = $markdown;
-        $this->lastEdit = new DateTime('NOW');
-        $this->lastEditor = $editor ? $editor->getId() : null;
+        $this->lastEdit = new \DateTime("now");
+        $this->lastEditor = $editor;
 
         return $this;
     }
@@ -109,21 +99,5 @@ class FrontPage
     public function getLastEdit()
     {
         return $this->lastEdit;
-    }
-}
-
-class FrontPageRepository extends EntityRepository
-{
-    /**
-     * Get frontpage item
-     * Returns a newly-instantiated (but not persisted) item if it does not already exist
-     *
-     * @return FrontPage
-     */
-    public function get()
-    {
-        $query = "SELECT f FROM TalisTrickPlayBundle:FrontPage f";
-        $firstItem = $this->getEntityManager()->createQuery($query)->setMaxResults(1)->getResult()[0];
-        return $firstItem ? $firstItem : new FrontPage();
     }
 }
