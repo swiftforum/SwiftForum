@@ -54,7 +54,6 @@ class TrickPlayController extends Controller
         $role = $em->getRepository('TalisTrickPlayBundle:Role')->getByIdentifier($role);
         if (!$role) return new JsonResponse(array("error" => "Invalid role identifier"), 400);
 
-        // TODO: Actually edit role
         $targetUser->setRole($role);
         $em->persist($targetUser);
         $em->flush();
