@@ -68,10 +68,19 @@
                     </ul>
 
                     {% if app.user.username is defined %}
-                            <ul class="nav navbar-nav navbar-right">
-                                <li><a href="{{ path('auth_logout') }}">Log out</a></li>
-                            </ul>
-                            <p class="navbar-text navbar-right">{{ app.user.role.name }} <a href="{{ path('auth_edit') }}" class="navbar-link">{{ app.user.username|e }}</a></p>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a data-toggle="dropdown" href="#">
+                                    <img src="{{ app.user.avatar }}" width="20" height="20" style="margin-right: 5px"/>
+                                    {{ app.user.username|e }} <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ path('auth_edit') }}" class="navbar-link">My Profile</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{{ path('auth_logout') }}">Log out</a></li>
+                                </ul>
+                            </li>
+                        </ul>
                     {% else %}
 
                         <form class="navbar-form navbar-right" action="{{ path('auth_check') }}" method="post">
