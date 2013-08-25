@@ -1,6 +1,13 @@
 <div class="clearfix">
-    <small class="text-muted">Last edited by <a href="#">dikarel</a> (5 minutes ago)</small>
-    <button class="btn btn-default pull-right"><span class="icon-edit"></span> Edit</button>
+    {% if frontPage.lastEdit and frontPage.lastEditor %}
+        <small id="frontpage-timestamp" class="text-muted">Last edited by <a href="{{ frontPage.lastEditor.url }}" id="frontpage-timestamp-user">{{ frontPage.lastEditor.username }}</a> (<span id="frontpage-timestamp-time">{{ frontPage.lastEditor.lastEdit }}</span>)</small>
+    {% else %}
+        <small id="frontpage-timestamp" class="text-muted" style="display: none">Last edited by <a href="#" id="frontpage-timestamp-user"></a> (<span id="frontpage-timestamp-time"></span>)</small>
+    {% endif %}
+
+    {% if editable %}
+      <button class="btn btn-default pull-right" id="frontpage-edit"><span class="icon-edit"></span> Edit</button>
+    {% endif %}
 </div>
 
 <div id="frontpage-content">

@@ -2,21 +2,17 @@
 
 {% block title %}Welcome to TrickPlay{% endblock %}
 {% block content %}
-    {% include 'TalisTrickPlayBundle:Home:_frontpage.html.twig' %}
+    {% include 'TalisTrickPlayBundle:Home:_frontpage.html.twig' with {'frontPage': frontPage, 'editable': editable} %}
     {% include 'TalisTrickPlayBundle:Home:_editor.html.twig' %}
 {% endblock %}
 
 {% block javascripts %}
-    {% javascripts '@TalisTrickPlayBundle/Resources/public/js/*' %}
+    {% javascripts '@TalisTrickPlayBundle/Resources/public/js/markdown.js'
+                   '@TalisTrickPlayBundle/Resources/public/js/frontpage.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 
     <script>
-      $(function() {
-        $("textarea").keyup(function() {
-          var content = $(this).val();
-          $("#frontpage-content").html(markdown.toHTML(content));
-        });
-      })
+      Editor.init({{ editable }});
     </script>
 {% endblock %}
