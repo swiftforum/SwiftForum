@@ -30,7 +30,7 @@ class CreateForumCategoryType extends AbstractType
     {
         $builder->add('forumcategory', 'talis_admin_forum_category');
         $builder->add('iconid', 'integer', array('label' => 'Icon ID', 'required' => false));
-        $builder->add('Create', 'submit', array('attr' => array('class' => 'btn btn-primary')));
+        $builder->add('Save', 'submit', array('attr' => array('class' => 'btn btn-primary')));
     }
 
     public function getName()

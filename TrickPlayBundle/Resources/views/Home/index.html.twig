@@ -9,7 +9,7 @@
 {% block javascripts %}
     {% javascripts '@TalisTrickPlayBundle/Resources/public/js/markdown.js'
                    '@TalisTrickPlayBundle/Resources/public/js/frontpage.js' %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
+        <script type="text/javascript" src="{{ truepath~asset_url }}"></script>
     {% endjavascripts %}
 
     <script>

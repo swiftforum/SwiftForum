@@ -168,4 +168,10 @@ class ForumCategory implements \Serializable
     {
         return $this->icon;
     }
+
+    public function getPos()
+    {
+        return ($this->id + $this->orderOffset);
+    }
+
 }

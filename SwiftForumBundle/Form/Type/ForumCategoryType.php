@@ -32,7 +32,6 @@ class ForumCategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name', 'text', array('label' => 'Category Name'));
-        $builder->add('orderOffset', 'integer', array('label' => 'Offset', 'required' => false));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

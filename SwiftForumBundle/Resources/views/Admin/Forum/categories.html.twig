@@ -7,7 +7,7 @@
         {% if errors|length > 0 %}
             {% for error in errors %}
                 {% if loop.first %}
-                    <div class="col-sm-6 form-group">
+                    <div class="col-sm-9 form-group">
                 {% else %}
                     <div class="col-sm-2 form-group">
                 {% endif %}
@@ -22,7 +22,7 @@
         <h1>Edit Categories</h1>
     </div>
 
-    <div class="panel panel-primary">
+    <div class="panel panel-success">
         <div class="panel-heading">
             <h3 class="panel-title"><i class="icon-plus"></i> New Category</h3>
         </div>
@@ -36,21 +36,17 @@
             {% endif %}
 
             <div class="row">
-                <div class="col-sm-6 form-group">
+                <div class="col-sm-9 form-group">
                     {{ form_label(form.forumcategory.name) }}
                     {{ form_widget(form.forumcategory.name) }}
-                </div>
-                <div class="col-sm-2 form-group">
-                    {{ form_label(form.forumcategory.orderOffset) }}
-                    {{ form_widget(form.forumcategory.orderOffset) }}
                 </div>
                 <div class="col-sm-2 form-group">
                     {{ form_label(form.iconid) }}
                     {{ form_widget(form.iconid) }}
                 </div>
-                <div class="col-sm-2 form-group">
-                    {{ form_label(form.Create) }}
-                    {{ form_widget(form.Create) }}
+                <div class="col-sm-1 form-group">
+                    {{ form_label(form.Save) }}
+                    {{ form_widget(form.Save) }}
                 </div>
             </div>
             {{ form_end(form) }}
@@ -61,12 +57,12 @@
         <div class="panel panel-info">
             <div class="panel-heading">
                 <h3 class="panel-title">
-                    {% if category.getIcon() is not null %}<i class="{{ category.getIcon().getName() }}"></i> {% endif %}{{ category.getName() }}
+                    {% if category.getIcon() is not null %}<i class="{{ category.getIcon().getName() }}"></i> {% endif %}{{ category.getName()|e }}
                     <span class="pull-right">
-                        ( Pos {{ (category.id + category.orderOffset) }} )
-                        <a href="#edit"><i class="icon-edit icon-large"></i></a>
-                        <a href="#up"><i class="icon-collapse-top icon-large"></i></a>
-                        <a href="#down"><i class="icon-collapse icon-large"></i></a>
+                        ( Pos {{ (category.getPos()) }} )
+                        <a href="{{ path('admin_forum_categories_edit', {'id': category.id}) }}"><i class="icon-edit icon-large"></i></a>
+                        <a href="{{ path('admin_forum_categories_offset', {'direction': 'up', 'id': category.id}) }}"><i class="icon-collapse-top icon-large"></i></a>
+                        <a href="{{ path('admin_forum_categories_offset', {'direction': 'down', 'id': category.id}) }}"><i class="icon-collapse icon-large"></i></a>
                         <a href="#trash"><i class="icon-trash icon-large"></i></a>
                     </span>
                 </h3>

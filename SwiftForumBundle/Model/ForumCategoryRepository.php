@@ -32,4 +32,5 @@ class ForumCategoryRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
+
 }

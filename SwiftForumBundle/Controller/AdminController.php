@@ -79,6 +79,129 @@ class AdminController extends BaseController
     }
 
     /**
+     * Edits a category
+     *
+     * @Secure(roles="ROLE_ADMIN")
+     * @Route("/forum/categories/edit/{id}", requirements={"id" = "\d+"}, name="admin_forum_categories_edit")
+     */
+    public function adminForumCategoriesEditAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $session = new Session();
+
+        $category = $em->getRepository($this->getNameSpace() . ':ForumCategory')
+            ->find($id);
+
+        if(!$category) {
+            throw $this->createNotFoundException(
+                'Category ' . $id . ' does not exist.'
+            );
+        }
+
+        $cat = new CreateForumCategory('Edit');
+        $cat->setForumCategory($category);
+        if(!is_null($category->getIcon())) {
+            $cat->setIconId($category->getIcon()->getId());
+        }
+
+        $form = $this->createForm('talis_admin_create_forum_category', $cat, array(
+                'attr' => array('class' => 'form-inline')
+            ));
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            /** @var ForumCategory $category */
+            $category = $form->getData()->getForumCategory();
+            $iconid = $form->getData()->getIconId();
+
+            $icon = $em->getRepository( $this->getNameSpace() . ':Icons')
+                ->find($iconid);
+
+            $category->setIcon($icon);
+
+            $em->persist($category);
+            $em->flush();
+            $session->getFlashBag()->add(
+                'success',
+                'Category "' . $category->getName() . '" has been updated.');
+            return $this->redirect($this->generateUrl('admin_forum_categories'));
+        }
+
+        return $this->render('TalisSwiftForumBundle:Admin/Forum:editcategory.html.twig', array('form' => $form->createView(), 'category' => $category));
+    }
+
+    /**
+     * Shifts a category up / down
+     *
+     * @Secure(roles="ROLE_ADMIN")
+     * @Route("/forum/categories/{direction}/{id}", requirements={"direction" = "up|down", "id" = "\d+"}, name="admin_forum_categories_offset")
+     */
+    public function adminForumCategoriesOffsetAction($direction, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $session = new Session();
+
+        $category = $em->getRepository($this->getNameSpace() . ':ForumCategory')
+            ->find($id);
+
+        if(!$category) {
+            throw $this->createNotFoundException(
+                'Category ' . $id . ' does not exist.'
+            );
+        }
+
+        $categories = $em->getRepository($this->getNameSpace() . ':ForumCategory')
+            ->getCategories();
+
+        try {
+
+            $key = array_search($category, $categories);
+
+            switch($direction)
+            {
+                // Move category up
+                case 'up':
+                    if($category->getId() == $categories[0]->getId()) {
+                        throw new \LogicException(
+                            'Category "' . $category->getName() . '" is already in first place.'
+                        );
+                    }
+
+                    $beforeCat = $categories[($key-1)];
+                    $afterCat = $category;
+                    break;
+
+                // Move category down
+                case 'down':
+                    if($category->getId() == end($categories)->getId()) {
+                        throw new \LogicException(
+                            'Category "' . $category->getName() . '" is already in last place.'
+                        );
+                    }
+
+                    $beforeCat = $category;
+                    $afterCat = $categories[($key+1)];
+                    break;
+            }
+
+            $afterCat->setOrderOffset($afterCat->getOrderOffset() - 1);
+            $beforeCat->setOrderOffset($beforeCat->getOrderOffset() + 1);
+            $em->flush();
+            $session->getFlashBag()->add(
+                'success',
+                'Category order changed'
+            );
+        } catch(\LogicException $error) {
+            $session->getFlashBag()->add(
+                'warning',
+                $error->getMessage());
+        }
+
+        return $this->redirect($this->generateUrl('admin_forum_categories'));
+    }
+
+    /**
      * Allows a officer to view a list of members.
      *
      * @Secure(roles="ROLE_OFFICER")

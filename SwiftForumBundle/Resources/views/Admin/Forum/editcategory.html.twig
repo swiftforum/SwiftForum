@@ -1,0 +1,66 @@
+{% extends "TalisSwiftForumBundle::base.html.twig" %}
+
+{% block subtitle %}Edit {{ category.getName() }} Forum Category{% endblock %}
+
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+            {% for error in errors %}
+                {% if loop.first %}
+                    <div class="col-sm-9 form-group">
+                {% else %}
+                    <div class="col-sm-2 form-group">
+                {% endif %}
+                <span class="help-block"><i class="icon-exclamation-sign"></i> {{ error.message }}</span></div>
+            {% endfor %}
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_errors %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Edit Category {{ category.getName() }}</h1>
+    </div>
+
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <h3 class="panel-title"><i class="icon-pencil"></i> Edit <b>{{ category.getName()|e }}</b> Forum Category</h3>
+        </div>
+        <div class="panel-body">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        {% if category.getIcon() is not null %}<i class="{{ category.getIcon().getName() }}"></i> {% endif %}{{ category.getName()|e }}
+                    </h3>
+
+                </div>
+                <div class="panel-body">
+                    ...
+                </div>
+            </div>
+            {% form_theme form _self %}
+            {{ form_start(form) }}
+            {% if form.vars.errors|length > 0 %}
+                <div class="row has-error">
+                    {{ form_errors(form) }}
+                </div>
+            {% endif %}
+
+            <div class="row">
+                <div class="col-sm-9 form-group">
+                    {{ form_label(form.forumcategory.name) }}
+                    {{ form_widget(form.forumcategory.name) }}
+                </div>
+                <div class="col-sm-2 form-group">
+                    {{ form_label(form.iconid) }}
+                    {{ form_widget(form.iconid) }}
+                </div>
+                <div class="col-sm-1 form-group">
+                    {{ form_label(form.Save) }}
+                    {{ form_widget(form.Save) }}
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

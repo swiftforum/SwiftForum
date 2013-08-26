@@ -43,7 +43,7 @@
 
 {% block javascripts %}
     {% javascripts '@TalisTrickPlayBundle/Resources/public/js/roster.js' %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
+        <script type="text/javascript" src="{{ truepath~asset_url }}"></script>
     {% endjavascripts %}
 
     <script>
