@@ -1,0 +1,15 @@
+<div class="clearfix">
+    {% if frontPage.lastEdit and frontPage.lastEditor %}
+        <small id="frontpage-timestamp" class="text-muted">Last edited by <a href="{{ frontPage.lastEditor.url }}" id="frontpage-timestamp-user">{{ frontPage.lastEditor.username }}</a> (<span id="frontpage-timestamp-time">{{ frontPage.lastEdit.date }}</span>)</small>
+    {% else %}
+        <small id="frontpage-timestamp" class="text-muted" style="display: none">Last edited by <a href="#" id="frontpage-timestamp-user"></a> (<span id="frontpage-timestamp-time"></span>)</small>
+    {% endif %}
+
+    {% if editable %}
+      <button class="btn btn-default pull-right" id="frontpage-edit"><span class="icon-edit"></span> Edit</button>
+    {% endif %}
+</div>
+
+<div id="frontpage-content">
+    {{ frontPage.markdown|markdown|raw }}
+</div>
