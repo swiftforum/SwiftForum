@@ -7,9 +7,9 @@
         {% if errors|length > 0 %}
             {% for error in errors %}
                 {% if loop.first %}
-                    <div class="col-sm-9 form-group">
+                    <div class="col-md-9 form-group">
                 {% else %}
-                    <div class="col-sm-2 form-group">
+                    <div class="col-md-2 form-group">
                 {% endif %}
                 <span class="help-block"><i class="icon-exclamation-sign"></i> {{ error.message }}</span></div>
             {% endfor %}
@@ -36,20 +36,24 @@
             {% endif %}
 
             <div class="row">
-                <div class="col-sm-9 form-group">
-                    {{ form_label(form.forumcategory.name) }}
-                    {{ form_widget(form.forumcategory.name) }}
+                <div class="col-md-9 form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="icon-selector-preview"></span>
+                        {{ form_label(form.forumcategory.name) }}
+                        {{ form_widget(form.forumcategory.name) }}
+                    </div>
                 </div>
-                <div class="col-sm-2 form-group">
+                <div class="col-md-2 form-group">
                     {{ form_label(form.iconid) }}
                     {{ form_widget(form.iconid) }}
                 </div>
-                <div class="col-sm-1 form-group">
+                <div class="col-md-1 form-group">
                     {{ form_label(form.Save) }}
                     {{ form_widget(form.Save) }}
                 </div>
             </div>
             {{ form_end(form) }}
+            <div id="icon-selector-list" class="row"></div>
         </div>
     </div>
 
@@ -84,7 +88,12 @@
 {% endblock %}
 
 {% block javascripts %}
+    {% javascripts '@TalisSwiftForumBundle/Resources/public/js/iconpicker.js' %}
+        <script type="text/javascript" src="{{ truepath~asset_url }}"></script>
+    {% endjavascripts %}
+
     <script>
+        IconPicker.init();
         $( ".delete").click(function(event) {
             var response = confirm("Are you sure you want to delete the \"" + $(this).data('catname') + "\" category?");
             if(response !== true)

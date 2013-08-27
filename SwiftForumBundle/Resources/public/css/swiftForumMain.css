@@ -22,6 +22,26 @@
     color: #555555;
 }
 
+#icon-selector-list {
+    margin-top:18px;
+    display: none;
+}
+
+#icon-selector-list .col-sm-1 a {
+    white-space: nowrap;
+    border-radius: 6px 6px 6px 6px;
+    cursor: pointer;
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    /*padding-left: 10px;*/
+    text-align: center;
+}
+
+#icon-selector-list .col-sm-1 a:hover {
+    background-color: #d9edf7;
+}
+
 /*.btn-login {*/
     /*background-color: #f3ca78;*/
     /*color: #000000;*/

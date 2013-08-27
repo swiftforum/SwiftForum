@@ -89,7 +89,8 @@
         {% if label is empty %}
             {% set label = name|humanize %}
         {% endif %}
-        <input type="{{ type }}" class="form-control" placeholder="{{ label }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+        {% set attr = attr|merge({'class': attr.class|default('') ~ ' form-control'}) %}
+        <input type="{{ type }}" placeholder="{{ label }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
     {% endspaceless %}
 {% endblock form_widget_simple %}
 
