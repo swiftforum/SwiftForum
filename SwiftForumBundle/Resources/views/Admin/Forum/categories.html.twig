@@ -63,7 +63,7 @@
                         <a href="{{ path('admin_forum_categories_edit', {'id': category.id}) }}"><i class="icon-edit icon-large"></i></a>
                         <a href="{{ path('admin_forum_categories_offset', {'direction': 'up', 'id': category.id}) }}"><i class="icon-collapse-top icon-large"></i></a>
                         <a href="{{ path('admin_forum_categories_offset', {'direction': 'down', 'id': category.id}) }}"><i class="icon-collapse icon-large"></i></a>
-                        <a href="#trash"><i class="icon-trash icon-large"></i></a>
+                        <a href="{{ path('admin_forum_categories_delete', {'id': category.id}) }}" class="delete" data-catname="{{ category.getName()|e }}"><i class="icon-trash icon-large"></i></a>
                     </span>
                 </h3>
 
@@ -81,4 +81,16 @@
                 No Sub-Boards
             </div>
         </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $( ".delete").click(function(event) {
+            var response = confirm("Are you sure you want to delete the \"" + $(this).data('catname') + "\" category?");
+            if(response !== true)
+            {
+                event.preventDefault();
+            }
+        })
+    </script>
 {% endblock %}

@@ -79,6 +79,37 @@ class AdminController extends BaseController
     }
 
     /**
+     * Deletes a category
+     *
+     * @Secure(roles="ROLE_ADMIN")
+     * @Route("/forum/categories/delete/{id}", requirements={"id" = "\d+"}, name="admin_forum_categories_delete")
+     */
+    public function adminForumCategoriesDeleteAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $session = new Session();
+
+        $category = $em->getRepository($this->getNameSpace() . ':ForumCategory')
+            ->find($id);
+
+        if(!$category) {
+            throw $this->createNotFoundException(
+                'Category ' . $id . ' does not exist.'
+            );
+        }
+
+
+        $em->remove($category);
+        $em->flush();
+
+        $session->getFlashBag()->add(
+            'notice',
+            'Category "' . $category->getName() . '" has been deleted.');
+
+        return $this->redirect($this->generateUrl('admin_forum_categories'));
+    }
+
+    /**
      * Edits a category
      *
      * @Secure(roles="ROLE_ADMIN")
