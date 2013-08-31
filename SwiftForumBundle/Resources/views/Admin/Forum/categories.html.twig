@@ -36,16 +36,15 @@
             {% endif %}
 
             <div class="row">
-                <div class="col-md-9 form-group">
+                <div class="col-md-11 form-group">
                     <div class="input-group">
-                        <span class="input-group-addon" id="icon-selector-preview"></span>
+                        <div class="input-group-btn iconpicker-group">
+                            <button type="button" class="btn btn-default dropdown-toggle iconpicker"><span class="iconpicker-preview">Icon</span><span class="caret iconpicker-caret"></span></button>
+                            {{ form_widget(form.iconid) }}
+                        </div>
                         {{ form_label(form.forumcategory.name) }}
                         {{ form_widget(form.forumcategory.name) }}
                     </div>
-                </div>
-                <div class="col-md-2 form-group">
-                    {{ form_label(form.iconid) }}
-                    {{ form_widget(form.iconid) }}
                 </div>
                 <div class="col-md-1 form-group">
                     {{ form_label(form.Save) }}

@@ -23,24 +23,30 @@
 }
 
 /************ Icon Picker ***********/
-.icon-picker-popover {
+.iconpicker {
+    font-weight:bold;
+    width:65px;
+    background-color:#F0F0F0;
+    color: #428BCA;
+}
+
+.iconpicker-caret {
+    position: absolute;
+    bottom: 7px;
+    right: 5px;
+}
+
+.iconpicker-popover {
     max-width: 600px;
     text-align:center;
 }
 
-.icon-picker-col-icon:hover {
+.col-xs-1.iconpicker-col-icon:hover {
     background-color: #D9EDF7;
-}
-
-.icon-picker-col-icon:hover > a {
     color:#2A6496;
 }
 
-.icon-picker-col-icon > a:hover {
-    text-decoration: none;
-}
-
-.col-xs-1.icon-picker-col-icon {
+.col-xs-1.iconpicker-col-icon {
     border-radius: 6px 6px 6px 6px;
     cursor: pointer;
     display: block;
@@ -51,8 +57,9 @@
     width: 6.25%;
     padding-left: 0;
     padding-right: 0;
+    color: #428BCA;
 }
 
-.iconpicker[readonly] {
-    cursor: pointer;
+.iconpicker-group > .iconpicker-field {
+    display: none;
 }

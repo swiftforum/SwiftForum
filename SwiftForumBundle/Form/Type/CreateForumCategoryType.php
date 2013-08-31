@@ -29,7 +29,7 @@ class CreateForumCategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('forumcategory', 'talis_admin_forum_category');
-        $builder->add('iconid', 'integer', array('label' => 'Select Icon', 'required' => false, 'read_only' => true, 'attr' => array('class' => 'iconpicker')));
+        $builder->add('iconid', 'integer', array('label' => 'Select Icon', 'required' => false, 'read_only' => true, 'attr' => array('class' => 'iconpicker-field')));
         $builder->add('Save', 'submit', array('attr' => array('class' => 'btn btn-primary')));
     }
 

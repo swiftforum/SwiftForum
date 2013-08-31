@@ -2,6 +2,9 @@ var IconPicker = (function() {
     function init() {
         var loaded = false;
         var iconPicker = $('.iconpicker');
+        var iconPickerField = $('.iconpicker-field');
+        var iconPickerPreview = $('.iconpicker-preview');
+
         var icons = '';
 
         iconPicker.click( function(e) {
@@ -9,7 +12,7 @@ var IconPicker = (function() {
                 // Load list of icons:
                 $.getJSON('/icons', function(data) {
                     $.each(data, function(key, val) {
-                        icons = icons + '<div class="col-xs-1 icon-picker-col-icon" data-iconid="' + val.id + '" href="#" title="' + val.id + ' : ' + val.name + '"><a class="icon-picker-icon"><i class="' + val.name + '"></i></a></div>';
+                        icons = icons + '<div class="col-xs-1 iconpicker-col-icon" data-iconid="' + val.id + '" title="' + val.id + ' : ' + val.name + '"><i class="' + val.name + '"></i></div>';
                     });
                     loaded = true;
 
@@ -20,10 +23,10 @@ var IconPicker = (function() {
                         html      : true,
                         content   : icons,
                         trigger   : 'manual',
-                        template  : '<div class="popover icon-picker-popover"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>'
+                        template  : '<div class="popover iconpicker-popover"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>'
                     });
                     iconPicker.popover('show');
-                    $('.icon-picker-popover').on('click', '.icon-picker-col-icon', selectIcon);
+                    $('.iconpicker-popover').on('click', '.iconpicker-col-icon', selectIcon);
                 });
             } else {
                 // Show the popover:
@@ -33,14 +36,16 @@ var IconPicker = (function() {
 
         function selectIcon(e) {
             e.preventDefault();
-            $('#icon-selector-preview').html($(this).html());
-            iconPicker.val($(this).data('iconid'));
-            iconPicker.popover('hide');
+            iconPickerPreview.html($(this).html());
+            iconPickerPreview.children('i').addClass('icon-large');
+
+            iconPickerField.val($(this).data('iconid'));
+            iconPicker.popover('toggle');
         }
 
         $('body').on('click', function (e) {
-            if (!iconPicker.is(e.target) && iconPicker.has(e.target).length === 0 && $('.icon-picker-popover').has(e.target).length === 0) {
-                iconPicker.popover('hide');
+            if ($('body > div.iconpicker-popover:visible').length && !iconPicker.is(e.target) && iconPicker.has(e.target).length === 0 && $('.iconpicker-popover').has(e.target).length === 0) {
+                iconPicker.popover('toggle');
             }
         });
     }
