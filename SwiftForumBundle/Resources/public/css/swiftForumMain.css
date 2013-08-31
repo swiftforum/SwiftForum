@@ -22,34 +22,37 @@
     color: #555555;
 }
 
-#icon-selector-list {
-    margin-top:18px;
-    display: none;
+/************ Icon Picker ***********/
+.icon-picker-popover {
+    max-width: 600px;
+    text-align:center;
 }
 
-#icon-selector-list .col-sm-1 a {
-    white-space: nowrap;
+.icon-picker-col-icon:hover {
+    background-color: #D9EDF7;
+}
+
+.icon-picker-col-icon:hover > a {
+    color:#2A6496;
+}
+
+.icon-picker-col-icon > a:hover {
+    text-decoration: none;
+}
+
+.col-xs-1.icon-picker-col-icon {
     border-radius: 6px 6px 6px 6px;
     cursor: pointer;
     display: block;
-    height: 40px;
-    line-height: 40px;
-    /*padding-left: 10px;*/
+    height: 25px;
+    line-height: 25px;
     text-align: center;
+    text-decoration: none;
+    width: 6.25%;
+    padding-left: 0;
+    padding-right: 0;
 }
 
-#icon-selector-list .col-sm-1 a:hover {
-    background-color: #d9edf7;
+.iconpicker[readonly] {
+    cursor: pointer;
 }
-
-/*.btn-login {*/
-    /*background-color: #f3ca78;*/
-    /*color: #000000;*/
-/*}*/
-
-/*.btn-register {*/
-    /*margin-left: 5px;*/
-    /*background-color: #0077b3;*/
-    /*color: #FFFFFF;*/
-/*}*/
-

@@ -30,8 +30,8 @@ class IconsRepository extends EntityRepository
         return $this->createQueryBuilder('i')
             ->orderBy('i.id', 'asc')
             ->getQuery()
-            ->useQueryCache(true)
-            ->setResultCacheId('icons')
+            ->useResultCache(true, null, 'icons')
             ->getResult();
+
     }
 }

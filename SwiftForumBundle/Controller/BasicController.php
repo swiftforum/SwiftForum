@@ -10,10 +10,10 @@
 
 namespace Talis\SwiftForumBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Talis\SwiftForumBundle\Controller\BaseController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
 
 /**
  * The BasicController offers access to easily cachable, non-user/auth related content, such as providing a JSON-list of
@@ -31,17 +31,20 @@ class BasicController extends BaseController
      */
     public function iconsAction()
     {
+        /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
 
-        if($this->getDoctrine()->getManager()->getConfiguration()->getResultCacheImpl()->contains('icons')) {
-            $icons = $this->getDoctrine()->getManager()->getConfiguration()->getResultCacheImpl()->fetch('icons');
+        if($em->getConfiguration()->getResultCacheImpl()->contains('icons')) {
+            // Load from cache
+            $iconsCache = $em->getConfiguration()->getResultCacheImpl()->fetch('icons');
+            $icons = current($iconsCache);
         } else {
+            // Load from DB
             $icons = $em->getRepository($this->getNameSpace() . ':Icons')
                 ->getIcons();
         }
 
-        $response = new JsonResponse();
-        $response->setData($icons);
+        $response = new JsonResponse($icons);
 
         $response->setCache(array(
             'etag'          => md5($response->getContent()),
