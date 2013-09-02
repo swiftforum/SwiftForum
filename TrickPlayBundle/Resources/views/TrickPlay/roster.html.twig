@@ -1,58 +1,60 @@
 {% extends "TalisTrickPlayBundle::base.html.twig" %}
-
 {% block subtitle %}Roster{% endblock %}
+
 {% block content %}
-    <div class="page-header">
-        <h1>TrickPlay member roster</h1>
-    </div>
 
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>Username</th>
-            <th>Rank</th>
-            <th>Primary Char</th>
-            <th>Primary Job</th>
-            <th>Secondary Job</th>
-            <th>Primary Craft</th>
-            <th>Secondary Craft</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for userArray in users %}
-            {% for user in userArray %}
-                <tr class="roster-user" data-role="{{ user.user.role.role }}" data-username="{{ user.user.username }}" data-editable="{{ user.editable }}" data-id="{{ user.user.id }}">
-                    <td>{{ loop.parent.loop.index0 + loop.index }}</td>
-                    <td>{{ user.user.username|trans|e }}</td>
-                    <td class="roster-role">{{ user.user.role.name|e }}</td>
-                    <td>{{ user.character.charname|default('')|e }}</td>
-                    <td>{{ user.character.charjobprimary|default('')|e }}</td>
-                    <td>{{ user.character.charjobsecondary|default('')|e }}</td>
-                    <td>{{ user.character.charprofprimary|default('')|e }}</td>
-                    <td>{{ user.character.charprofsecondary|default('')|e }}</td>
-                </tr>
-            {% endfor %}
-        {% endfor %}
+<div class="page-header">
+  <ul class="nav nav-pills pull-right">
+    <li><a href="#">All (40)</a></li>
+    <li class="dropdown">
+      <a href="#" data-toggle="dropdown">Jobs (26) <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li class="dropdown-header">Physical</li>
+        <li><a href="#">Bard (7)</a></li>
+        <li><a href="#">Dragoon (8)</a></li>
+        <li><a href="#">Monk (3)</a></li>
+        <li><a href="#">Paladin (1)</a></li>
+        <li><a href="#">Warrior (1)</a></li>
+        <li class="divider"></li>
+        <li class="dropdown-header">Magic</li>
+        <li><a href="#">Black Mage</a></li>
+        <li><a href="#">Scholar</a></li>
+        <li><a href="#">Summoner</a></li>
+        <li><a href="#">White Mage</a></li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a href="#" data-toggle="dropdown">Professions (10) <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li class="dropdown-header">Crafting</li>
+        <li><a href="#">Bard (7)</a></li>
+        <li><a href="#">Dragoon (8)</a></li>
+        <li><a href="#">Monk (3)</a></li>
+        <li><a href="#">Paladin (1)</a></li>
+        <li><a href="#">Warrior (1)</a></li>
+        <li class="divider"></li>
+        <li class="dropdown-header">Gathering</li>
+        <li><a href="#">Black Mage</a></li>
+        <li><a href="#">Scholar</a></li>
+        <li><a href="#">Summoner</a></li>
+        <li><a href="#">White Mage</a></li>
+      </ul>
+    </li>
+  </ul>
+  <h1>Members</h1>
+</div>
 
-        </tbody>
-    </table>
+<table class="table">
+  <tr>
+    <th>Character</th>
+    <th>Jobs</th>
+    <th>Professions</th>
+  </tr>
+  <tr>
+    <td>Cat Puncher (Officer)</td>
+    <td>WHM (50)</td>
+    <td>Fishing (17)</td>
+  </tr>
+</table>
 
-    {% include "TalisTrickPlayBundle:TrickPlay:_editor.html.twig" %}
-{% endblock %}
-
-{% block javascripts %}
-    {% javascripts '@TalisTrickPlayBundle/Resources/public/js/roster.js' %}
-        <script type="text/javascript" src="{{ truepath~asset_url }}"></script>
-    {% endjavascripts %}
-
-    <script>
-        RosterEditor.init({{rosterEditable|default('false')}}, {
-            ROLE_ADMIN: "{{availableRanks.ROLE_ADMIN}}",
-            ROLE_OFFICER: "{{availableRanks.ROLE_OFFICER}}",
-            ROLE_MEMBER: "{{availableRanks.ROLE_MEMBER}}",
-            ROLE_GUEST: "{{availableRanks.ROLE_GUEST}}",
-            ROLE_BANNED: "{{availableRanks.ROLE_BANNED}}"
-        });
-    </script>
 {% endblock %}
