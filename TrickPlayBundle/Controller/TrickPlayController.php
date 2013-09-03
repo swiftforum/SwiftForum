@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Talis\SwiftForumBundle\Model\User;
-use Talis\TrickPlayBundle\Lodestone;
+use Talis\TrickPlayBundle\Entity\LodestoneCharacter;
 
 /**
  * Description

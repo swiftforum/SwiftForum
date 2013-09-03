@@ -5,16 +5,16 @@
 
 <div class="page-header">
   <ul class="nav nav-pills pull-right">
-    <li><a href="#">All (40)</a></li>
+    <li class="active"><a href="#">By Rank</a></li>
     <li class="dropdown">
-      <a href="#" data-toggle="dropdown">Jobs (26) <span class="caret"></span></a>
+      <a href="#" data-toggle="dropdown">By Job <span class="caret"></span></a>
       <ul class="dropdown-menu">
         <li class="dropdown-header">Physical</li>
-        <li><a href="#"><span class="fficon-bard"></span> Bard (7)</a></li>
-        <li><a href="#"><span class="fficon-dragoon"></span> Dragoon (8)</a></li>
-        <li><a href="#"><span class="fficon-monk"></span> Monk (3)</a></li>
-        <li><a href="#"><span class="fficon-paladin"></span> Paladin (1)</a></li>
-        <li><a href="#"><span class="fficon-warrior"></span> Warrior (1)</a></li>
+        <li><a href="#"><span class="fficon-bard"></span> Bard (5)</a></li>
+        <li><a href="#"><span class="fficon-dragoon"></span> Dragoon (5)</a></li>
+        <li><a href="#"><span class="fficon-monk"></span> Monk (7)</a></li>
+        <li><a href="#"><span class="fficon-paladin"></span> Paladin</a></li>
+        <li><a href="#"><span class="fficon-warrior"></span> Warrior</a></li>
         <li class="divider"></li>
         <li class="dropdown-header">Magic</li>
         <li><a href="#"><span class="fficon-blackmage"></span> Black Mage</a></li>
@@ -24,7 +24,7 @@
       </ul>
     </li>
     <li class="dropdown">
-      <a href="#" data-toggle="dropdown">Professions (10) <span class="caret"></span></a>
+      <a href="#" data-toggle="dropdown">By Profession <span class="caret"></span></a>
       <ul class="dropdown-menu">
         <li class="dropdown-header">Crafting</li>
         <li><a href="#"><span class="fficon-alchemist"></span> Alchemist</a></li>
@@ -43,15 +43,17 @@
       </ul>
     </li>
   </ul>
-  <h1>Members</h1>
+  <h1>{{ members|length }} Members</h1>
 </div>
 
 <table class="table" style="background-color: #fff">
   <tr>
     <th width="30"></th>
     <th>Character</th>
-    <th>Main Jobs</th>
-    <th>Main Professions</th>
+    <th>Main Jobs <a href="#" data-toggle="tooltip" title="A character's highest level jobs"><span class="icon-question-sign"></span></a></th>
+    <th>Main Professions <a href="#" data-toggle="tooltip" title="A character's highest level professions"><span class="icon-question-sign"></span></a></th>
+    <th width="200">Secondary Jobs</th>
+    <th width="200">Secondary Professions</th>
   </tr>
 
   {% for member in members %}
@@ -59,92 +61,37 @@
       <td><img src="{{ member.picture }}"/></td>
       <td><strong>{{ member.name }} (Officer)</strong><br/> Plays weekends</td>
       <td>
-        {% for job, level in member.jobs %}
+        {% for job, level in member.mainJobs %}
         <span class="fficon-{{ job }}"></span> {{ level }} {{ job|capitalize }}
+        <br/>
         {% endfor %}
       </td>
       <td>
-        {% for profession, level in member.professions %}
+        {% for profession, level in member.mainProfessions %}
         <span class="fficon-{{ profession }}"></span> {{ level }} {{ profession|capitalize }}
+        <br/>
+        {% endfor %}
+      </td>
+      <td>
+        {% for job, level in member.secondaryJobs %}
+        <span class="fficon-{{ job }}"></span> {{ level }}
+        {% endfor %}
+      </td>
+      <td>
+        {% for profession, level in member.secondaryProfessions %}
+        <span class="fficon-{{ profession }}"></span> {{ level }}
         {% endfor %}
       </td>
     </tr>
   {% endfor %}
-
-  <tr>
-    <td><img src="http://img2.finalfantasyxiv.com/f/327f7afe2a9540e1763de18c3eb8202c_b937560c841465f7c4bc8eb47ea7948afc0_50x50.jpg?1378100268" width="30" height="30" style="border: 2px"/></td>
-    <td>Cat Puncher</td>
-    <td>Officer</td>
-    <td style="font-size: 1.1em">
-      <span class="fficon-bard"></span><strong>50</strong>
-      <span style="width: 5px; display: inline-block"></span>
-      <span class="fficon-dragoon"></span><strong>50</strong>
-      <span style="width: 5px; display: inline-block"></span>
-      <span class="fficon-alchemist"></span><span style="color: #aaa">32</span>
-      <span style="width: 5px; display: inline-block"></span>
-      <span class="fficon-armorer"></span><span style="color: #aaa">32</span>
-      <span style="width: 5px; display: inline-block"></span>
-      <span class="fficon-blacksmith"></span><span style="color: #aaa">11</span>
-      <span style="width: 5px; display: inline-block"></span>
-      <span class="fficon-carpenter"></span><span style="color: #aaa">10</span>
-      <span style="width: 5px; display: inline-block"></span>
-      <span class="fficon-culinarian"></span><span style="color: #aaa">1</span>
-    </td>
-  </tr>
-  <tr>
-    <td><img src="http://img2.finalfantasyxiv.com/f/327f7afe2a9540e1763de18c3eb8202c_b937560c841465f7c4bc8eb47ea7948afc0_50x50.jpg?1378100268" width="30" height="30" style="border: 2px"/></td>
-    <td>Cat Puncher</td>
-    <td>Officer</td>
-    <td style="font-size: 1.1em">
-      <span class="fficon-bard"></span><strong>50</strong>
-      <span style="width: 5px; display: inline-block"></span>
-      <span class="fficon-dragoon"></span><strong>50</strong>
-      <span style="width: 5px; display: inline-block"></span>
-      <span class="fficon-alchemist"></span><span style="color: #aaa">32</span>
-      <span style="width: 5px; display: inline-block"></span>
-      <span class="fficon-armorer"></span><span style="color: #aaa">32</span>
-      <span style="width: 5px; display: inline-block"></span>
-      <span class="fficon-blacksmith"></span><span style="color: #aaa">11</span>
-      <span style="width: 5px; display: inline-block"></span>
-      <span class="fficon-carpenter"></span><span style="color: #aaa">10</span>
-      <span style="width: 5px; display: inline-block"></span>
-      <span class="fficon-culinarian"></span><span style="color: #aaa">1</span>
-    </td>
-  </tr>
-  <tr>
-    <td><img src="http://img2.finalfantasyxiv.com/f/327f7afe2a9540e1763de18c3eb8202c_b937560c841465f7c4bc8eb47ea7948afc0_50x50.jpg?1378100268" width="30" height="30" style="border: 2px"/></td>
-    <td>Cat Puncher</td>
-    <td>Officer</td>
-    <td style="font-size: 1.1em">
-      <span class="fficon-whitemage"></span> WHM
-      <span style="width: 5px; display: inline-block"></span>
-      <span class="fficon-dragoon"></span> DRG
-      <span style="width: 5px; display: inline-block"></span>
-      <span class="fficon-carpenter"></span><span style="color: #aaa">CRP (7)</span>
-      <span style="width: 5px; display: inline-block"></span>
-      <span class="fficon-culinarian"></span><span style="color: #aaa">CLN (8)</span>
-    </td>
-  </tr>
-  <tr>
-    <td><img src="http://img2.finalfantasyxiv.com/f/327f7afe2a9540e1763de18c3eb8202c_b937560c841465f7c4bc8eb47ea7948afc0_50x50.jpg?1378100268" width="30" height="30" style="border: 2px"/></td>
-    <td>Cat Puncher</td>
-    <td>Officer</td>
-    <td style="font-size: 1.1em">
-      <span class="fficon-whitemage"></span> 50 WHM
-      <span style="width: 5px; display: inline-block"></span>
-      <span class="fficon-dragoon"></span> 50 DRG
-    </td>
-  </tr>
-  <tr>
-    <td><img src="http://img2.finalfantasyxiv.com/f/327f7afe2a9540e1763de18c3eb8202c_b937560c841465f7c4bc8eb47ea7948afc0_50x50.jpg?1378100268" width="30" height="30" style="border: 2px"/></td>
-    <td>Cat Puncher</td>
-    <td>Officer</td>
-    <td style="font-size: 1.1em">
-      <span class="fficon-whitemage"></span> 50 White Mage
-      <span style="width: 5px; display: inline-block"></span>
-      <span class="fficon-monk"></span> 50 Monk
-    </td>
-  </tr>
 </table>
+
+{% endblock %}
+
+{% block javascripts %}
+
+<script>
+$("[data-toggle=tooltip]").tooltip();
+</script>
 
 {% endblock %}

@@ -223,6 +223,57 @@ class LodestoneCharacter
         return "http://na.finalfantasyxiv.com/lodestone/character/" . urlencode($this->id);
     }
 
+    // Only show highest level jobs
+    public function getMainJobs()
+    {
+        $jobs = $this->getJobs();
+        if (empty($jobs)) return array();
+
+        $result = array();
+        $highestLevel = null;
+
+        foreach ($jobs as $name => $level) {
+            if (!$highestLevel) $highestLevel = $level;
+            if ($level >= $highestLevel) $result[$name] = $level;
+        }
+
+        return $result;
+    }
+
+    // Only show non-main jobs
+    public function getSecondaryJobs()
+    {
+        $jobs = $this->getJobs();
+        $mainJobs = $this->getMainJobs();
+        return array_diff($jobs, $mainJobs);
+    }
+
+    // Only show non-main professions
+    public function getSecondaryProfessions()
+    {
+        $professions = $this->getProfessions();
+        $mainProfessions = $this->getMainProfessions();
+        return array_diff($professions, $mainProfessions);
+    }
+
+    // Only show highest level professions
+    public function getMainProfessions()
+    {
+        $professions = $this->getProfessions();
+        if (empty($professions)) return array();
+
+        $result = array();
+        $highestLevel = null;
+
+        foreach ($professions as $name => $level) {
+            if (!$highestLevel) $highestLevel = $level;
+            if ($level >= $highestLevel) $result[$name] = $level;
+        }
+
+        return $result;
+    }
+
+    // Show jobs, sorted by highest to lowest
     public function getJobs()
     {
         $classes = $this->getClasses();
@@ -239,6 +290,7 @@ class LodestoneCharacter
         return $jobs;
     }
 
+    // Show classes, sorted by highest to lowest
     public function getClasses()
     {
         $classes = array();
@@ -250,6 +302,7 @@ class LodestoneCharacter
         return $classes;
     }
 
+    // Show professions, sorted by highest to lowest
     public function getProfessions()
     {
         $professions = array();
