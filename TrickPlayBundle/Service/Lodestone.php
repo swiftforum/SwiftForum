@@ -67,13 +67,13 @@ class Lodestone
       // Left column
       $name = $columns->first()->text();
       $level = $columns->eq(1)->text();
-      $result[$name] = ($level == "-") ? null : $level;
+      $result[$name] = ($level == "-" || $level == "1") ? null : $level;
 
       // Right column
       if (count($columns) < 5) return;
       $name = $columns->eq(3)->text();
       $level = $columns->eq(4)->text();
-      $result[$name] = ($level == "-") ? null : $level;
+      $result[$name] = ($level == "-" || $level == "1") ? null : $level;
     });
 
     return $result;

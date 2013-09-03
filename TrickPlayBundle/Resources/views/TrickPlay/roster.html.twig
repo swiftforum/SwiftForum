@@ -46,12 +46,12 @@
   <h1>{{ members|length }} Members</h1>
 </div>
 
-<table class="table" style="background-color: #fff">
+<table class="table table-striped" style="background-color: #fff">
   <tr>
     <th width="30"></th>
     <th>Character</th>
-    <th>Main Jobs <a href="#" data-toggle="tooltip" title="A character's highest level jobs"><span class="icon-question-sign"></span></a></th>
-    <th>Main Professions <a href="#" data-toggle="tooltip" title="A character's highest level professions"><span class="icon-question-sign"></span></a></th>
+    <th>Main Jobs <span style="cursor:pointer" data-toggle="tooltip" title="A character's highest level jobs"><span class="icon-question-sign"></span></a></th>
+    <th>Main Professions <span style="cursor:pointer" data-toggle="tooltip" title="A character's highest level professions"><span class="icon-question-sign"></span></a></th>
     <th width="200">Secondary Jobs</th>
     <th width="200">Secondary Professions</th>
   </tr>
@@ -62,24 +62,24 @@
       <td><strong>{{ member.name }} (Officer)</strong><br/> Plays weekends</td>
       <td>
         {% for job, level in member.mainJobs %}
-        <span class="fficon-{{ job }}"></span> {{ level }} {{ job|capitalize }}
+        <span style="cursor: pointer" data-toggle="tooltip" title="Level {{ level }} {{ job|capitalize }}"><span class="fficon-{{ job }}"></span> {{ level }} {{ job|capitalize }}</span>
         <br/>
         {% endfor %}
       </td>
       <td>
         {% for profession, level in member.mainProfessions %}
-        <span class="fficon-{{ profession }}"></span> {{ level }} {{ profession|capitalize }}
+        <span style="cursor: pointer" data-toggle="tooltip" title="Level {{ level }} {{ profession|capitalize }}"><span class="fficon-{{ profession }}"></span> {{ level }} {{ profession|capitalize }}</span>
         <br/>
         {% endfor %}
       </td>
-      <td>
+      <td class="text-muted">
         {% for job, level in member.secondaryJobs %}
-        <span class="fficon-{{ job }}"></span> {{ level }}
+        <span style="min-width:40px; display: inline-block; cursor: pointer" data-toggle="tooltip" title="Level {{ level }} {{ job|capitalize }}"><span class="fficon-{{ job }}"></span> {{ level }}</span>
         {% endfor %}
       </td>
-      <td>
+      <td class="text-muted">
         {% for profession, level in member.secondaryProfessions %}
-        <span class="fficon-{{ profession }}"></span> {{ level }}
+        <span style="min-width:40px; display: inline-block; cursor: pointer" data-toggle="tooltip" title="Level {{ level }} {{ profession|capitalize }}"><span class="fficon-{{ profession }}"></span> {{ level }}</span></span>
         {% endfor %}
       </td>
     </tr>
