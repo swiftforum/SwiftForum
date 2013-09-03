@@ -50,9 +50,31 @@
   <tr>
     <th width="30"></th>
     <th>Character</th>
-    <th>Rank</th>
-    <th>Jobs</th>
+    <th>Main Jobs</th>
+    <th>Main Professions</th>
   </tr>
+
+  {% for member in members %}
+    <tr>
+      <td><img src="{{ member.picture }}"/></td>
+      <td><strong>{{ member.name }} (Officer)</strong><br/> Plays weekends</td>
+      <td style="font-size: 1.1em">
+        <span class="fficon-bard"></span> 31 Bard
+        <span style="width: 5px; display: inline-block"></span>
+        <span class="fficon-dragoon"></span> 40 Dragoon
+      </td>
+      <td style="font-size: 1.1em">
+        <span class="fficon-bard"></span> 31 Bard
+        <span style="width: 5px; display: inline-block"></span>
+        <span class="fficon-dragoon"></span> 40 Dragoon
+        <br/>
+        <span class="fficon-bard"></span> 31 Bard
+        <span style="width: 5px; display: inline-block"></span>
+        <span class="fficon-dragoon"></span> 40 Dragoon
+      </td>
+    </tr>
+  {% endfor %}
+
   <tr>
     <td><img src="http://img2.finalfantasyxiv.com/f/327f7afe2a9540e1763de18c3eb8202c_b937560c841465f7c4bc8eb47ea7948afc0_50x50.jpg?1378100268" width="30" height="30" style="border: 2px"/></td>
     <td>Cat Puncher</td>

@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Talis\SwiftForumBundle\Model\User;
+use Talis\TrickPlayBundle\Lodestone;
 
 /**
  * Description
@@ -66,61 +67,10 @@ class TrickPlayController extends Controller
      */
     public function rosterAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $role_map = $this->get('security.role_hierarchy')->getMap();
-
-        $currentUser = $this->get('security.context')->getToken()->getUser();
-        $currentUserRole = ($currentUser && gettype($currentUser) == "object" && $currentUser->getRole()) ? $currentUser->getRole()->getRole() : "ROLE_GUEST";
-        $rolesUnder = isset($role_map[$currentUserRole]) ? $role_map[$currentUserRole] : array();
-
-        $users = $em->getRepository('TalisTrickPlayBundle:User')->findAll();
-        $userMembers = array();
-
-        // Can only edit roster if higher than Member
-        $rosterEditable = in_array("ROLE_MEMBER", $rolesUnder);
-
-        // Can only select ranks that are below
-        $availableRanks = array(
-            "ROLE_ADMIN" => in_array("ROLE_ADMIN", $rolesUnder) ? $em->getRepository('TalisTrickPlayBundle:Role')->getByIdentifier("ROLE_ADMIN")->getName() : null,
-            "ROLE_OFFICER" => in_array("ROLE_OFFICER", $rolesUnder) ? $em->getRepository('TalisTrickPlayBundle:Role')->getByIdentifier("ROLE_OFFICER")->getName() : null,
-            "ROLE_MEMBER" => in_array("ROLE_MEMBER", $rolesUnder) ? $em->getRepository('TalisTrickPlayBundle:Role')->getByIdentifier("ROLE_MEMBER")->getName() : null,
-            "ROLE_GUEST" => in_array("ROLE_GUEST", $rolesUnder) ? $em->getRepository('TalisTrickPlayBundle:Role')->getByIdentifier("ROLE_GUEST")->getName() : null,
-            "ROLE_BANNED" => in_array("ROLE_BANNED", $rolesUnder) ? $em->getRepository('TalisTrickPlayBundle:Role')->getByIdentifier("ROLE_BANNED")->getName() : null
-        );
-
-        /** @var User $user */
-        foreach($users as $user) {
-
-            // Only display member and higher
-            if ( isset($role_map[$user->getRole()->getRole()]) &&
-                (   $user->getRole()->getRole() === 'ROLE_MEMBER' ||
-                    in_array('ROLE_MEMBER', $role_map[$user->getRole()->getRole()])
-                ) ) {
-
-                $userRole = $user->getRole()->getRole();
-                $character = $em->getRepository('TalisTrickPlayBundle:Character')
-                    ->findOneBy(array('user' => $user, 'isPrimary' => true));
-
-                // Can only edit users whose role is under the current user's
-                $editable = in_array($userRole, $rolesUnder);
-
-                if($character) {
-                    $userMembers[count($role_map[$userRole])][] = array('user' => $user, "editable" => $editable, 'character' => $character);
-                } else {
-                    $userMembers[count($role_map[$userRole])][] = array('user' => $user, "editable" => $editable);
-                }
-
-                unset($character);
-            }
-        }
-
-        ksort($userMembers);
-        $userMembers = array_reverse($userMembers);
+        $members = Lodestone::getFreeCompany("9232238498621162490")["members"];
 
         return $this->render('TalisTrickPlayBundle:TrickPlay:roster.html.twig', array(
-            'users' => $userMembers,
-            "rosterEditable" => $rosterEditable,
-            "availableRanks" => $availableRanks
+            "members" => $members
         ));
     }
 }
