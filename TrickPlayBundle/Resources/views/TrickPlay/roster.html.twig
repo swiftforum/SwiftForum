@@ -58,19 +58,15 @@
     <tr>
       <td><img src="{{ member.picture }}"/></td>
       <td><strong>{{ member.name }} (Officer)</strong><br/> Plays weekends</td>
-      <td style="font-size: 1.1em">
-        <span class="fficon-bard"></span> 31 Bard
-        <span style="width: 5px; display: inline-block"></span>
-        <span class="fficon-dragoon"></span> 40 Dragoon
+      <td>
+        {% for job, level in member.jobs %}
+        <span class="fficon-{{ job }}"></span> {{ level }} {{ job|capitalize }}
+        {% endfor %}
       </td>
-      <td style="font-size: 1.1em">
-        <span class="fficon-bard"></span> 31 Bard
-        <span style="width: 5px; display: inline-block"></span>
-        <span class="fficon-dragoon"></span> 40 Dragoon
-        <br/>
-        <span class="fficon-bard"></span> 31 Bard
-        <span style="width: 5px; display: inline-block"></span>
-        <span class="fficon-dragoon"></span> 40 Dragoon
+      <td>
+        {% for profession, level in member.professions %}
+        <span class="fficon-{{ profession }}"></span> {{ level }} {{ profession|capitalize }}
+        {% endfor %}
       </td>
     </tr>
   {% endfor %}

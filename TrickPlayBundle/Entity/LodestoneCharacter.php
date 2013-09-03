@@ -226,25 +226,14 @@ class LodestoneCharacter
     public function getJobs()
     {
         $classes = $this->getClasses();
+        $jobs = array();
 
-        $REQUIREMENTS = array(
-            "bard" => array("archer", "pugilist"),
-            "dragoon" => array("lancer", "marauder"),
-            "monk" => array("pugilist", "lancer"),
-            "paladin" => array("gladiator", "conjurer"),
-            "warrior" => array("marauder", "gladiator"),
-            "blackmage" => array("thaumaturge", "arcanist"),
-            "scholar" => array("arcanist", "conjurer"),
-            "summoner" => array("arcanist", "thaumaturge"),
-            "whitemage" => array("conjurer", "arcanist")
-        );
-
-        $jobs = (array_map(function($requirement)
-        {
-            $main = $this[$requirement[0]];
-            $secondary = $this[$requirement[1]];
-            return ($main >= 30 && $secondary >= 15) ? $main : null;
-        }, $REQUIREMENTS));
+        foreach (self::$JOB_REQUIREMENTS as $name => $requirement) {
+            $main = $this->$requirement[0];
+            $secondary = $this->$requirement[1];
+            $level = ($main >= 30 && $secondary >= 15) ? $main : null;
+            if ($level) $jobs[$name] = $level;
+        }
 
         arsort($jobs);
         return $jobs;
@@ -252,14 +241,22 @@ class LodestoneCharacter
 
     public function getClasses()
     {
-        $classes = array_map(function($name) { return $this[$name]; }, self::$CLASSES);
+        $classes = array();
+        foreach (self::$CLASSES as $name) {
+            if ($this->$name) $classes[$name] = $this->$name;
+        }
+
         arsort($classes);
         return $classes;
     }
 
     public function getProfessions()
     {
-        $professions = array_map(function($name) { return $this[$name]; }, self::$PROFESSIONS);
+        $professions = array();
+        foreach (self::$PROFESSIONS as $name) {
+            if ($this->$name) $professions[$name] = $this->$name;
+        }
+
         arsort($professions);
         return $professions;
     }
