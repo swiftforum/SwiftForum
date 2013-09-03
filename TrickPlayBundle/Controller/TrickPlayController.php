@@ -67,7 +67,8 @@ class TrickPlayController extends Controller
      */
     public function rosterAction()
     {
-        $members = Lodestone::getFreeCompany("9232238498621162490")["members"];
+        $em = $this->get("Doctrine")->getManager();
+        $members = $em->getRepository('TalisTrickPlayBundle:LodestoneCharacter')->findAll();
 
         return $this->render('TalisTrickPlayBundle:TrickPlay:roster.html.twig', array(
             "members" => $members

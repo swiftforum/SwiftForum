@@ -1,6 +1,6 @@
 <?php
 
-namespace Talis\TrickPlayBundle;
+namespace Talis\TrickPlayBundle\Service;
 use Symfony\Component\DomCrawler\Crawler;
 
 class Lodestone
@@ -11,14 +11,14 @@ class Lodestone
 
   // Searches for companies
   // Return a max. of 5 results
-  public static function searchFreeCompanies($name)
+  public function searchFreeCompanies($name)
   {
     $url = "/freecompany/?q=" . urlencode($name) . "&worldname=" . urlencode(self::WORLD);
     return self::parseFreeCompanySearch(self::getWebpage($url));
   }
 
   // Return free company data
-  public static function getFreeCompany($id)
+  public function getFreeCompany($id)
   {
     $url = "/freecompany/" . urlencode($id);
     $company = self::parseFreeCompany(self::getWebpage($url));
@@ -38,14 +38,14 @@ class Lodestone
 
   // Searches for characters
   // Return a max. of 5 results
-  public static function searchCharacters($name)
+  public function searchCharacters($name)
   {
     $url = "/character?q=" . urlencode($name) . "&worldname=" . urlencode(self::WORLD);
     return self::parseCharacterSearch(self::getWebpage($url));
   }
 
   // Return character data
-  public static function getCharacter($id)
+  public function getCharacter($id)
   {
     $url = "/character/" . urlencode($id);
     $character = self::parseCharacter(self::getWebpage($url));

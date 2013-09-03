@@ -10,7 +10,7 @@ class LodestoneCharacterCommand extends Command
 {
     protected function configure()
     {
-        $this->setName('trickplay:lodestone:character')->setDescription('Updates a character data');
+        $this->setName('lodestone:character')->setDescription('Updates a character data');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
