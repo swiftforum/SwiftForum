@@ -19,10 +19,21 @@ class User extends BaseUser implements AdvancedUserInterface, \Serializable
      */
     private $characters;
 
+    /**
+     * @ORM\OneToOne(targetEntity="LodestoneCharacter", mappedBy="user")
+     */
+    private $character;
+
     public function __construct()
     {
         parent::__construct();
         $this->characters = new ArrayCollection();
+    }
+
+    // Get character
+    public function getCharacter()
+    {
+        return $this->character;
     }
 
     /**
@@ -33,6 +44,13 @@ class User extends BaseUser implements AdvancedUserInterface, \Serializable
     public function getUrl()
     {
         return "/roster";
+    }
+
+    // Return avatar (overwrite)
+    public function getAvatar($size = 20)
+    {
+        $character = $this->getcharacter();
+        return $character ? $character->getPicture() : BaseUser::getAvatar($size);
     }
 
     /**
