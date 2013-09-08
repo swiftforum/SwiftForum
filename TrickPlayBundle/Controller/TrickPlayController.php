@@ -17,14 +17,6 @@ use Talis\SwiftForumBundle\Model\User;
 class TrickPlayController extends Controller
 {
     /**
-     * @Route("/guides", name="ffxiv_guides")
-     */
-    public function guideAction()
-    {
-        return $this->render('TalisTrickPlayBundle:TrickPlay:guides.html.twig');
-    }
-
-    /**
      * @Route("/users/{id}/role", name="change_role")
      * @Method({"POST"})
      */
