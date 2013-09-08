@@ -208,6 +208,11 @@ class LodestoneCharacter
         return $this->id;
     }
 
+    public function getUser()
+    {
+        return $this->user;
+    }
+
     public function getName()
     {
         return $this->name;

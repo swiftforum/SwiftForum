@@ -67,11 +67,40 @@ class TrickPlayController extends Controller
      */
     public function rosterAction()
     {
-        $em = $this->get("Doctrine")->getManager();
-        $members = $em->getRepository('TalisTrickPlayBundle:LodestoneCharacter')->findAll();
+        $em = $this->getDoctrine()->getManager();
+        $company = $em->getRepository('TalisTrickPlayBundle:LodestoneFreeCompany')->get();
+        $permissions = $this->get('security.role_hierarchy')->getMap();
+        $characters = $company->getMembers()->toArray();
 
+        // Append metadata to characters
+        $characters = array_map(function($character) use($permissions) {
+            $meta = array("character" => $character);
+            $user = $character->getUser();
+
+            if ($user) {
+                $permissions = ($user->getRole() && isset($permissions[$user->getRole()->getRole()])) ? $permissions[$user->getRole()->getRole()] : array();
+
+                // Rank is only shown if above member
+                $meta["user"] = $user;
+                $meta["rank"] = in_array("ROLE_MEMBER", $permissions) ? $user->getRole()->getName() : null;
+                $meta["power"] = count($permissions);
+            } else {
+                $meta["user"] = null;
+                $meta["rank"] = "Unregistered";
+                $meta["power"] = -1;
+            }
+
+            return $meta;
+        }, $characters);
+
+        // Sort characters by permission level, and then by name
+        usort($characters, function($first, $second) use($permissions) {
+            return ($first["power"] == $second["power"]) ? strcmp($first["character"]->getName(), $second["character"]->getName()) : ($second["power"] - $first["power"]);
+        });
+
+        // Render page
         return $this->render('TalisTrickPlayBundle:TrickPlay:roster.html.twig', array(
-            "members" => $members
+            "members" => $characters
         ));
     }
 }
