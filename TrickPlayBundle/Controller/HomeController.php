@@ -28,8 +28,9 @@ class HomeController extends HomeControllerBase
 
         $em = $this->getDoctrine()->getManager();
         $frontPage = $em->getRepository("TalisTrickPlayBundle:FrontPage")->get();
+        $company = $em->getRepository("TalisTrickPlayBundle:LodestoneFreeCompany")->get();
 
-        return $this->render('TalisTrickPlayBundle:Home:index.html.twig', array("frontPage" => $frontPage, "editable" => $editable));
+        return $this->render('TalisTrickPlayBundle:Home:index.html.twig', array("frontPage" => $frontPage, "editable" => $editable, "company" => $company));
     }
 
     /**
