@@ -89,7 +89,7 @@ class Lodestone
     return array(
       "picture" => $picture,
       "name" => $rows->eq(0)->filter("td.vm span.txt_yellow")->first()->text(),
-      "tag" => trim($rows->eq(0)->filter("td.vm span.txt_yellow")->first()->text(), "«»"),
+      "tag" => preg_replace("/((.*)«)|(»(.*)$)/", "", $rows->eq(0)->filter("td.vm")->first()->text()),
       "size" => $rows->eq(2)->filter("td")->first()->text(),
       "slogan" => $rows->eq(3)->filter("td")->first()->text()
     );
