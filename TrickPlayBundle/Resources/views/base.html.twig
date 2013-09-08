@@ -18,3 +18,12 @@
   <li {% if app.request.uri == url('basic_roster') %}class="active"{% endif %}><a href="{{ path('basic_roster') }}"><i class="icon-group"></i> Members</a></li>
   <li {% if app.request.uri == url('ffxiv_guides') %}class="active"{% endif %}><a href="{{ path('ffxiv_guides') }}"><i class="icon-hand-right"></i>  FFXIV Guides</a></li>
 {% endblock %}
+
+{% block content %}
+    <div class="alert alert-warning">
+        <span class="icon-warning-sign"></span>
+        You have not yet linked your character.
+        Until you do so, you will show up as "unregistered" in the roster.
+        <a href="/editprofile" class="pull-right alert-link">Click here to link</a>
+    </div>
+{% endblock %}

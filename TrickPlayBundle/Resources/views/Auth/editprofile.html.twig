@@ -1,7 +1,9 @@
 {% extends "TalisSwiftForumBundle::base.html.twig" %}
-
 {% block subtitle %}Edit Profile{% endblock %}
+
 {% block content %}
+    {{ parent() }}
+
     <div class="page-header">
         <h1>Edit your {{ tsforum.name }} account</h1>
     </div>
@@ -13,9 +15,11 @@
 
     <div class="row">
         <div class="col-md-6">
-            <h2>Add / Edit your Characters</h2>
-            <h3>Primary Character</h3>
-            {{ form(form) }}
+            <h2>Character</h2>
+            <p class="text-danger">
+                You are not linked to your character
+            </p>
+            <button class="btn btn-primary">Click here to link your character</button>
         </div>
         <div class="col-md-6">
             <h2>Account</h2>
@@ -23,12 +27,12 @@
             <p><strong>E-mail</strong> {{ app.user.email }}</p>
             <p><strong>Role</strong> {{ app.user.role.name }}</p>
             <p>
-                <strong>Avatar</strong> <small><a href="http://en.gravatar.com" target="_blank">(change)</a></small>
+                <strong>Avatar</strong>
                 <br/>
                 <br/>
                 <img src="{{ app.user.avatar(50) }}" width="50" height="50"/>
             </p>
-
         </div>
     </div>
+
 {% endblock %}

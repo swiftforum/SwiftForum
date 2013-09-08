@@ -2,6 +2,7 @@
 
 {% block title %}Welcome to TrickPlay{% endblock %}
 {% block content %}
+    {{ parent() }}
     {% include 'TalisTrickPlayBundle:Home:_company.html.twig' with {'company': company} %}
     <hr/>
     {% include 'TalisTrickPlayBundle:Home:_frontpage.html.twig' with {'frontPage': frontPage, 'editable': editable} %}
