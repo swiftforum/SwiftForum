@@ -1,58 +1,68 @@
 {% extends "TalisTrickPlayBundle::base.html.twig" %}
-
 {% block subtitle %}Roster{% endblock %}
+
 {% block content %}
-    <div class="page-header">
-        <h1>TrickPlay member roster</h1>
-    </div>
+{{ parent() }}
 
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>Username</th>
-            <th>Rank</th>
-            <th>Primary Char</th>
-            <th>Primary Job</th>
-            <th>Secondary Job</th>
-            <th>Primary Craft</th>
-            <th>Secondary Craft</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for userArray in users %}
-            {% for user in userArray %}
-                <tr class="roster-user" data-role="{{ user.user.role.role }}" data-username="{{ user.user.username }}" data-editable="{{ user.editable }}" data-id="{{ user.user.id }}">
-                    <td>{{ loop.parent.loop.index0 + loop.index }}</td>
-                    <td>{{ user.user.username|trans|e }}</td>
-                    <td class="roster-role">{{ user.user.role.name|e }}</td>
-                    <td>{{ user.character.charname|default('')|e }}</td>
-                    <td>{{ user.character.charjobprimary|default('')|e }}</td>
-                    <td>{{ user.character.charjobsecondary|default('')|e }}</td>
-                    <td>{{ user.character.charprofprimary|default('')|e }}</td>
-                    <td>{{ user.character.charprofsecondary|default('')|e }}</td>
-                </tr>
-            {% endfor %}
+<div class="page-header">
+  <h1>{{ members|length }} Members</h1>
+</div>
+
+<table class="table table-striped" style="background-color: #fff">
+  <tr>
+    <th width="30"></th>
+    <th>Character</th>
+    <th>Main Jobs <span style="cursor:pointer" data-toggle="tooltip" title="A character's highest level jobs"><span class="icon-question-sign"></span></a></th>
+    <th>Main Professions <span style="cursor:pointer" data-toggle="tooltip" title="A character's highest level professions"><span class="icon-question-sign"></span></a></th>
+    <th width="200">Secondary Jobs</th>
+    <th width="200">Secondary Professions</th>
+  </tr>
+
+  {% for member in members %}
+    <tr class="{{ member.user ? 'roster-registered' : '' }}" onclick="{{ member.user ? "window.location='#{member.user.url}'" : '' }}">
+      <td><img src="{{ member.character.picture }}"/></td>
+      <td>
+        <strong>
+          {{ member.character.name }} {{ member.rank ? "(#{member.rank})" : "" }}
+        </strong>
+
+        {% if member.user %}
+          <br/>{{ member.user.status }}
+        {% endif %}
+
+      </td>
+      <td>
+        {% for job, level in member.character.mainJobs %}
+        <span style="cursor: pointer" data-toggle="tooltip" title="Level {{ level }} {{ job|capitalize }}"><span class="fficon-{{ job }}"></span> {{ level }} {{ job|capitalize }}</span>
+        <br/>
         {% endfor %}
+      </td>
+      <td>
+        {% for profession, level in member.character.mainProfessions %}
+        <span style="cursor: pointer" data-toggle="tooltip" title="Level {{ level }} {{ profession|capitalize }}"><span class="fficon-{{ profession }}"></span> {{ level }} {{ profession|capitalize }}</span>
+        <br/>
+        {% endfor %}
+      </td>
+      <td class="text-muted">
+        {% for job, level in member.character.secondaryJobs %}
+        <span style="min-width:40px; display: inline-block; cursor: pointer" data-toggle="tooltip" title="Level {{ level }} {{ job|capitalize }}"><span class="fficon-{{ job }}"></span> {{ level }}</span>
+        {% endfor %}
+      </td>
+      <td class="text-muted">
+        {% for profession, level in member.character.secondaryProfessions %}
+        <span style="min-width:40px; display: inline-block; cursor: pointer" data-toggle="tooltip" title="Level {{ level }} {{ profession|capitalize }}"><span class="fficon-{{ profession }}"></span> {{ level }}</span></span>
+        {% endfor %}
+      </td>
+    </tr>
+  {% endfor %}
+</table>
 
-        </tbody>
-    </table>
-
-    {% include "TalisTrickPlayBundle:TrickPlay:_editor.html.twig" %}
 {% endblock %}
 
 {% block javascripts %}
-    {% javascripts '@TalisTrickPlayBundle/Resources/public/js/roster.js' %}
-        <script type="text/javascript" src="{{ truepath~asset_url }}"></script>
-    {% endjavascripts %}
 
-    <script>
-        RosterEditor.init({{rosterEditable|default('false')}}, {
-            ROLE_ADMIN: "{{availableRanks.ROLE_ADMIN}}",
-            ROLE_OFFICER: "{{availableRanks.ROLE_OFFICER}}",
-            ROLE_MEMBER: "{{availableRanks.ROLE_MEMBER}}",
-            ROLE_GUEST: "{{availableRanks.ROLE_GUEST}}",
-            ROLE_BANNED: "{{availableRanks.ROLE_BANNED}}"
-        });
-    </script>
+<script>
+$("[data-toggle=tooltip]").tooltip();
+</script>
+
 {% endblock %}

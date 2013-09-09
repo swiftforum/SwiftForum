@@ -1,0 +1,39 @@
+/* Physical */
+.fficon-gladiator { background-image: url("../images/ff14/gladiator.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+.fficon-pugilist { background-image: url("../images/ff14/pugilist.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+.fficon-marauder { background-image: url("../images/ff14/marauder.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+.fficon-lancer { background-image: url("../images/ff14/lancer.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+.fficon-archer { background-image: url("../images/ff14/archer.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+
+/* Physical (job) */
+.fficon-paladin { background-image: url("../images/ff14/paladin.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+.fficon-monk { background-image: url("../images/ff14/monk.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+.fficon-warrior { background-image: url("../images/ff14/warrior.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+.fficon-dragoon { background-image: url("../images/ff14/dragoon.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+.fficon-bard { background-image: url("../images/ff14/bard.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+
+/* Magic */
+.fficon-conjurer { background-image: url("../images/ff14/conjurer.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+.fficon-thaumaturge { background-image: url("../images/ff14/thaumaturge.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+.fficon-arcanist { background-image: url("../images/ff14/arcanist.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+
+/* Magic (job) */
+.fficon-whitemage { background-image: url("../images/ff14/whitemage.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+.fficon-blackmage { background-image: url("../images/ff14/blackmage.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+.fficon-summoner { background-image: url("../images/ff14/summoner.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+.fficon-scholar { background-image: url("../images/ff14/scholar.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+
+/* Crafting */
+.fficon-carpenter { background-image: url("../images/ff14/carpenter.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+.fficon-blacksmith { background-image: url("../images/ff14/blacksmith.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+.fficon-armorer { background-image: url("../images/ff14/armorer.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+.fficon-goldsmith { background-image: url("../images/ff14/goldsmith.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+.fficon-leatherworker { background-image: url("../images/ff14/leatherworker.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+.fficon-weaver { background-image: url("../images/ff14/weaver.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+.fficon-alchemist { background: url("../images/ff14/alchemist.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+.fficon-culinarian { background-image: url("../images/ff14/culinarian.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+
+/* Gathering */
+.fficon-miner { background-image: url("../images/ff14/miner.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+.fficon-botanist { background-image: url("../images/ff14/botanist.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
+.fficon-fisher { background-image: url("../images/ff14/fisher.png"); width: 1.25em; height: 1.25em; background-size: 100%; display: inline-block; vertical-align: text-bottom; }
