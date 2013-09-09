@@ -20,10 +20,12 @@
 {% endblock %}
 
 {% block content %}
+  {% if is_granted('ROLE_MEMBER') and not app.user.character and app.request.uri != url('auth_edit') %}
     <div class="alert alert-warning">
         <span class="icon-warning-sign"></span>
         You have not yet linked your character.
         Until you do so, you will show up as "unregistered" in the roster.
         <a href="/editprofile" class="pull-right alert-link">Click here to link</a>
     </div>
+  {% endif %}
 {% endblock %}

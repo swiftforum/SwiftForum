@@ -10,7 +10,7 @@ class Lodestone
   const MEMBERS_PER_PAGE = 20;
 
   // Searches for companies
-  // Return a max. of 5 results
+  // Returns first page results only
   public function searchFreeCompanies($name)
   {
     $url = "/freecompany/?q=" . urlencode($name) . "&worldname=" . urlencode(self::WORLD);
@@ -37,7 +37,7 @@ class Lodestone
   }
 
   // Searches for characters
-  // Return a max. of 5 results
+  // Returns first page results only
   public function searchCharacters($name)
   {
     $url = "/character?q=" . urlencode($name) . "&worldname=" . urlencode(self::WORLD);
@@ -59,6 +59,9 @@ class Lodestone
     $crawler = new Crawler($html);
     $levels = $crawler->filter(".base_inner table.class_list tr");
     $result = array();
+
+    $result["name"] = $crawler->filter(".player_name_brown a")->first()->text();
+    $result["picture"] = $crawler->filter(".thumb_cont_black_40 img")->first()->attr("src");
 
     $levels->each(function($node) use (&$result)
     {

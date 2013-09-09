@@ -4,6 +4,7 @@ namespace Talis\TrickPlayBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Talis\SwiftForumBundle\Controller\HomeController as HomeControllerBase;
@@ -35,6 +36,7 @@ class HomeController extends HomeControllerBase
 
     /**
      * @Route("/frontpage", name="edit_frontpage")
+     * @Secure(roles="ROLE_OFFICER")
      * @Method({"POST"})
      */
     public function editFrontpageAction()
@@ -42,11 +44,6 @@ class HomeController extends HomeControllerBase
         $em = $this->getDoctrine()->getManager();
         $markdown = Request::createFromGlobals()->request->get("markdown", "");
         $currentUser = $this->get('security.context')->getToken()->getUser();
-
-        // Only officers or higher can edit frontpage
-        $authorized = gettype($currentUser) == "object" && $currentUser->getRole();
-        $authorized = $authorized && ($currentUser->getRole()->getRole() == "ROLE_OFFICER" || in_array("ROLE_OFFICER", $this->get('security.role_hierarchy')->getPermittedMap($currentUser->getRole()->getRole())));
-        if (!$authorized) return new JsonResponse(array("error" => "Unauthorized action"), 403);
 
         // Update frontpage
         $frontPage = $em->getRepository("TalisTrickPlayBundle:FrontPage")->get();
