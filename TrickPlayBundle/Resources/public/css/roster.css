@@ -1,11 +1,7 @@
-.roster-user {
+.roster-registered {
   cursor: pointer;
 }
 
-.table-striped tr.roster-user:hover td {
+.roster-registered:hover {
   background-color: aliceblue;
-}
-
-li.roster-editor-active a {
-  font-weight: bold;
 }
