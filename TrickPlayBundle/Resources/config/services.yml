@@ -3,3 +3,6 @@ services:
     class: Twig_Extension_Markdown
     tags:
       - { name: twig.extension }
+
+  lodestone:
+    class: Talis\TrickPlayBundle\Service\Lodestone
