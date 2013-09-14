@@ -21,7 +21,7 @@ class LodestoneCharacter
         "monk" => array("pugilist", "lancer"),
         "paladin" => array("gladiator", "conjurer"),
         "warrior" => array("marauder", "gladiator"),
-        "blackmage" => array("thaumaturge", "arcanist"),
+        "blackmage" => array("thaumaturge", "archer"),
         "scholar" => array("arcanist", "conjurer"),
         "summoner" => array("arcanist", "thaumaturge"),
         "whitemage" => array("conjurer", "arcanist")
