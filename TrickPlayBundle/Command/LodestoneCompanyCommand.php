@@ -51,8 +51,9 @@ class LodestoneCompanyCommand extends ContainerAwareCommand
         $memberIds = array_map(function($member) { return $member["id"]; }, $lodestoneData["members"]);
 
         // Strip free company association from non-member characters
-        $query = "UPDATE TalisTrickPlayBundle:LodestoneCharacter SET freeCompany = null WHERE id NOT IN :ids";
-        $em->createQuery($query)->setParameter("ids", $memberIds);
+        $query = "UPDATE TalisTrickPlayBundle:LodestoneCharacter c SET c.freeCompany = null WHERE c.id NOT IN (:ids)";
+        $totalDisassociated = $em->createQuery($query)->setParameter("ids", $memberIds)->getResult();
+        if ($totalDisassociated) $output->writeln($totalDisassociated . " non-members disassociated...");
 
         // Create/update members
         $output->writeln("Saving members...");
