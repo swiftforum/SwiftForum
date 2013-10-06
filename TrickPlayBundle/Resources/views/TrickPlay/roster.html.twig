@@ -5,6 +5,31 @@
 {{ parent() }}
 
 <div class="page-header">
+  <div class="pull-right">
+    <div class="dropdown" style="display: inline-block">
+      <a class="btn btn-primary" href="#" data-toggle="dropdown">Jobs <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        {% for class, count in jobs %}
+          <li><a href="#" onclick="Roster.show('{{ class }}')"><span class="fficon-{{ class }}"></span> {{ class | capitalize }} ({{ count }})</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="dropdown" style="display: inline-block">
+      <a class="btn btn-primary" href="#" data-toggle="dropdown">Professions <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li class="dropdown-header">Crafting</li>
+        {% for class, count in crafting %}
+          <li><a href="#" onclick="Roster.show('{{ class }}')"><span class="fficon-{{ class }}"></span> {{ class | capitalize }} ({{ count }})</a></li>
+        {% endfor %}
+        <li class="dropdown-header">Gathering</li>
+        {% for class, count in gathering %}
+          <li><a href="#" onclick="Roster.show('{{ class }}')"><span class="fficon-{{ class }}"></span> {{ class | capitalize }} ({{ count }})</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
   <h1>{{ members|length }} Members</h1>
 </div>
 
@@ -19,7 +44,7 @@
   </tr>
 
   {% for member in members %}
-    <tr class="{{ member.user ? 'roster-registered' : '' }}" onclick="{{ member.user ? "window.location='#{member.user.url}'" : '' }}">
+    <tr class="{{ member.user ? 'roster-registered' : '' }}{% for class, level in member.character.jobs %} ff-{{ class }}{% endfor %}{% for class, level in member.character.professions %} ff-{{ class }}{% endfor %}" onclick="{{ member.user ? "window.location='#{member.user.url}'" : '' }}">
       <td><img src="{{ member.character.picture }}"/></td>
       <td>
         <strong>
@@ -57,9 +82,30 @@
   {% endfor %}
 </table>
 
+<div class="modal fade" id="browser">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body" style="max-height: 400px; overflow: scroll">
+        <h4>Level 50</h4>
+        <table id="top-entries" class="table table-striped table-condensed"></table>
+        <h4>Under 50</h4>
+        <table id="low-entries" class="table table-striped table-condensed"></table>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
 
 {% block javascripts %}
+
+{% javascripts '@TalisTrickPlayBundle/Resources/public/js/roster.js' %}
+    <script type="text/javascript" src="{{ truepath~asset_url }}"></script>
+{% endjavascripts %}
 
 <script>
 $("[data-toggle=tooltip]").tooltip();
