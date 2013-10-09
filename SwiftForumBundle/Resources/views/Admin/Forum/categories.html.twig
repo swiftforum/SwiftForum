@@ -76,8 +76,10 @@
                     <div class="list-group-item board-list-entry">
                         {% if board.getIcon() is not null %}<i class="{{ board.getIcon().getName() }}"></i> {% endif %}{{ board.getName()|e }}
                         <span class="pull-right">
-                            {% if board.getRole().getName() is not null %}
+                            {% if ( board.getRole() ) and ( board.getRole().getName() is not null ) %}
                                 Access restricted to {{ board.getRole().getName() }}
+                            {% else %}
+                                Unrestricted access
                             {% endif %}
                             ( Pos {{ (board.getPos()) }} )
                             <a href="{{ path('admin_forum_boards_edit', {'id': board.id}) }}"><i class="icon-edit"></i></a>

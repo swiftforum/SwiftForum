@@ -1,18 +1,79 @@
 {% extends "TalisSwiftForumBundle::base.html.twig" %}
-{% block subtitle %}Roster{% endblock %}
+
+{% block subtitle %}Forum{% endblock %}
+
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+            {% for error in errors %}
+                {% if loop.first %}
+                    <div class="col-md-9 form-group">
+                {% else %}
+                    <div class="col-md-2 form-group">
+                {% endif %}
+                <span class="help-block"><i class="icon-exclamation-sign"></i> {{ error.message }}</span></div>
+            {% endfor %}
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_errors %}
 
 {% block content %}
     <div class="page-header">
-        <p>Put stats here later or something</p>
+        <h1>Forums</h1>
     </div>
+
     {% for category in categories %}
-        <div class="panel">
-            <div class="panel-heading">
-                <h3 class="panel-title">{{ category.categoryName }}</h3>
+        {% set boards = category.getBoards() %}
+        {% set validBoard = false %}
+
+        {% for board in boards if ( not board.getRole() ) or (is_granted(board.getRole().getRole()))  %}
+            {% if loop.first %}
+                {% set validBoard = true %}
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <div class="iconshift-headline">{% if category.getIcon() is not null %}<i class="{{ category.getIcon().getName() }}"></i>{% endif %}</div>{{ category.getName()|e }}
+                        </h3>
+                    </div>
+                    <div class="list-group">
+            {% endif %}
+
+            <a href="#" class="list-group-item">
+                <div class="iconshift-content">{% if board.getIcon() is not null %}<i class="{{ board.getIcon().getName() }} iconshift-content"></i>{% endif %}</div>{{ board.getName()|e }}
+            </a>
+            {# <span class="badge">14</span> Badges should be added later for unread posts etc. #}
+
+        {% endfor %}
+
+        {#If validBoard is true, we must close the the category. Unfortunately, we can't use loop.last with conditions.#}
+        {% if validBoard %}
+                </div>
             </div>
-            <div class="panel-body">
-                Panel content
+        {% endif %}
+    {% endfor %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h3 class="panel-title">System</h3>
             </div>
         </div>
-    {% endfor %}
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {% javascripts '@TalisSwiftForumBundle/Resources/public/js/iconpicker.js' %}
+        <script type="text/javascript" src="{{ truepath~asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script>
+        IconPicker.init();
+        $( ".delete").click(function(event) {
+            var response = confirm("Are you sure you want to delete the \"" + $(this).data('catname') + "\" category?");
+            if(response !== true)
+            {
+                event.preventDefault();
+            }
+        })
+    </script>
 {% endblock %}

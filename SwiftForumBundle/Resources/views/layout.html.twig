@@ -51,7 +51,7 @@
                     <ul class="nav navbar-nav">
                         {% block navbar %}
                         {% block navbarCustom %}{% endblock %}
-                        <li><a href="/forum"><i class="icon-comments"></i> Forums</a></li>
+                        <li><a href="{{ path('forum_index') }}"><i class="icon-comments"></i> Forums</a></li>
 
                         {% if  is_granted('ROLE_OFFICER') %}
                             <li class="dropdown">

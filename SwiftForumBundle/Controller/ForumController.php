@@ -36,6 +36,8 @@ class ForumController extends BaseController
         $categories = $db->getRepository($this->getNameSpace() . ':ForumCategory')
             ->getCategories();
 
+
+
         return $this->render('TalisSwiftForumBundle:Forum:index.html.twig', array('categories' => $categories));
     }
 }
