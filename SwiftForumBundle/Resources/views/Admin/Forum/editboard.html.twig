@@ -1,0 +1,87 @@
+{% extends "TalisSwiftForumBundle::base.html.twig" %}
+
+{% block subtitle %}Edit {{ board.getName() }} Forum Board{% endblock %}
+
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+            {% for error in errors %}
+                {% if loop.first %}
+                    <div class="col-md-9 form-group">
+                {% else %}
+                    <div class="col-md-2 form-group">
+                {% endif %}
+                <span class="help-block"><i class="icon-exclamation-sign"></i> {{ error.message }}</span></div>
+            {% endfor %}
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_errors %}
+
+{% block form_widget_compound %}
+    {% spaceless %}
+        {% if form.parent is empty %}
+            {{ form_errors(form) }}
+        {% endif %}
+        {{ block('form_rows') }}
+        {{ form_rest(form) }}
+    {% endspaceless %}
+{% endblock form_widget_compound %}
+
+{% block form_row %}
+    {% spaceless %}
+        {{ form_label(form) }}
+        {{ form_widget(form) }}
+    {% endspaceless %}
+{% endblock form_row %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Edit Board {{ board.getName() }}</h1>
+    </div>
+
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <h3 class="panel-title"><i class="icon-pencil"></i> Edit <b>{{ board.getName()|e }}</b> Forum Board</h3>
+        </div>
+        <div class="panel-body">
+            {% form_theme form _self %}
+            {{ form_start(form) }}
+            {% if form.vars.errors|length > 0 %}
+                <div class="row has-error">
+                    {{ form_errors(form) }}
+                </div>
+            {% endif %}
+
+            <div class="row">
+                <div class="col-md-8 form-group">
+                    <div class="input-group">
+                        <div class="input-group-btn iconpicker-group">
+                            <button type="button" class="btn btn-default dropdown-toggle iconpicker"><span class="iconpicker-preview">{% if board.getIcon() is not null %}<i class="{{ board.getIcon().getName() }} icon-large"></i>{% else %}Icon{% endif %}</span><span class="caret iconpicker-caret"></span></button>
+                            {{ form_widget(form.iconid) }}
+                        </div>
+                        {{ form_label(form.forumboard.name) }}
+                        {{ form_widget(form.forumboard.name) }}
+                    </div>
+                </div>
+                <div class="col-md-3 form-group">
+                    {{ form_widget(form.forumboard.role) }}
+                </div>
+                <div class="col-md-1 form-group">
+                    {{ form_label(form.Save) }}
+                    {{ form_widget(form.Save) }}
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {% javascripts '@TalisSwiftForumBundle/Resources/public/js/iconpicker.js' %}
+        <script type="text/javascript" src="{{ truepath~asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script>
+        IconPicker.init();
+    </script>
+{% endblock %}

@@ -10,36 +10,36 @@
 
 namespace Talis\SwiftForumBundle\Form\Model;
 
-use Talis\SwiftForumBundle\Model\ForumCategory;
+use Talis\SwiftForumBundle\Model\ForumBoard;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\ExecutionContextInterface;
 
 /**
- * Create Forum Category Model
+ * Create Forum Board Model
  *
  * @author Felix Kastner <felix@chapterfain.com>
  */
-class CreateForumCategory
+class CreateForumBoard
 {
     /**
-     * @Assert\Type(type="Talis\SwiftForumBundle\Model\ForumCategory")
+     * @Assert\Type(type="Talis\SwiftForumBundle\Model\ForumBoard")
      * @Assert\Valid()
      */
-    protected $forumCategory;
+    protected $forumBoard;
 
     /**
      * @Assert\Type(type="integer", message="{{ value }} is not a valid {{ type }}.")
      */
     protected $iconId;
 
-    public function setForumCategory(ForumCategory $forumCategory)
+    public function setForumBoard(ForumBoard $forumBoard)
     {
-        $this->forumCategory = $forumCategory;
+        $this->forumBoard = $forumBoard;
     }
 
-    public function getForumCategory()
+    public function getForumBoard()
     {
-        return $this->forumCategory;
+        return $this->forumBoard;
     }
 
     public function setIconId($iconId)

@@ -18,5 +18,19 @@
             <argument>%tsforum%</argument>
             <tag name="form.type" alias="talis_admin_create_forum_category" />
         </service>
+        <service id="talis.form.admin_forum_board_role" class="Talis\SwiftForumBundle\Form\Type\ForumBoardRoleType">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="security.role_hierarchy" />
+            <argument>%tsforum%</argument>
+            <tag name="form.type" alias="talis_admin_forum_board_role" />
+        </service>
+        <service id="talis.form.admin_forum_board" class="Talis\SwiftForumBundle\Form\Type\ForumBoardType">
+            <argument>%tsforum%</argument>
+            <tag name="form.type" alias="talis_admin_forum_board" />
+        </service>
+        <service id="talis.form.admin_create_forum_board" class="Talis\SwiftForumBundle\Form\Type\CreateForumBoardType">
+            <argument>%tsforum%</argument>
+            <tag name="form.type" alias="talis_admin_create_forum_board" />
+        </service>
     </services>
 </container>

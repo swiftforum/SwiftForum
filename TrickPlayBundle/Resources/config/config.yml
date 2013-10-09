@@ -7,5 +7,3 @@ talis_trick_play:
         assetic:
             read_from:  %kernel.root_dir%/../src/Talis/TrickPlayBundle/Resources/public/
             write_to:   %kernel.root_dir%/../web/bundles/talistrickplay/
-            filters:
-                cssrewrite: ~

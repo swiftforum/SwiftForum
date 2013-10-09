@@ -70,17 +70,33 @@
                 </h3>
 
             </div>
-            <div class="panel-body">
-                No Sub-Boards
+            <div class="list-group">
+                {% set boards = category.getBoards() %}
+                {% for board in boards %}
+                    <div class="list-group-item board-list-entry">
+                        {% if board.getIcon() is not null %}<i class="{{ board.getIcon().getName() }}"></i> {% endif %}{{ board.getName()|e }}
+                        <span class="pull-right">
+                            {% if board.getRole().getName() is not null %}
+                                Access restricted to {{ board.getRole().getName() }}
+                            {% endif %}
+                            ( Pos {{ (board.getPos()) }} )
+                            <a href="{{ path('admin_forum_boards_edit', {'id': board.id}) }}"><i class="icon-edit"></i></a>
+                            {#<a href="{{ path('admin_forum_boards_offset', {'direction': 'up', 'category': category.id, 'id': board.id}) }}"><i class="icon-collapse-top"></i></a>#}
+                            {#<a href="{{ path('admin_forum_boards_offset', {'direction': 'down', 'category': category.id, 'id': board.id}) }}"><i class="icon-collapse"></i></a>#}
+                            <a href="{{ path('admin_forum_boards_delete', {'id': board.id}) }}" class="delete" data-catname="{{ board.getName()|e }}"><i class="icon-trash"></i></a>
+                        </span>
+                    </div>
+                    {# <span class="badge">14</span> Badges should be added later for unread posts etc. #}
+                {% endfor %}
+                <a href="{{ path('admin_forum_boards_add', {'categoryId': category.id}) }}" class="list-group-item active">
+                    <i class="icon-plus"></i> Add Board
+                </a>
             </div>
         </div>
     {% endfor %}
         <div class="panel panel-warning">
             <div class="panel-heading">
                 <h3 class="panel-title">System</h3>
-            </div>
-            <div class="panel-body">
-                No Sub-Boards
             </div>
         </div>
 {% endblock %}

@@ -11,37 +11,30 @@
 namespace Talis\SwiftForumBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * Forum Category Type
+ * Create Forum Board Type
  *
  * @author Felix Kastner <felix@chapterfain.com>
  */
-class ForumCategoryType extends AbstractType
+class CreateForumBoardType extends AbstractType
 {
     private $entityPath;
 
-    public function __construct($tsforum) {
-        $this->entityPath = $tsforum['path'];
+    public function __construct($entityPath) {
+        $this->entityPath = $entityPath;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', 'text', array('label' => 'Category Name'));
-    }
-
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults(array(
-                'data_class' => $this->entityPath . '\Entity\ForumCategory',
-            ));
+        $builder->add('forumboard', 'talis_admin_forum_board');
+        $builder->add('iconid', 'integer', array('label' => 'Select Icon', 'required' => false, 'read_only' => true, 'attr' => array('class' => 'iconpicker-field')));
+        $builder->add('Save', 'submit', array('attr' => array('class' => 'btn btn-primary')));
     }
 
     public function getName()
     {
-        return 'talis_admin_forum_category';
+        return 'talis_admin_create_forum_board';
     }
-} 
+}

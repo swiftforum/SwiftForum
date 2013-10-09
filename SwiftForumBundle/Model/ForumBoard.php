@@ -11,25 +11,24 @@
 namespace Talis\SwiftForumBundle\Model;
 
 use Talis\SwiftForumBundle\Model\Icons;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Mapping\OrderBy;
-use Doctrine\ORM\Mapping\OneToMany;
+use Talis\SwiftForumBundle\Model\ForumCategory;
+use Talis\SwiftForumBundle\Model\Role;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Forum Category Entity Superclass
+ * Forum Board Entity Superclass
  *
- * @ORM\Table(name="forumCats")
- * @ORM\Entity(repositoryClass="Talis\SwiftForumBundle\Model\ForumCategoryRepository")
+ * @ORM\Table(name="forumBoards")
+ * @ORM\Entity(repositoryClass="Talis\SwiftForumBundle\Model\ForumBoardRepository")
  * @UniqueEntity(
  *      fields = "name",
- *      message= "A category with this name already exists."
+ *      message= "A board with this name already exists."
  * )
  * @author Felix Kastner <felix@chapterfain.com>
  */
-class ForumCategory implements \Serializable
+class ForumBoard implements \Serializable
 {
 
     /**
@@ -45,20 +44,11 @@ class ForumCategory implements \Serializable
      * @Assert\Length(
      *      min = "2",
      *      max = "40",
-     *      minMessage = "Category names must be at least {{ limit }} characters",
-     *      maxMessage = "Category names cannot be longer than {{ limit }} characters"
-     * )
-     * @Assert\NotEqualTo(
-     *      value = "System",
-     *      message = "Category may not be named System"
+     *      minMessage = "Board names must be at least {{ limit }} characters",
+     *      maxMessage = "Board names cannot be longer than {{ limit }} characters"
      * )
      */
     protected $name;
-
-    /**
-     * @OneToMany(targetEntity="ForumBoard", mappedBy="category")
-     **/
-    protected $boards;
 
     /**
      * @ORM\Column(name="orderOffset", type="integer", nullable=true)
@@ -72,9 +62,20 @@ class ForumCategory implements \Serializable
      */
     protected $icon;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="ForumCategory", inversedBy="boards")
+     * @ORM\JoinColumn(name="category", referencedColumnName="id")
+     */
+    protected $category;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Role")
+     * @ORM\JoinColumn(name="role", referencedColumnName="id")
+     */
+    protected $role;
+
     public function __construct()
     {
-        $this->boards = new ArrayCollection();
     }
 
 
@@ -102,7 +103,7 @@ class ForumCategory implements \Serializable
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -113,19 +114,19 @@ class ForumCategory implements \Serializable
      * Set name
      *
      * @param string $name
-     * @return ForumCategory
+     * @return ForumBoard
      */
     public function setName($name)
     {
         $this->name = $name;
-    
+
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -136,19 +137,19 @@ class ForumCategory implements \Serializable
      * Set orderOffset
      *
      * @param integer $orderOffset
-     * @return ForumCategory
+     * @return ForumBoard
      */
     public function setOrderOffset($orderOffset)
     {
         $this->orderOffset = $orderOffset;
-    
+
         return $this;
     }
 
     /**
      * Get orderOffset
      *
-     * @return integer 
+     * @return integer
      */
     public function getOrderOffset()
     {
@@ -159,12 +160,12 @@ class ForumCategory implements \Serializable
      * Set icon
      *
      * @param Icons $icon
-     * @return ForumCategory
+     * @return ForumBoard
      */
     public function setIcon(Icons $icon = null)
     {
         $this->icon = $icon;
-    
+
         return $this;
     }
 
@@ -178,14 +179,55 @@ class ForumCategory implements \Serializable
         return $this->icon;
     }
 
+    /**
+     * Set category
+     *
+     * @param ForumCategory $forumCategory
+     * @return ForumBoard
+     */
+    public function setCategory(ForumCategory $forumCategory)
+    {
+        $this->category = $forumCategory;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return ForumCategory
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * Set role
+     *
+     * @param Role $role
+     * @return ForumBoard
+     */
+    public function setRole($role)
+    {
+        $this->role = $role->getRole();
+
+        return $this;
+    }
+
+    /**
+     * Set role
+     *
+     * @return Role
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
     public function getPos()
     {
         return ($this->id + $this->orderOffset);
-    }
-
-    public function getBoards()
-    {
-        return $this->boards;
     }
 
 }

@@ -12,19 +12,19 @@ namespace Talis\SwiftForumBundle\Model;
 
 use Doctrine\ORM\EntityRepository;
 /**
- * ForumCategoryRepository
+ * ForumBoardRepository
  *
  * @author Felix Kastner <felix@chapterfain.com>
  */
-class ForumCategoryRepository extends EntityRepository
+class ForumBoardRepository extends EntityRepository
 {
 
     /**
-     * Gets the ordered list of categories
+     * Gets the ordered list of boards
      *
      * @return array
      */
-    public function getCategories()
+    public function getBoards()
     {
         return $this->createQueryBuilder('f')
             ->orderBy('f.id + COALESCE(f.orderOffset, 0)', 'asc')

@@ -16,11 +16,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * Forum Category Type
+ * Forum Board Type
  *
  * @author Felix Kastner <felix@chapterfain.com>
  */
-class ForumCategoryType extends AbstractType
+class ForumBoardType extends AbstractType
 {
     private $entityPath;
 
@@ -30,18 +30,19 @@ class ForumCategoryType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', 'text', array('label' => 'Category Name'));
+        $builder->add('name', 'text', array('label' => 'Board Name'));
+        $builder->add('role', 'talis_admin_forum_board_role');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-                'data_class' => $this->entityPath . '\Entity\ForumCategory',
+                'data_class' => $this->entityPath . '\Entity\ForumBoard',
             ));
     }
 
     public function getName()
     {
-        return 'talis_admin_forum_category';
+        return 'talis_admin_forum_board';
     }
 } 

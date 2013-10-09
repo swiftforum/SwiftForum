@@ -11,8 +11,10 @@
 namespace Talis\SwiftForumBundle\Controller;
 
 use Talis\SwiftForumBundle\Controller\BaseController;
+use Talis\SwiftForumBundle\Form\Model\CreateForumBoard;
 use Talis\SwiftForumBundle\Form\Model\CreateForumCategory;
 use Talis\SwiftForumBundle\Form\Type\RoleType;
+use Talis\SwiftForumBundle\Model\ForumBoard;
 use Talis\SwiftForumBundle\Model\ForumCategory;
 use Talis\SwiftForumBundle\Model\Role;
 use Talis\SwiftForumBundle\Model\User;
@@ -28,17 +30,66 @@ use Symfony\Component\HttpFoundation\Session\Session;
  * @todo: Allow more administrative actions to be taken through adminEditMemberAction
  * @todo: Implement proper caching and cache invalidation
  * @todo: Figure out why the forum category form errors are not field-specific anymore
- * @todo: Show a modal window when clicking on Icon to assist in choosing a icon
  * @todo: Add functionality to choose category color
- * @todo: Add delete category, move category up, move category down functionality
- * @todo: Sort Categories based on offset
  * @Route("/admin")
  * @author Felix Kastner <felix@chapterfain.com>
  */
 class AdminController extends BaseController
 {
     /**
-     * Lets a admin edit the forum categories. This entails adding, removing and changing the order of the categories.
+     * Lets a admin add a board to a forum category.
+     *
+     * @Secure(roles="ROLE_ADMIN")
+     * @Route("/forum/boards/new/{categoryId}", requirements={"categoryId" = "\d+"}, name="admin_forum_boards_add")
+     */
+    public function adminForumBoardsAddAction(Request $request, $categoryId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $session = new Session();
+
+        /** @var ForumCategory $category */
+        $category = $em->getRepository($this->getNameSpace() . ':ForumCategory')
+            ->find($categoryId);
+
+        if(!$category) {
+            throw $this->createNotFoundException(
+                'Category ' . $categoryId . ' does not exist.'
+            );
+        }
+
+        $form = $this->createForm('talis_admin_create_forum_board', new CreateForumBoard(), array(
+                'action' => $this->generateUrl('admin_forum_boards_add', array('categoryId' => $categoryId)),
+                'method' => 'POST',
+                'attr' => array('class' => 'form-inline')
+            ));
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            /** @var ForumBoard $board */
+            $board = $form->getData()->getForumBoard();
+            $iconid = $form->getData()->getIconId();
+
+            $icon = $em->getRepository( $this->getNameSpace() . ':Icons')
+                ->find($iconid);
+
+            $board->setIcon($icon);
+            $board->setCategory($category);
+
+            $em->persist($board);
+            $em->flush();
+            $session->getFlashBag()->add(
+                'success',
+                'Board "' . $board->getName() . '" has been created in the "' . $category->getName() . '" category.');
+
+            return $this->redirect($this->generateUrl('admin_forum_categories'));
+        }
+
+        return $this->render('TalisSwiftForumBundle:Admin/Forum:addboard.html.twig', array('form' => $form->createView(), 'category' => $category));
+    }
+
+    /**
+     * Lets a admin edit the forum categories & boards. This entails adding, removing and changing the order of the categories and boards.
      *
      * @Secure(roles="ROLE_ADMIN")
      * @Route("/forum/categories", name="admin_forum_categories")
@@ -49,6 +100,8 @@ class AdminController extends BaseController
         $session = new Session();
 
         $form = $this->createForm('talis_admin_create_forum_category', new CreateForumCategory(), array(
+                'action' => $this->generateUrl('admin_forum_categories'),
+                'method' => 'POST',
                 'attr' => array('class' => 'form-inline')
             ));
 
@@ -129,13 +182,15 @@ class AdminController extends BaseController
             );
         }
 
-        $cat = new CreateForumCategory('Edit');
+        $cat = new CreateForumCategory();
         $cat->setForumCategory($category);
         if(!is_null($category->getIcon())) {
             $cat->setIconId($category->getIcon()->getId());
         }
 
         $form = $this->createForm('talis_admin_create_forum_category', $cat, array(
+                'action' => $this->generateUrl('admin_forum_categories_edit', array('id' => $id)),
+                'method' => 'POST',
                 'attr' => array('class' => 'form-inline')
             ));
 
@@ -228,6 +283,168 @@ class AdminController extends BaseController
                 'warning',
                 $error->getMessage());
         }
+
+        return $this->redirect($this->generateUrl('admin_forum_categories'));
+    }
+
+
+    /**
+     * Deletes a board
+     *
+     * @Secure(roles="ROLE_ADMIN")
+     * @Route("/forum/boards/delete/{id}", requirements={"id" = "\d+"}, name="admin_forum_boards_delete")
+     */
+    public function adminForumBoardsDeleteAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $session = new Session();
+
+        $board = $em->getRepository($this->getNameSpace() . ':ForumBoard')
+            ->find($id);
+
+        if(!$board) {
+            throw $this->createNotFoundException(
+                'Board ' . $id . ' does not exist.'
+            );
+        }
+
+
+        $em->remove($board);
+        $em->flush();
+
+        $session->getFlashBag()->add(
+            'notice',
+            'Board "' . $board->getName() . '" has been deleted.');
+
+        return $this->redirect($this->generateUrl('admin_forum_categories'));
+    }
+
+    /**
+     * Edits a board
+     *
+     * @Secure(roles="ROLE_ADMIN")
+     * @Route("/forum/boards/edit/{id}", requirements={"id" = "\d+"}, name="admin_forum_boards_edit")
+     */
+    public function adminForumBoardsEditAction(Request $request, $id)
+    {
+        // Does not work yet. Todo: Make it work!
+        $em = $this->getDoctrine()->getManager();
+        $session = new Session();
+
+        $board = $em->getRepository($this->getNameSpace() . ':ForumBoard')
+            ->find($id);
+
+        if(!$board) {
+            throw $this->createNotFoundException(
+                'Board ' . $id . ' does not exist.'
+            );
+        }
+
+        $newBoard = new CreateForumBoard();
+        $newBoard->setForumBoard($board);
+        if(!is_null($board->getIcon())) {
+            $newBoard->setIconId($board->getIcon()->getId());
+        }
+
+        $form = $this->createForm('talis_admin_create_forum_board', $newBoard, array(
+                'action' => $this->generateUrl('admin_forum_boards_edit', array('id' => $id)),
+                'method' => 'POST',
+                'attr' => array('class' => 'form-inline')
+            ));
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            /** @var ForumBoard $board */
+            $board = $form->getData()->getForumBoard();
+            $iconid = $form->getData()->getIconId();
+
+            $icon = $em->getRepository( $this->getNameSpace() . ':Icons')
+                ->find($iconid);
+
+            $board->setIcon($icon);
+
+            $em->persist($board);
+            $em->flush();
+            $session->getFlashBag()->add(
+                'success',
+                'Board "' . $board->getName() . '" has been updated.');
+            return $this->redirect($this->generateUrl('admin_forum_categories'));
+        }
+
+        return $this->render('TalisSwiftForumBundle:Admin/Forum:editboard.html.twig', array('form' => $form->createView(), 'board' => $board));
+    }
+
+    /**
+     * Shifts a board up / down
+     *
+     * @Secure(roles="ROLE_ADMIN")
+     * @Route("/forum/boards/{direction}/{category}/{id}", requirements={"direction" = "up|down", "category" = "\d+", "id" = "\d+"}, name="admin_forum_boards_offset")
+     */
+    public function adminForumBoardsOffsetAction($direction, $id)
+    {
+        // This does not work yet. Future todo: Make board shifting work.
+
+//        $em = $this->getDoctrine()->getManager();
+//        $session = new Session();
+//
+//        $board = $em->getRepository($this->getNameSpace() . ':ForumBoard')
+//            ->find($id);
+//
+//        if(!$board) {
+//            throw $this->createNotFoundException(
+//                'Board ' . $id . ' does not exist.'
+//            );
+//        }
+//
+//
+
+//        $boards = $em->getRepository($this->getNameSpace() . ':ForumBoard')
+//            ->getBoards();
+//
+//        try {
+//
+//            $key = array_search($board, $boards);
+//
+//            switch($direction)
+//            {
+//                // Move board up
+//                case 'up':
+//                    if($board->getId() == $boards[0]->getId()) {
+//                        throw new \LogicException(
+//                            'Board "' . $board->getName() . '" is already in first place.'
+//                        );
+//                    }
+//
+//                    $beforeCat = $categories[($key-1)];
+//                    $afterCat = $category;
+//                    break;
+//
+//                // Move category down
+//                case 'down':
+//                    if($category->getId() == end($categories)->getId()) {
+//                        throw new \LogicException(
+//                            'Category "' . $category->getName() . '" is already in last place.'
+//                        );
+//                    }
+//
+//                    $beforeCat = $category;
+//                    $afterCat = $categories[($key+1)];
+//                    break;
+//            }
+//
+//            $afterCat->setOrderOffset($afterCat->getOrderOffset() - 1);
+//            $beforeCat->setOrderOffset($beforeCat->getOrderOffset() + 1);
+//            $em->flush();
+//            $session->getFlashBag()->add(
+//                'success',
+//                'Category order changed'
+//            );
+//        } catch(\LogicException $error) {
+//            $session->getFlashBag()->add(
+//                'warning',
+//                $error->getMessage());
+//        }
 
         return $this->redirect($this->generateUrl('admin_forum_categories'));
     }
