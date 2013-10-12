@@ -10,10 +10,13 @@
 
 namespace Talis\SwiftForumBundle\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Talis\SwiftForumBundle\Model\Icons;
 use Talis\SwiftForumBundle\Model\ForumCategory;
 use Talis\SwiftForumBundle\Model\Role;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\OrderBy;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -74,10 +77,16 @@ class ForumBoard implements \Serializable
      */
     protected $role;
 
+    /**
+     * @OneToMany(targetEntity="ForumTopic", mappedBy="board")
+     * @OrderBy({"lastPostDate" = "DESC"})
+     */
+    protected $topics;
+
     public function __construct()
     {
+        $this->topics = new ArrayCollection();
     }
-
 
     /**
      * @see \Serializable::serialize()
@@ -228,6 +237,11 @@ class ForumBoard implements \Serializable
     public function getPos()
     {
         return ($this->id + $this->orderOffset);
+    }
+
+    public function getTopics()
+    {
+        return $this->topics;
     }
 
 }

@@ -1,0 +1,40 @@
+{% extends "TalisSwiftForumBundle::base.html.twig" %}
+
+{% block subtitle %}{{ topic.getTitle()|e }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>{% if topic.getIcon() is not null %}<i class="{{ topic.getIcon().getName() }}"></i> {% endif %}{{ topic.getTitle()|e }}</h1>
+    </div>
+
+    <div class="row margin-bot5">
+        <div class="col-md-12">
+            <a href="{{ path('forum_create_post', {'boardName': board.getName()|cleanlink, 'boardId': board.getId(), 'topicName': topic.getTitle()|cleanlink, 'topicId': topic.getId()}) }}" class="btn btn-primary"><i class="icon-reply"></i> Reply to topic</a>
+        </div>
+    </div>
+
+    {% for post in topic.getPosts() %}
+        {% set creator = post.getCreator() %}
+        <div class="media">
+            <div class="pull-left">
+                <img class="forum-post-avatar img-rounded" src="{{ creator.getAvatar(30) }}" alt="Avatar"/>
+            </div>
+            <div class="media-body">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <p class="forum-post-header">
+                           <a name="post-{{ post.getId() }}" href="#post-{{ post.getId() }}">#{{ loop.index }}</a> Posted by {{ creator.getVanityName()|e }} {{ post.getCreationDate()|time_ago_in_words }}
+                        </p>
+                        {{ post.getContent()|cleanmarkup|markdown|raw }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    <div class="row margin-bot5">
+        <div class="col-md-12">
+            <a href="{{ path('forum_create_post', {'boardName': board.getName()|cleanlink, 'boardId': board.getId(), 'topicName': topic.getTitle()|cleanlink, 'topicId': topic.getId()}) }}" class="btn btn-primary"><i class="icon-reply"></i> Reply to topic</a>
+        </div>
+    </div>
+{% endblock %}

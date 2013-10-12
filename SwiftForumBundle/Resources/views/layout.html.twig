@@ -18,12 +18,13 @@
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 
     {% block stylesheets %}
-        {% stylesheets '@TalisSwiftForumBundle/Resources/public/css/swiftForumMain.css' %}
+        {% stylesheets '@TalisSwiftForumBundle/Resources/public/css/swiftForumMain.css'
+                       '@TalisSwiftForumBundle/Resources/public/css/widearea.min.css' %}
             <link rel="stylesheet" href="{{ truepath~asset_url }}">
         {% endstylesheets %}
     {% endblock %}
 
-    {% block inlinecss %}{% endblock %}
+    {% block extracss %}{% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('/favicon.ico') }}" />
     {% endblock %}
 </head>
@@ -127,6 +128,17 @@
                     <strong><i class="icon-ok-circle"></i> Success: </strong>
                     {{ flashMessage|trans|e }}
                 </div>
+            {% endfor %}
+
+            {% for flashMessage in app.session.flashbag.get('postsuccess') %}
+                <div class="flash-success alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong><i class="icon-ok-circle"></i> Success: </strong>
+                    {{ flashMessage|trans|e }}
+                </div>
+                <script>
+                    localStorage.removeItem("PostContent");
+                </script>
             {% endfor %}
 
             {% for flashMessage in app.session.flashbag.get('notice') %}

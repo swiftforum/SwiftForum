@@ -1,0 +1,88 @@
+{% extends "TalisSwiftForumBundle::base.html.twig" %}
+
+{% block subtitle %}Create New Post in {{ topic.getTitle()|e }}{% endblock %}
+
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+            {% for error in errors %}
+                {% if loop.first %}
+                    <div class="col-md-9 form-group">
+                {% else %}
+                    <div class="col-md-2 form-group">
+                {% endif %}
+                <span class="help-block"><i class="icon-exclamation-sign"></i> {{ error.message }}</span></div>
+            {% endfor %}
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_errors %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Create New Post in {% if topic.getIcon() is not null %}<i class="{{ topic.getIcon().getName() }}"></i> {% endif %}{{ topic.getTitle()|e }}</h1>
+    </div>
+
+    {% form_theme form _self %}
+    {{ form_start(form) }}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-10">
+
+                </div>
+                <div class="col-md-2">
+                    {{ form_label(form.save) }}
+                    {{ form_widget(form.save) }}
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    {% if form.vars.errors|length > 0 %}
+                        <div class="row has-error">
+                            {{ form_errors(form) }}
+                        </div>
+                    {% endif %}
+                    {{ form_label(form.forumpost.content) }}
+                    {{ form_widget(form.forumpost.content) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h5><a target="_blank" href="http://daringfireball.net/projects/markdown/syntax">Markdown Formatting</a></h5>
+                    <h5>Reference:</h5>
+                    <p>**<strong>Bold text</strong>**</p>
+                    <p>*<i>Italic text</i>*</p>
+                    <p>[<a href="#">A Link</a>](http://www.website.com)</p>
+                    <p>![Image description](http://www.link.com/image.jpg)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {% javascripts '@TalisSwiftForumBundle/Resources/public/js/widearea.js'
+    '@TalisSwiftForumBundle/Resources/public/js/jquery.autosize.min.js' %}
+    <script type="text/javascript" src="{{ truepath~asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script>
+        wideArea();
+        $("[data-toggle=tooltip]").tooltip();
+
+        var restorePopover = $(".restore-available");
+
+        if(restorePopover.length) {
+            restorePopover.popover({ delay: { show: 200, hide: 2000 }, placement: 'auto bottom', trigger: 'manual' });
+            restorePopover.popover('show');
+            window.setTimeout(function() { restorePopover.popover('hide'); }, 12000);
+        }
+
+        $(document).ready(function(){
+            $('.post-content').autosize({append: "\n"});
+        });
+    </script>
+{% endblock %}

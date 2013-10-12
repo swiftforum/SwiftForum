@@ -8,14 +8,28 @@
     <parameters>
         <parameter key="talis_swift_forum.authentication_handler.class">Talis\SwiftForumBundle\Handler\AuthenticationHandler</parameter>
         <parameter key="talis_swift_forum.role_hierarchy.class">Talis\SwiftForumBundle\Service\RoleHierarchy</parameter>
+        <parameter key="talis_swift_forum.twig_extension.class">Talis\SwiftForumBundle\Extension\TwigExtension</parameter>
     </parameters>
 
     <services>
         <service id="talis_swift_forum.authentication_handler" class="%talis_swift_forum.authentication_handler.class%">
         </service>
+
         <service id="security.role_hierarchy" class="%talis_swift_forum.role_hierarchy.class%" public="false">
             <argument>%security.role_hierarchy.roles%</argument>
         </service>
-    </services>
 
+        <service id="talis_swift_forum.twig_extension" class="%talis_swift_forum.twig_extension.class%">
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="geta6.markdown" class="Twig_Extension_Markdown">
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="salavert.twig.time_ago" class="Salavert\Twig\Extension\TimeAgoExtension">
+            <tag name="twig.extension" />
+            <argument type="service" id="translator" />
+        </service>
+    </services>
 </container>

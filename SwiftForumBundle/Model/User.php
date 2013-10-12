@@ -106,12 +106,24 @@ class User implements AdvancedUserInterface, \Serializable
      */
     protected $statusDate;
 
+    /**
+     * @OneToMany(targetEntity="ForumTopic", mappedBy="creator")
+     */
+    protected $topics;
+
+    /**
+     * @OneToMany(targetEntity="ForumPost", mappedBy="creator")
+     */
+    protected $posts;
+
     public function __construct()
     {
         $this->isActive = false;
         $this->salt = md5(uniqid(null, true));
         //$this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
         $this->createdDate = new \DateTime("now");
+        $this->topics = new ArrayCollection();
+        $this->posts = new ArrayCollection();
     }
 
     /**
@@ -391,5 +403,20 @@ class User implements AdvancedUserInterface, \Serializable
     public function getStatusDate()
     {
         return $this->statusDate;
+    }
+
+    public function getTopics()
+    {
+        return $this->topics;
+    }
+
+    public function getPosts()
+    {
+        return $this->posts;
+    }
+
+    public function getVanityName()
+    {
+        return $this->username;
     }
 }

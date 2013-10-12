@@ -53,6 +53,13 @@ class User extends BaseUser implements AdvancedUserInterface, \Serializable
         return $character ? $character->getPicture() : BaseUser::getAvatar($size);
     }
 
+    // Return vanity name (overwrite)
+    public function getVanityName()
+    {
+        $character = $this->getcharacter();
+        return $character ? $character->getName() : BaseUser::getVanityName();
+    }
+
     /**
      * Add characters
      *

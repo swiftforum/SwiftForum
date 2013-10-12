@@ -68,12 +68,14 @@ class AdminController extends BaseController
         if ($form->isValid()) {
             /** @var ForumBoard $board */
             $board = $form->getData()->getForumBoard();
-            $iconid = $form->getData()->getIconId();
+            if($form->getData()->getIconId()) {
+                $iconid = $form->getData()->getIconId();
 
-            $icon = $em->getRepository( $this->getNameSpace() . ':Icons')
-                ->find($iconid);
+                $icon = $em->getRepository( $this->getNameSpace() . ':Icons')
+                    ->find($iconid);
 
-            $board->setIcon($icon);
+                $board->setIcon($icon);
+            }
             $board->setCategory($category);
 
             $em->persist($board);
@@ -110,12 +112,14 @@ class AdminController extends BaseController
         if ($form->isValid()) {
             /** @var ForumCategory $category */
             $category = $form->getData()->getForumCategory();
-            $iconid = $form->getData()->getIconId();
+            if($form->getData()->getIconId()) {
+                $iconid = $form->getData()->getIconId();
 
-            $icon = $em->getRepository( $this->getNameSpace() . ':Icons')
-                ->find($iconid);
+                $icon = $em->getRepository( $this->getNameSpace() . ':Icons')
+                    ->find($iconid);
 
-            $category->setIcon($icon);
+                $category->setIcon($icon);
+            }
 
             $em->persist($category);
             $em->flush();
@@ -199,12 +203,14 @@ class AdminController extends BaseController
         if ($form->isValid()) {
             /** @var ForumCategory $category */
             $category = $form->getData()->getForumCategory();
-            $iconid = $form->getData()->getIconId();
+            if($form->getData()->getIconId()) {
+                $iconid = $form->getData()->getIconId();
 
-            $icon = $em->getRepository( $this->getNameSpace() . ':Icons')
-                ->find($iconid);
+                $icon = $em->getRepository( $this->getNameSpace() . ':Icons')
+                    ->find($iconid);
 
-            $category->setIcon($icon);
+                $category->setIcon($icon);
+            }
 
             $em->persist($category);
             $em->flush();
@@ -357,12 +363,14 @@ class AdminController extends BaseController
         if ($form->isValid()) {
             /** @var ForumBoard $board */
             $board = $form->getData()->getForumBoard();
-            $iconid = $form->getData()->getIconId();
+            if($form->getData()->getIconId()) {
+                $iconid = $form->getData()->getIconId();
 
-            $icon = $em->getRepository( $this->getNameSpace() . ':Icons')
-                ->find($iconid);
+                $icon = $em->getRepository( $this->getNameSpace() . ':Icons')
+                    ->find($iconid);
 
-            $board->setIcon($icon);
+                $board->setIcon($icon);
+            }
 
             $em->persist($board);
             $em->flush();

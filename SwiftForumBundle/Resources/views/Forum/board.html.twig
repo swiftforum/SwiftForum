@@ -1,0 +1,71 @@
+{% extends "TalisSwiftForumBundle::base.html.twig" %}
+
+{% block subtitle %}{{ board.getName()|e }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>{% if board.getIcon() is not null %}<i class="{{ board.getIcon().getName() }}"></i> {% endif %}{{ board.getName()|e }}</h1>
+    </div>
+
+    <div class="row margin-bot5">
+        <div class="col-md-12">
+            <a href="{{ path('forum_create_topic', {'boardName': board.getName()|cleanlink, 'boardId': board.id}) }}" class="btn btn-primary"><i class="icon-plus-sign-alt"></i> Create new topic</a>
+        </div>
+    </div>
+
+    <div class="panel panel-info">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <div class="iconshift-headline">{% if board.getIcon() is not null %}<i class="{{ board.getIcon().getName() }}"></i>{% endif %}</div>{{ board.getName()|e }}
+            </h3>
+        </div>
+
+        <table class="table table-striped table-hover forum-table">
+            <thead>
+                <tr>
+                    <th class="table-col-min"> </th>
+                    <th>Topic</th>
+                    <th>Author</th>
+                    <th>Last Post</th>
+                    <th class="table-col-small">Views</th>
+                    <th class="table-col-small">Posts</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for topic in board.getTopics() %}
+                {% set creator = topic.getCreator() %}
+                {% set lastPost = topic.getPosts().last() %}
+                <tr class="forum-topic-row">
+                    <td>
+                        <div class="text-center">
+                            <img class="forum-topic-avatar img-rounded" src="{{ creator.getAvatar(30) }}" alt="Avatar"/>
+                        </div>
+                    </td>
+                    <td class="forum-topic-title"><a href="{{ path('forum_view_topic', {'boardName': board.getName()|cleanlink, 'boardId': board.getId(), 'topicName': topic.getTitle()|cleanlink, 'topicId': topic.getId()}) }}">{% if topic.getIcon() is not null %}<i class="{{ topic.getIcon().getName() }}"></i> {% endif %}{{ topic.getTitle()|e }}</a></td>
+                    <td class="forum-topic-creator">
+                        <div>
+                            {{ creator.getVanityName()|e }}
+                        </div>
+                        <span class="forum-topic-info text-muted">{{ topic.getCreationDate()|date('M d, Y') }}</span>
+                    </td>
+                    <td class="forum-topic-lastpost">
+                        <div>
+                            {{ lastPost.getCreator().getVanityName()|e }}
+                        </div>
+                        <span class="forum-topic-info text-muted">{{ lastPost.getCreationDate()|time_ago_in_words }}</span>
+                    </td>
+                    <td class="forum-topic-views">{{ topic.getViews() }}</td>
+                    <td class="forum-topic-postcount">{{ topic.getPosts().count() }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row margin-bot5">
+        <div class="col-md-12">
+            <a href="{{ path('forum_create_topic', {'boardName': board.getName()|cleanlink, 'boardId': board.id}) }}" class="btn btn-primary"><i class="icon-plus-sign-alt"></i> Create new topic</a>
+        </div>
+    </div>
+{% endblock %}

@@ -35,19 +35,34 @@
                             <div class="iconshift-headline">{% if category.getIcon() is not null %}<i class="{{ category.getIcon().getName() }}"></i>{% endif %}</div>{{ category.getName()|e }}
                         </h3>
                     </div>
-                    <div class="list-group">
+                    <table class="table table-hover">
+                        <tbody>
             {% endif %}
+            <tr class="forum-topic-row">
+                <td class="forum-board-name"><a href="{{ path('forum_view_board', {'boardName': board.getName()|cleanlink, 'boardId': board.id}) }}">{% if board.getIcon() is not null %}<i class="{{ board.getIcon().getName() }}"></i> {% endif %}{{ board.getName()|e }}</a></td>
+                <td class="forum-board-lastpost">
+                    {% set lastTopic = board.getTopics().first() %}
+                    {% if lastTopic %}
+                        {% set lastPost = lastTopic.getPosts().last() %}
+                        {% set lastPostCreator = lastPost.getCreator() %}
+                        <div>
+                            <a href="{{ path('forum_view_topic', {'boardName': board.getName()|cleanlink, 'boardId': board.getId(), 'topicName': lastTopic.getTitle()|cleanlink, 'topicId': lastTopic.getId()}) }}">{% if lastTopic.getIcon() is not null %}<i class="{{ lastTopic.getIcon().getName() }}"></i> {% endif %}{{ lastTopic.getTitle()|e }}</a>
+                        </div>
+                        <span class="forum-topic-info text-muted">by {{ lastPostCreator.getVanityName()|e }} {{ lastPost.getCreationDate()|time_ago_in_words }}</span>
+                    {% else %}
+                        <span class="forum-topic-info text-muted">No posts yet...</span>
+                    {% endif %}
+                </td>
+            </tr>
 
-            <a href="#" class="list-group-item">
-                <div class="iconshift-content">{% if board.getIcon() is not null %}<i class="{{ board.getIcon().getName() }} iconshift-content"></i>{% endif %}</div>{{ board.getName()|e }}
-            </a>
             {# <span class="badge">14</span> Badges should be added later for unread posts etc. #}
 
         {% endfor %}
 
         {#If validBoard is true, we must close the the category. Unfortunately, we can't use loop.last with conditions.#}
         {% if validBoard %}
-                </div>
+                    </tbody>
+                </table>
             </div>
         {% endif %}
     {% endfor %}
@@ -59,21 +74,4 @@
             </div>
         </div>
     {% endif %}
-{% endblock %}
-
-{% block javascripts %}
-    {% javascripts '@TalisSwiftForumBundle/Resources/public/js/iconpicker.js' %}
-        <script type="text/javascript" src="{{ truepath~asset_url }}"></script>
-    {% endjavascripts %}
-
-    <script>
-        IconPicker.init();
-        $( ".delete").click(function(event) {
-            var response = confirm("Are you sure you want to delete the \"" + $(this).data('catname') + "\" category?");
-            if(response !== true)
-            {
-                event.preventDefault();
-            }
-        })
-    </script>
 {% endblock %}

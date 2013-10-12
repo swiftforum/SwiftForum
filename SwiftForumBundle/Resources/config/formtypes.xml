@@ -32,5 +32,21 @@
             <argument>%tsforum%</argument>
             <tag name="form.type" alias="talis_admin_create_forum_board" />
         </service>
+        <service id="talis.form.forum_topic" class="Talis\SwiftForumBundle\Form\Type\ForumTopicType">
+            <argument>%tsforum%</argument>
+            <tag name="form.type" alias="talis_forum_topic" />
+        </service>
+        <service id="talis.form.create_forum_topic" class="Talis\SwiftForumBundle\Form\Type\CreateForumTopicType">
+            <argument>%tsforum%</argument>
+            <tag name="form.type" alias="talis_create_forum_topic" />
+        </service>
+        <service id="talis.form.forum_post" class="Talis\SwiftForumBundle\Form\Type\ForumPostType">
+            <argument>%tsforum%</argument>
+            <tag name="form.type" alias="talis_forum_post" />
+        </service>
+        <service id="talis.form.create_forum_post" class="Talis\SwiftForumBundle\Form\Type\CreateForumPostType">
+            <argument>%tsforum%</argument>
+            <tag name="form.type" alias="talis_create_forum_post" />
+        </service>
     </services>
 </container>

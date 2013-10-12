@@ -83,6 +83,16 @@
     {% endspaceless %}
 {% endblock form_errors %}
 
+{% block textarea_widget %}
+    {% spaceless %}
+        {% if label is empty %}
+            {% set label = name|humanize %}
+        {% endif %}
+        {% set attr = attr|merge({'class': attr.class|default('') ~ ' form-control'}) %}
+        <textarea placeholder="{{ label }}" {{ block('widget_attributes') }}>{{ value }}</textarea>
+    {% endspaceless %}
+{% endblock textarea_widget %}
+
 {% block form_widget_simple %}
     {% spaceless %}
         {% set type = type|default('text') %}
