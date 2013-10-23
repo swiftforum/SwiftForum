@@ -19,8 +19,14 @@
 
 {% block content %}
     <div class="page-header">
-        <h1>Forums</h1>
+        {#<h1>Forums</h1>#}
+        <ol class="breadcrumb">
+            <li class="active">Forums</li>
+        </ol>
     </div>
+
+
+
 
     {% for category in categories %}
         {% set boards = category.getBoards() %}

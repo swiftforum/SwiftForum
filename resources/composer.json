@@ -30,7 +30,9 @@
         "behat/symfony2-extension": "*",
         "phpspec/phpspec": "*",
         "ptachoire/cssembed": "dev-master",
-        "aptoma/twig-markdown": "0.1.*"
+        "michelf/php-markdown": "1.*",
+        "geta6/twig-markdown": "@dev",
+        "salavert/time-ago-in-words": "1.*"
     },
     "scripts": {
         "post-install-cmd": [

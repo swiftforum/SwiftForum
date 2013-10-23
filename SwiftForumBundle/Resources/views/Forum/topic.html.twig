@@ -4,7 +4,12 @@
 
 {% block content %}
     <div class="page-header">
-        <h1>{% if topic.getIcon() is not null %}<i class="{{ topic.getIcon().getName() }}"></i> {% endif %}{{ topic.getTitle()|e }}</h1>
+        {#<h1>{% if topic.getIcon() is not null %}<i class="{{ topic.getIcon().getName() }}"></i> {% endif %}{{ topic.getTitle()|e }}</h1>#}
+        <ol class="breadcrumb">
+            <li><a href="{{ path('forum_index') }}">Forums</a></li>
+            <li><a href="{{ path('forum_view_board', {'boardName': board.getName()|cleanlink, 'boardId': board.id}) }}">{% if board.getIcon() is not null %}<i class="{{ board.getIcon().getName() }}"></i> {% endif %}{{ board.getName()|e }}</a></li>
+            <li class="active">{% if topic.getIcon() is not null %}<i class="{{ topic.getIcon().getName() }}"></i> {% endif %}{{ topic.getTitle()|e }}</li>
+        </ol>
     </div>
 
     <div class="row margin-bot5">

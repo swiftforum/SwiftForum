@@ -256,4 +256,47 @@ class ForumController extends BaseController
 
         return $this->render('TalisSwiftForumBundle:Forum:create_topic.html.twig', array('form' => $form->createView(), 'board' => $board));
     }
+
+    /**
+     * Deletes a topic and all associated posts
+     *
+     * @Secure(roles="ROLE_ADMIN")
+     * @Route("/forum/{boardName}{separationDash}{boardId}/{topicName}{separationDash2}{topicId}/delete-topic/", requirements={"separationDash" = "-", "separationDash2" = "-", "boardId" = "\d+", "topicId" = "\d+"}, defaults={"separationDash" = "-", "separationDash2" = "-"}, name="forum_delete_topic")
+     */
+    public function deleteTopicAction($boardId, $topicId, $topicName = "", $boardName = "")
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        /** @var ForumTopic $topic */
+        $topic = $em->getRepository($this->getNameSpace() . ':ForumTopic')
+            ->find($topicId);
+
+        if(!$topic) {
+            throw $this->createNotFoundException(
+                'Topic ' . $topicId . ' does not exist.'
+            );
+        }
+
+        $board = $topic->getBoard();
+
+        if ($board->getRole() && false === $this->get('security.context')->isGranted($board->getRole()->getRole())) {
+            // No permission ? Give a 404.
+            throw $this->createNotFoundException(
+                'Topic ' . $topicId . ' does not exist.'
+            );
+        }
+
+        /* @todo Compare $boardName to the board's shortened name,
+         * compare $topicName to the topic's shortened name,
+         * compare $board->getId() with $boardId:
+         * If anything doesn't match, fix it and redirect. */
+
+        foreach ($topic->getPosts() AS $post) {
+            $em->remove($post);
+        }
+        $em->remove($topic);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('forum_view_board', array('boardName' => $boardName, 'boardId' => $boardId)));
+    }
 }

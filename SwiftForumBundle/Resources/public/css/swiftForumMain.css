@@ -64,6 +64,17 @@ textarea {
     width:50px;
 }
 
+.breadcrumb > li + li:last-child:before {
+    content: "";
+    padding: 0;
+}
+
+.breadcrumb > li:last-child {
+    display: block;
+    font-size: 200%;
+    font-weight: bold;
+}
+
 /************ Icon Picker ***********/
 .iconpicker {
     font-weight:bold;
