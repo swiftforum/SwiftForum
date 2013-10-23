@@ -18,56 +18,41 @@ use Talis\TrickPlayBundle\Entity\LodestoneCharacter;
 class TrickPlayController extends Controller
 {
     /**
-     * @Route("/users/{id}/role", name="change_role")
-     * @Method({"POST"})
-     */
-    public function changeRoleAction($id)
-    {
-        $request = Request::createFromGlobals();
-        $role = $request->request->get("role", null);
-        $em = $this->getDoctrine()->getManager();
-
-        $targetUser = $em->getRepository('TalisTrickPlayBundle:User')->findOneBy(array('id' => $id));
-        if (!$targetUser) return new JsonResponse(array("error" => "User not found"), 404);
-
-        $targetUserRole = $targetUser->getRole()->getRole();
-
-        $currentUserRole = $this->get('security.context')->getToken()->getUser()->getRole()->getRole();
-        $roleMap = $this->get('security.role_hierarchy')->getMap();
-
-        // Can only update if current user is higher than Member
-        $rosterEditable = in_array("ROLE_MEMBER", $roleMap[$currentUserRole]);
-        if (!$rosterEditable) return new JsonResponse(array("error" => "Not allowed to edit"), 403);
-
-        // Can only update if current user is higher than target user
-        $userEditable = in_array($targetUserRole, $roleMap[$currentUserRole]);
-        if (!$userEditable) return new JsonResponse(array("error" => "Not allowed to edit"), 403);
-
-        // Update user's role
-        $role = $em->getRepository('TalisTrickPlayBundle:Role')->getByIdentifier($role);
-        if (!$role) return new JsonResponse(array("error" => "Invalid role identifier"), 400);
-
-        $targetUser->setRole($role);
-        $em->persist($targetUser);
-        $em->flush();
-
-        return new JsonResponse(array("success" => true));
-    }
-
-    /**
      * @Route("/roster", name="basic_roster")
      */
     public function rosterAction()
     {
+        $GATHERING_PROFESSIONS = array("fisher", "miner", "botanist");
+
         $em = $this->getDoctrine()->getManager();
         $company = $em->getRepository('TalisTrickPlayBundle:LodestoneFreeCompany')->get();
         $permissions = $this->get('security.role_hierarchy')->getMap();
         $characters = $company->getMembers()->toArray();
+        $gatheringProfessionCount = array();
+        $craftingProfessionCount = array();
+        $jobCount = array();
 
         // Append metadata to characters
-        $characters = array_map(function($character) use($permissions) {
+        $characters = array_map(function($character) use($permissions, $GATHERING_PROFESSIONS, &$jobCount, &$craftingProfessionCount, &$gatheringProfessionCount) {
             $meta = array("character" => $character);
             $user = $character->getUser();
+
+            // Keep a survey of profession numbers
+            foreach ($character->getProfessions() as $profession => $level) {
+                if (in_array($profession, $GATHERING_PROFESSIONS)) {
+                    if (!isset($gatheringProfessionCount[$profession])) $gatheringProfessionCount[$profession] = 0;
+                    $gatheringProfessionCount[$profession] ++;
+                } else {
+                    if (!isset($craftingProfessionCount[$profession])) $craftingProfessionCount[$profession] = 0;
+                    $craftingProfessionCount[$profession] ++;
+                }
+            }
+
+            // Keep a survey of job numbers
+            foreach ($character->getJobs() as $job => $level) {
+                if (!isset($jobCount[$job])) $jobCount[$job] = 0;
+                $jobCount[$job] ++;
+            }
 
             if ($user) {
                 $permissions = ($user->getRole() && isset($permissions[$user->getRole()->getRole()])) ? $permissions[$user->getRole()->getRole()] : array();
@@ -85,6 +70,11 @@ class TrickPlayController extends Controller
             return $meta;
         }, $characters);
 
+        // Sort class counts
+        ksort($gatheringProfessionCount);
+        ksort($craftingProfessionCount);
+        ksort($jobCount);
+
         // Sort characters by permission level, and then by name
         usort($characters, function($first, $second) use($permissions) {
             return ($first["power"] == $second["power"]) ? strcmp($first["character"]->getName(), $second["character"]->getName()) : ($second["power"] - $first["power"]);
@@ -92,7 +82,10 @@ class TrickPlayController extends Controller
 
         // Render page
         return $this->render('TalisTrickPlayBundle:TrickPlay:roster.html.twig', array(
-            "members" => $characters
+            "members" => $characters,
+            "gathering" => $gatheringProfessionCount,
+            "crafting" => $craftingProfessionCount,
+            "jobs" => $jobCount
         ));
     }
 }
