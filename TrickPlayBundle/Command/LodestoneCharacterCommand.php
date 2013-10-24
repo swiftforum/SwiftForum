@@ -38,8 +38,8 @@ class LodestoneCharacterCommand extends ContainerAwareCommand
         $output->writeln("Getting character data for " . $character->getName() . "...");
         $lodestoneData = $lodestone->getCharacter($character->getId());
         if (!$lodestoneData) {
-            $output->writeln("Error: Cannot get character data.");
-            return;
+          $output->writeln("Error: Cannot get character data.");
+          return;
         }
 
         $character->set($lodestoneData);

@@ -69,14 +69,20 @@ class Lodestone
 
       // Left column
       $name = $columns->first()->text();
-      $level = $columns->eq(1)->text();
-      $result[$name] = ($level == "-" || $level == "1") ? null : $level;
+      if ($name) {
+        $name = strtolower($name);
+        $level = $columns->eq(1)->text();
+        $result[$name] = ($level == "-" || $level == "1") ? null : intval($level);
+      }
 
       // Right column
       if (count($columns) < 5) return;
       $name = $columns->eq(3)->text();
-      $level = $columns->eq(4)->text();
-      $result[$name] = ($level == "-" || $level == "1") ? null : $level;
+      if ($name) {
+        $name = strtolower($name);
+        $level = $columns->eq(4)->text();
+        $result[$name] = ($level == "-" || $level == "1") ? null : intval($level);
+      }
     });
 
     return $result;
@@ -145,17 +151,17 @@ class Lodestone
   // Return webpage HTML content
   private static function getWebpage($url)
   {
-      $options = array(
-          CURLOPT_URL => self::LODESTONE_URL . $url,
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_TIMEOUT => 10
-      );
+    $options = array(
+        CURLOPT_URL => self::LODESTONE_URL . $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 10
+    );
 
-      $curl = curl_init();
-      curl_setopt_array($curl, $options);
-      $response = curl_exec($curl);
-      curl_close($curl);
+    $curl = curl_init();
+    curl_setopt_array($curl, $options);
+    $response = curl_exec($curl);
+    curl_close($curl);
 
-      return $response;
+    return $response;
   }
 }
