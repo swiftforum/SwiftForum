@@ -9,6 +9,7 @@
         <parameter key="talis_swift_forum.authentication_handler.class">Talis\SwiftForumBundle\Handler\AuthenticationHandler</parameter>
         <parameter key="talis_swift_forum.role_hierarchy.class">Talis\SwiftForumBundle\Service\RoleHierarchy</parameter>
         <parameter key="talis_swift_forum.twig_extension.class">Talis\SwiftForumBundle\Extension\TwigExtension</parameter>
+        <parameter key="talis_swift_forum.login_listener.class">Talis\SwiftForumBundle\EventListener\LoginListener</parameter>
     </parameters>
 
     <services>
@@ -30,6 +31,12 @@
         <service id="salavert.twig.time_ago" class="Salavert\Twig\Extension\TimeAgoExtension">
             <tag name="twig.extension" />
             <argument type="service" id="translator" />
+        </service>
+
+        <service id="talis_swift_forum.login_listener" class="%talis_swift_forum.login_listener.class%">
+            <tag name="kernel.event_listener" event="security.interactive_login" />
+            <argument type="service" id="security.context" />
+            <argument type="service" id="doctrine" />
         </service>
     </services>
 </container>

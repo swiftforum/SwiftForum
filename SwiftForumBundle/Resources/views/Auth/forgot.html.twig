@@ -1,0 +1,13 @@
+{% extends "TalisSwiftForumBundle::base.html.twig" %}
+
+{% block subtitle %}Forgot Password{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <h1>{{ tsforum.name }} Account - Password Recovery</h1>
+    </div>
+    {% if error is defined %}
+        <div>{{ error.message }}</div>
+    {% endif %}
+
+    {{ form(form) }}
+{% endblock %}

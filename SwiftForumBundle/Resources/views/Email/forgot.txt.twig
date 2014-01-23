@@ -1,0 +1,10 @@
+{{ tsforum.name }} Password Reset
+
+Hi {{ name }},
+
+we've received a password reset request for your account. Please paste this URL into your browser if you wish to reset your password:
+{{ url('auth_reset', {'code': confirm_code}) }}
+
+If you did not initiate this request, or do not wish to change your password, please disregard this e-mail.
+
+Request was issued by IP: {{ app.request.server.get("REMOTE_ADDR") }}

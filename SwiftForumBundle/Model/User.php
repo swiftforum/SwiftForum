@@ -107,6 +107,11 @@ class User implements AdvancedUserInterface, \Serializable
     protected $statusDate;
 
     /**
+     * @ORM\Column(name="token", type="string", nullable=true)
+     */
+    protected $token;
+
+    /**
      * @OneToMany(targetEntity="ForumTopic", mappedBy="creator")
      */
     protected $topics;
@@ -388,6 +393,13 @@ class User implements AdvancedUserInterface, \Serializable
         return $this;
     }
 
+    public function setToken($token = null)
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
     public function getStatus()
     {
         return $this->status;
@@ -403,6 +415,11 @@ class User implements AdvancedUserInterface, \Serializable
     public function getStatusDate()
     {
         return $this->statusDate;
+    }
+
+    public function getToken()
+    {
+        return $this->token;
     }
 
     public function getTopics()

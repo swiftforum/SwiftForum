@@ -1,0 +1,29 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>{{ tsforum.name }} Password Reset</title>
+</head>
+
+<body>
+
+<table width="100%" cellpadding="0" cellspacing="0" bgcolor="e4e4e4"><tr><td>
+
+            <table id="top-message" cellpadding="10" cellspacing="0" width="600" align="center"><p><strong>Hi {{ name|e('html') }},</strong></p></table>
+
+            <table id="main" cellpadding="0" cellspacing="10" bgcolor="ffffff" width="600" align="center">
+                <p>We've received a password reset request for your account.<br>
+                    Please <a href="{{ url('auth_reset', {'code': confirm_code}) }}">click here</a> if you wish to reset your password.<br>
+                    Alternatively, you can paste this long URL into your browser, if that's your thing.<br>
+                    <a href="{{ url('auth_reset', {'code': confirm_code}) }}">{{ url('auth_reset', {'code': confirm_code}) }}</a><br><br>
+                    If you did not initiate this request, or do not wish to change your password, please disregard this e-mail.<br><br>
+                    Request was issued by IP: {{ app.request.server.get("REMOTE_ADDR") }}</p>
+            </table>
+
+            <table id="bottom-message" cellpadding="10" cellspacing="0" width="600" align="center">Email sent by <a href="{{ url('home') }}">{{ tsforum.name }}</a> to aid you in password recovery.</table>
+
+        </td></tr></table>
+
+</body>
+</html>
+

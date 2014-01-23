@@ -13,9 +13,9 @@
 
 <table id="main" cellpadding="0" cellspacing="10" bgcolor="ffffff" width="600" align="center">
 <p>To start using the forums and participate, you need to verify your email address!<br>
-<a href="{{ url('auth_verify', {'username': name|e('url'), 'code': confirm_code}) }}">Click here</a> to activate your account.<br>
+<a href="{{ url('auth_verify', {'code': confirm_code}) }}">Click here</a> to activate your account.<br>
 Alternatively, you can paste this long URL into your browser, if thats your thing.<br>
-<a href="{{ url('auth_verify', {'username': name|e('url'), 'code': confirm_code}) }}">{{ url('auth_verify', {'username': name|e('url'), 'code': confirm_code}) }}</a><br><br>
+<a href="{{ url('auth_verify', {'code': confirm_code}) }}">{{ url('auth_verify', {'code': confirm_code}) }}</a><br><br>
 Now go forth, behave and have a ton of fun or something.</p>
 </table>
 

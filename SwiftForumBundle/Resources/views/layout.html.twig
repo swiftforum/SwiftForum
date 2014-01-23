@@ -93,11 +93,12 @@
                                     <form action="{{ path('auth_check') }}" method="post">
                                         <input type="text" placeholder="Username" id="username" name="_username" class="form-control" value="{{ last_username|default('') }}" style="margin-bottom:10px"/>
                                         <input type="password" placeholder="Password" id="password" name="_password" class="form-control"/>
-                                        <br/>
+                                        <br>
                                         <button type="submit" class="btn btn-primary btn-block">Log in</button>
                                     </form>
                                 </div>
                             </li>
+                            <li><a href="{{ path('auth_forgot') }}">Forgot Password</a></li>
                         </ul>
                     {% endif %}
                 </div><!--/.nav-collapse -->

@@ -1,10 +1,10 @@
-Welcome to SwiftForum
+Welcome to {{ tsforum.name }}
 
 Hi {{ name }}, welcome to {{ tsforum.name }}!
 
 To start using the forums and participate, you need to verify your email address!
 
 Please paste this long URL into your browser:
-{{ url('auth_verify', {'username': name|e('url'), 'code': confirm_code}) }}
+{{ url('auth_verify', {'code': confirm_code}) }}
 
 Now go forth, behave and have a ton of fun or something.

@@ -36,7 +36,7 @@ class LodestoneCharacter
 
     /**
      * This is a string because Lodestone IDs can be arbitrarily long
-     * @ORM\ManyToOne(targetEntity="LodestoneFreeCompany")
+     * @ORM\ManyToOne(targetEntity="LodestoneFreeCompany", inversedBy="members")
      * @ORM\JoinColumn(name="freeCompany", referencedColumnName="id")
      */
     private $freeCompany;
@@ -44,7 +44,7 @@ class LodestoneCharacter
     /**
      * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\OneToOne(targetEntity="User", inversedBy="character")
      * @ORM\JoinColumn(name="user", referencedColumnName="id")
      */
     private $user;
